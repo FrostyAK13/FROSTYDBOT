@@ -72,15 +72,15 @@
             }
 
             &__active {
-                background: rgb(0 191 255 / 15%);
-                color: var(--frosty-cyan) !important;
+                background: rgb(255 255 255 / 70%);
+                color: var(--frosty-gold-dark) !important;
                 
                 span {
-                    color: var(--frosty-cyan) !important;
+                    color: var(--frosty-gold-dark) !important;
                 }
                 
                 svg {
-                    fill: var(--frosty-cyan) !important;
+                    fill: var(--frosty-gold-dark) !important;
                 }
             }
 
@@ -93,7 +93,7 @@
             }
 
             &__list {
-                background: linear-gradient(180deg, var(--frosty-dark) 0%, var(--frosty-navy) 100%);
+                background: linear-gradient(180deg, var(--frosty-ice) 0%, var(--frosty-blue) 100%);
                 border-bottom: 2px solid var(--frosty-gold);
                 justify-content: start;
 
