@@ -37,6 +37,7 @@ const ChartWrapper = lazy(() => import('../chart/chart-wrapper'));
 const Tutorial = lazy(() => import('../tutorials'));
 const FreeBots = lazy(() => import('../free-bots'));
 const AnalysisTool = lazy(() => import('../analysis-tool'));
+const MarketAnalyzer = lazy(() => import('../market-analyzer'));
 
 const AppWrapper = observer(() => {
     const { connectionStatus } = useApiBase();
@@ -216,11 +217,6 @@ const AppWrapper = observer(() => {
 
     const handleTabChange = React.useCallback(
         (tab_index: number) => {
-            // Open Market Analyzer in new tab instead of switching tabs
-            if (tab_index === DBOT_TABS.MARKET_ANALYZER) {
-                window.open('https://frostytraders.vercel.app', '_blank', 'noopener,noreferrer');
-                return;
-            }
             setActiveTab(tab_index);
             const el_id = TAB_IDS[tab_index];
             if (el_id) {
@@ -415,7 +411,17 @@ const AppWrapper = observer(() => {
                                     </>
                                 }
                                 id='id-market-analyzer'
-                            />
+                            >
+                                <div className='market-analyzer-wrapper'>
+                                    <Suspense
+                                        fallback={
+                                            <ChunkLoader message={localize('Please wait, loading market analyzer...')} />
+                                        }
+                                    >
+                                        <MarketAnalyzer />
+                                    </Suspense>
+                                </div>
+                            </div>
                         </Tabs>
                         {!isDesktop && right_tab_shadow && <span className='tabs-shadow tabs-shadow--right' />}{' '}
                     </div>
