@@ -38,11 +38,24 @@
     // Brand primary colors
     --brand-white: #{constants.$color-white};
     --brand-dark-grey: #{constants.$color-black};
-    --brand-red-coral: #{constants.$color-red};
-    --brand-orange: #{constants.$color-orange};
+    --brand-red-coral: #{constants.$color-gold};
+    --brand-orange: #{constants.$color-gold-light};
 
     // Brand secondary colors
-    --brand-secondary: #{constants.$color-green};
+    --brand-secondary: #{constants.$color-frosty-cyan};
+
+    // Frosty Gold Theme
+    --frosty-gold: #{constants.$color-gold};
+    --frosty-gold-light: #{constants.$color-gold-light};
+    --frosty-gold-dark: #{constants.$color-gold-dark};
+    --frosty-blue: #{constants.$color-frosty-blue};
+    --frosty-cyan: #{constants.$color-frosty-cyan};
+    --frosty-ice: #{constants.$color-frosty-ice};
+    --frosty-dark: #{constants.$color-frosty-dark};
+    --frosty-navy: #{constants.$color-frosty-navy};
+    --frosty-gradient-gold: #{constants.$gradient-frosty-gold};
+    --frosty-gradient-ice: #{constants.$gradient-frosty-ice};
+    --frosty-gradient-dark: #{constants.$gradient-frosty-dark};
 
     // App Cards gradient background
     --app-card-virtual: #{constants.$gradient-virtual};
@@ -98,16 +111,16 @@
         --purchase-disabled-main: #{constants.$color-grey-3};
         --purchase-disabled-section: #{constants.$color-grey-4};
 
-        // Buttons
-        --button-primary-default: var(--brand-red-coral);
-        --button-secondary-default: #{constants.$color-grey-1};
+        // Buttons - Frosty Gold Theme
+        --button-primary-default: #{constants.$color-gold};
+        --button-secondary-default: #{constants.$color-frosty-cyan};
         --button-tertiary-default: transparent;
-        --button-primary-light-default: #{constants.$alpha-color-red-2};
-        --button-primary-hover: #{constants.$color-red-5};
-        --button-secondary-hover: #{constants.$alpha-color-black-3};
-        --button-tertiary-hover: #{constants.$alpha-color-red-1};
-        --button-primary-light-hover: #{constants.$alpha-color-red-3};
-        --button-toggle-primary: #{constants.$color-blue-3};
+        --button-primary-light-default: rgb(212 175 55 / 16%);
+        --button-primary-hover: #{constants.$color-gold-light};
+        --button-secondary-hover: #{constants.$color-frosty-blue};
+        --button-tertiary-hover: rgb(212 175 55 / 8%);
+        --button-primary-light-hover: rgb(212 175 55 / 24%);
+        --button-toggle-primary: #{constants.$color-frosty-cyan};
         --button-toggle-secondary: #{constants.$color-grey-5};
         --button-toggle-alternate: #{constants.$color-white};
 
@@ -129,14 +142,14 @@
         --checkbox-disabled-grey: #{constants.$color-grey-6};
         --sidebar-tab: #{constants.$color-grey-6};
 
-        // Border
+        // Border - Frosty Theme
         --border-normal: #{constants.$color-grey-5};
-        --border-normal-1: #{constants.$color-grey-5};
-        --border-normal-2: #{constants.$color-grey-5};
+        --border-normal-1: rgb(135 206 235 / 30%);
+        --border-normal-2: rgb(212 175 55 / 30%);
         --border-normal-3: #{constants.$color-grey-6};
-        --border-hover: #{constants.$color-grey-1};
-        --border-hover-1: #{constants.$color-black-9};
-        --border-active: var(--brand-secondary);
+        --border-hover: #{constants.$color-gold};
+        --border-hover-1: #{constants.$color-frosty-cyan};
+        --border-active: #{constants.$color-gold};
         --border-disabled: #{constants.$color-grey-3};
         --border-divider: #{constants.$color-grey-2};
 
@@ -199,16 +212,16 @@
     }
 
     .theme--dark {
-        // General
-        --general-main-1: #{constants.$color-black};
-        --general-main-2: #{constants.$color-black-3};
-        --general-main-3: #{constants.$color-black-4};
+        // General - Frosty Dark Theme
+        --general-main-1: #{constants.$color-frosty-deep};
+        --general-main-2: #{constants.$color-frosty-dark};
+        --general-main-3: #{constants.$color-frosty-navy};
         --general-main-4: #{constants.$alpha-color-black-7};
-        --general-section-1: #{constants.$color-black-3};
-        --general-section-2: #{constants.$color-black};
-        --general-section-3: #{constants.$color-black-5};
-        --general-section-4: #{constants.$color-black-5};
-        --general-section-5: #{constants.$color-black-5};
+        --general-section-1: #{constants.$color-frosty-dark};
+        --general-section-2: #{constants.$color-frosty-deep};
+        --general-section-3: #{constants.$color-frosty-navy};
+        --general-section-4: #{constants.$color-frosty-navy};
+        --general-section-5: #{constants.$color-frosty-navy};
         --general-section-6: #{constants.$color-grey-7};
         --general-disabled: #{constants.$color-black-4};
         --general-hover: #{constants.$color-black-5};
@@ -242,19 +255,19 @@
         --purchase-disabled-main: #{constants.$color-black-4};
         --purchase-disabled-section: #{constants.$color-black};
 
-        // Buttons
-        --button-primary-default: var(--brand-red-coral);
-        --button-secondary-default: #{constants.$color-grey-7};
+        // Buttons - Frosty Gold Theme
+        --button-primary-default: #{constants.$color-gold};
+        --button-secondary-default: #{constants.$color-frosty-cyan};
         --button-tertiary-default: transparent;
-        --button-primary-light-default: #{constants.$alpha-color-red-2};
-        --button-primary-hover: #{constants.$color-red-5};
-        --button-secondary-hover: #{constants.$alpha-color-white-3};
-        --button-tertiary-hover: #{constants.$alpha-color-red-1};
-        --button-primary-light-hover: #{constants.$alpha-color-red-3};
-        --button-toggle-primary: #{constants.$color-blue-3};
-        --button-toggle-secondary: #{constants.$color-black-8};
-        --button-toggle-alternate: #{constants.$color-black-8};
-        --button-get-started-bg: #{constants.$color-white};
+        --button-primary-light-default: rgb(212 175 55 / 16%);
+        --button-primary-hover: #{constants.$color-gold-light};
+        --button-secondary-hover: #{constants.$color-frosty-blue};
+        --button-tertiary-hover: rgb(212 175 55 / 8%);
+        --button-primary-light-hover: rgb(212 175 55 / 24%);
+        --button-toggle-primary: #{constants.$color-frosty-cyan};
+        --button-toggle-secondary: #{constants.$color-frosty-navy};
+        --button-toggle-alternate: #{constants.$color-frosty-navy};
+        --button-get-started-bg: #{constants.$color-gold};
 
         // Overlay
         --overlay-outside-dialog: #{constants.$alpha-color-black-1};
@@ -274,16 +287,16 @@
         --checkbox-disabled-grey: #{constants.$color-grey-6};
         --sidebar-tab: #{constants.$color-grey-7};
 
-        // Border
-        --border-normal: #{constants.$color-black-8};
-        --border-normal-1: #{constants.$color-grey-5};
-        --border-normal-2: #{constants.$color-grey-1};
+        // Border - Frosty Theme
+        --border-normal: #{constants.$color-frosty-navy};
+        --border-normal-1: rgb(135 206 235 / 20%);
+        --border-normal-2: rgb(212 175 55 / 30%);
         --border-normal-3: #{constants.$color-grey-7};
-        --border-hover: #{constants.$color-grey-7};
-        --border-hover-1: #{constants.$color-black-9};
-        --border-active: var(--brand-secondary);
-        --border-disabled: #{constants.$color-black-4};
-        --border-divider: #{constants.$color-grey-13};
+        --border-hover: #{constants.$color-gold};
+        --border-hover-1: #{constants.$color-frosty-cyan};
+        --border-active: #{constants.$color-gold};
+        --border-disabled: #{constants.$color-frosty-navy};
+        --border-divider: rgb(135 206 235 / 15%);
 
         // Fill
         --fill-normal: #{constants.$color-black};

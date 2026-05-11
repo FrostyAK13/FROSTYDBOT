@@ -9,119 +9,74 @@ interface Bot {
     name: string;
     description: string;
     fileName: string;
-    category: string;
-    icon: string;
 }
 
 const BOTS: Bot[] = [
     {
         id: '1',
-        name: 'Expert Speed Bot',
-        description: 'Advanced speed trading bot with optimized entry and exit points for quick trades.',
-        fileName: '2_2025_Updated_Expert_Speed_Bot_Version_📉📉📉📈📈📈_1_1_1765711647656.xml',
-        category: 'Speed Trading',
-        icon: '⚡',
+        name: 'FROSTY Entry Loop',
+        description: 'Advanced entry loop strategy with optimized timing for consistent trade entries.',
+        fileName: 'FROSTY_ENTRY_LOOP.xml',
     },
     {
         id: '2',
-        name: 'Candle Mine Bot',
-        description: 'Analyzes candlestick patterns to identify profitable trading opportunities.',
-        fileName: '3_2025_Updated_Version_Of_Candle_Mine🇬🇧_1765711647657.xml',
-        category: 'Pattern Analysis',
-        icon: '🕯️',
+        name: 'Multi Over Under Bot',
+        description: 'Multi-strategy over/under bot with dynamic prediction algorithms.',
+        fileName: 'FROSTY_MULTI_OVER_UNDER.xml',
     },
     {
         id: '3',
-        name: 'Accumulators Pro Bot',
-        description: 'Professional accumulator strategy bot for consistent growth trading.',
-        fileName: 'Accumulators_Pro_Bot_1765711647657.xml',
-        category: 'Accumulators',
-        icon: '📈',
+        name: 'FROSTY Digit Match V1',
+        description: 'Precision digit matching bot with intelligent pattern recognition.',
+        fileName: 'FROSTY_DIGIT_MATCH_V1.xml',
     },
     {
         id: '4',
-        name: 'AI Entry Point Bot',
-        description: 'AI-powered bot that identifies optimal entry points for maximum profit.',
-        fileName: 'AI_with_Entry_Point_1765711647658.xml',
-        category: 'AI Trading',
-        icon: '🤖',
+        name: 'FROSTY Entry Point V2',
+        description: 'Enhanced entry point detection with improved accuracy and timing.',
+        fileName: 'FROSTY_ENTRY_POINT_V2.xml',
     },
     {
         id: '5',
-        name: 'Alex Speed Bot EXPRO2',
-        description: 'Enhanced speed trading bot with advanced algorithms for rapid execution.',
-        fileName: 'ALEXSPEEDBOT__EXPRO2_(2)_(1)_1765711647659.xml',
-        category: 'Speed Trading',
-        icon: '🚀',
+        name: 'FROSTY Even Odd Engine',
+        description: 'Powerful even/odd prediction engine with advanced market analysis.',
+        fileName: 'FROSTY_EVEN_ODD_ENGINE.xml',
     },
     {
         id: '6',
-        name: 'Alpha AI Two Predictions',
-        description: 'Dual prediction AI system for higher accuracy in market forecasting.',
-        fileName: 'Alpha_Ai_Two_Predictions__1765711647659.xml',
-        category: 'AI Trading',
-        icon: '🎯',
+        name: 'FROSTY Under 7 V1',
+        description: 'Specialized under 7 strategy with optimized risk management.',
+        fileName: 'FROSTY_UNDER_7_V1.xml',
     },
     {
         id: '7',
-        name: 'Auto C4 Volt Premium',
-        description: 'Premium automated trading bot with advanced market analysis features.',
-        fileName: 'AUTO_C4_VOLT_🇬🇧_2_🇬🇧_AI_PREMIUM_ROBOT_(2)_(1)_1765711647660.xml',
-        category: 'Premium',
-        icon: '⚡',
+        name: 'FROSTY Version',
+        description: 'Premium FROSTY bot with comprehensive trading features.',
+        fileName: 'FROSTY_VERSION.xml',
     },
     {
         id: '8',
-        name: 'Binary Flipper AI Plus',
-        description: 'AI-enhanced binary options trading bot with flip strategy optimization.',
-        fileName: 'BINARY_FLIPPER_AI_ROBOT_PLUS_+_1765711647660.xml',
-        category: 'AI Trading',
-        icon: '🔄',
+        name: 'FROSTY Under Strike',
+        description: 'Lightning-fast under strike bot with precise execution.',
+        fileName: 'FROSTY_UNDER_STRIKE.xml',
     },
     {
         id: '9',
-        name: 'Binarytool Wizard AI',
-        description: 'Intelligent trading wizard with multiple strategy implementations.',
-        fileName: 'BINARYTOOL_WIZARD_AI_BOT_1765711647661.xml',
-        category: 'AI Trading',
-        icon: '🧙',
+        name: 'FROSTY Dominator',
+        description: 'Dominant market analysis bot with multi-indicator strategy.',
+        fileName: 'FROSTY_DOMINATOR.xml',
     },
     {
         id: '10',
-        name: 'Binarytool Differ V2.0',
-        description: 'Version 2.0 differ bot with improved accuracy and performance.',
-        fileName: 'BINARYTOOL@_DIFFER_V2.0_(1)_(1)_1765711647662.xml',
-        category: 'Differ',
-        icon: '📊',
-    },
-    {
-        id: '11',
-        name: 'Even Odd Thunder AI Pro',
-        description: 'Professional even/odd prediction bot with thunder-fast execution.',
-        fileName: 'BINARYTOOL@EVEN_ODD_THUNDER_AI_PRO_BOT_1765711647662.xml',
-        category: 'Even/Odd',
-        icon: '⚡',
-    },
-    {
-        id: '12',
-        name: 'Even & Odd AI Bot',
-        description: 'Smart AI bot specialized in even and odd digit predictions.',
-        fileName: 'BINARYTOOL@EVEN&ODD_AI_BOT_(2)_1765711647663.xml',
-        category: 'Even/Odd',
-        icon: '🎲',
+        name: 'FROSTY Over 2 V1',
+        description: 'Optimized over 2 strategy with smart stake management.',
+        fileName: 'FROSTY_OVER_2_V1.xml',
     },
 ];
 
 const FreeBots = observer(() => {
     const { dashboard } = useStore();
     const [loadingBotId, setLoadingBotId] = useState<string | null>(null);
-    const [selectedCategory, setSelectedCategory] = useState<string>('All');
-
-    const categories = ['All', ...Array.from(new Set(BOTS.map(bot => bot.category)))];
-
-    const filteredBots = selectedCategory === 'All' 
-        ? BOTS 
-        : BOTS.filter(bot => bot.category === selectedCategory);
 
     const loadBot = async (bot: Bot) => {
         try {
@@ -155,32 +110,23 @@ const FreeBots = observer(() => {
     };
 
     return (
-        <div className='free-bots'>
+        <div className='free-bots free-bots--frosty'>
             <div className='free-bots__header'>
-                <h1 className='free-bots__title'>Free Trading Bots</h1>
+                <div className='free-bots__logo'>
+                    <span className='free-bots__logo-icon'>&#10052;</span>
+                </div>
+                <h1 className='free-bots__title'>FROSTY Trading Bots</h1>
                 <p className='free-bots__subtitle'>
-                    Explore our collection of pre-built trading bots. Click on any bot to load it into the Bot Builder.
+                    Premium collection of FROSTY trading bots. Click on any bot to load it into the Bot Builder.
                 </p>
             </div>
 
-            <div className='free-bots__categories'>
-                {categories.map(category => (
-                    <button
-                        key={category}
-                        className={`free-bots__category-btn ${selectedCategory === category ? 'free-bots__category-btn--active' : ''}`}
-                        onClick={() => setSelectedCategory(category)}
-                    >
-                        {category}
-                    </button>
-                ))}
-            </div>
-
             <div className='free-bots__grid'>
-                {filteredBots.map(bot => (
+                {BOTS.map(bot => (
                     <div key={bot.id} className='free-bots__card'>
                         <div className='free-bots__card-header'>
-                            <span className='free-bots__card-icon'>{bot.icon}</span>
-                            <span className='free-bots__card-category'>{bot.category}</span>
+                            <span className='free-bots__card-icon'>&#10052;</span>
+                            <span className='free-bots__card-badge'>FROSTY</span>
                         </div>
                         <h3 className='free-bots__card-title'>{bot.name}</h3>
                         <p className='free-bots__card-description'>{bot.description}</p>

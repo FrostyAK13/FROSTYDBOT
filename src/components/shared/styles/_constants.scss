@@ -73,6 +73,17 @@ $color-yellow-1: #b3760d;
 $color-yellow-2: #ffa912;
 $color-yellow-3: rgb(255 173 58 / 16%);
 
+/* Frosty Gold Theme Colors */
+$color-gold: #d4af37;
+$color-gold-light: #ffd700;
+$color-gold-dark: #b8860b;
+$color-frosty-blue: #87ceeb;
+$color-frosty-cyan: #00bfff;
+$color-frosty-ice: #e0f7fa;
+$color-frosty-dark: #0a1628;
+$color-frosty-navy: #0d2137;
+$color-frosty-deep: #051220;
+
 /* status colors */
 $color-status-warning: rgb(255 173 58 / 16%);
 $color-status-information: rgb(55 124 252 / 16%);
@@ -128,8 +139,12 @@ $gradient-color-black-4: linear-gradient(274.25deg, #333 9.01%, #5c5b5b 103.31%)
 $gradient-color-black-5: linear-gradient(180deg, rgb(0 0 0 / 0%) 50%, rgb(0 0 0 / 16%) 100%);
 $gradient-color-white-2: linear-gradient(180deg, rgb(255 255 255 / 0%) 50%, rgb(255 255 255 / 16%) 100%);
 $gradient-color-blue-5: linear-gradient(90deg, #00a8af 0%, #04cfd8 104.41%);
-$gradient-color-gold: linear-gradient(90deg, #f7931a 0%, #ffc71b 104.41%);
+$gradient-color-gold: linear-gradient(90deg, #d4af37 0%, #ffd700 100%);
 $gradient-color-green-4: linear-gradient(90deg, #1db193 0%, #09da7a 104.41%);
+$gradient-frosty-gold: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #d4af37 100%);
+$gradient-frosty-ice: linear-gradient(135deg, #87ceeb 0%, #00bfff 50%, #87ceeb 100%);
+$gradient-frosty-dark: linear-gradient(180deg, #0a1628 0%, #0d2137 50%, #051220 100%);
+$gradient-frosty-accent: linear-gradient(90deg, #d4af37 0%, #87ceeb 50%, #00bfff 100%);
 
 /* Preserve legacy variables */
 

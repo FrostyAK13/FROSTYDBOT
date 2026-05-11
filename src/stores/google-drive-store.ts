@@ -87,6 +87,10 @@ export default class GoogleDriveStore {
     };
 
     initialise = () => {
+        // Skip initialization if Google Drive credentials are not configured
+        if (!this.client_id || !this.api_key || !this.app_id) {
+            return;
+        }
         gapi.load('client:picker', () => gapi.client.load(this.discovery_docs));
     };
 
@@ -97,6 +101,12 @@ export default class GoogleDriveStore {
     };
 
     initialiseClient = () => {
+        // Skip initialization if Google Drive credentials are not configured
+        if (!this.client_id || !this.api_key || !this.app_id) {
+            console.warn('Google Drive integration is disabled: missing credentials (GD_CLIENT_ID, GD_API_KEY, or GD_APP_ID)');
+            return;
+        }
+
         this.client = google.accounts.oauth2.initTokenClient({
             client_id: this.client_id,
             scope: this.scope,
@@ -151,6 +161,10 @@ export default class GoogleDriveStore {
     };
 
     async signIn() {
+        if (!this.client) {
+            console.warn('Google Drive client is not initialized. Cannot sign in.');
+            return;
+        }
         if (!this.is_authorised) {
             await this.client.requestAccessToken();
         }
