@@ -1,27 +1,20 @@
-.deriv-platform-switcher {
-    &__button {
-        padding-inline-start: 1.6rem;
-        padding-inline-end: 1.6rem;
+.frosty-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+}
 
-        svg > g {
-            fill: var(--text-general);
-        }
+.frosty-logo-image {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
 
-        &-chevron {
-            margin-inline-start: 3.2rem;
-
-            svg > g > path,
-            > path {
-                fill: var(--text-general);
-            }
-        }
-    }
-
-    &__context-menu {
-        &__items {
-            a > svg > g {
-                fill: var(--text-general);
-            }
-        }
-    }
+.frosty-logo-text {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #C9A227;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
 }

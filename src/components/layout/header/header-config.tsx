@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { standalone_routes } from '@/components/shared';
 import {
-    LegacyCashierIcon as CashierLogo,
     LegacyChartsIcon as AnalyticsLogo,
     LegacyDerivIcon as RobotLogo,
     LegacyHomeNewIcon as TradershubLogo,
@@ -77,12 +76,6 @@ export const TRADERS_HUB_LINK_CONFIG = {
 };
 
 export const MenuItems: MenuItemsConfig[] = [
-    {
-        as: 'a',
-        href: standalone_routes.cashier,
-        icon: <CashierLogo iconSize='xs' />,
-        label: localize('Cashier'),
-    },
     {
         as: 'a',
         href: standalone_routes.reports,
