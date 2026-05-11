@@ -771,7 +771,17 @@
     justify-content: center;
 }
 
-.free-bots-wrapper,
+.free-bots-wrapper {
+    width: 100%;
+    height: calc(100vh - 9rem);
+    background: var(--general-main-1);
+    overflow-y: auto;
+
+    @include mobile-or-tablet-screen {
+        height: calc(100vh - 6rem);
+    }
+}
+
 .analysis-tool-wrapper,
 .market-analyzer-wrapper {
     width: 100%;
