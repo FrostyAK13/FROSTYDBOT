@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useFirebaseCountriesConfig } from '@/hooks/firebase/useFirebaseCountriesConfig';
 import { useStore } from '@/hooks/useStore';
@@ -13,7 +13,6 @@ export const MenuItems = observer(() => {
     const { localize } = useTranslations();
     const { isDesktop } = useDevice();
     const store = useStore();
-    const { has_wallet = false } = useStoreWalletAccountsList() || {};
 
     if (!store) return null;
 
@@ -43,14 +42,8 @@ export const MenuItems = observer(() => {
         return redirect_url.toString();
     };
 
-    // Filter out the Cashier link when the account is a wallet account
-    const filtered_items = items.filter((item, index) => {
-        // Index 0 is the Cashier link
-        if (index === 0 && has_wallet) {
-            return false;
-        }
-        return true;
-    });
+    // Use all items (Cashier has been removed)
+    const filtered_items = items;
 
     // TODO : need to add the skeleton loader when growthbook is not loaded
     return (
