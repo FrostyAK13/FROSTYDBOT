@@ -6,6 +6,30 @@ body {
     background: var(--general-main-1);
 }
 
+/* Frosty Gold Theme Global Styles */
+::selection {
+    background: var(--frosty-gold);
+    color: var(--frosty-dark);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--general-main-2);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--frosty-gold) 0%, var(--frosty-gold-dark) 100%);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--frosty-gold-light) 0%, var(--frosty-gold) 100%);
+}
+
 .icon-general-fill-path {
     path {
         fill: var(--text-general);
