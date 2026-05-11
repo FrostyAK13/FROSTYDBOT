@@ -5,7 +5,9 @@
     "engines": {
         "node": "20.x"
     },
+    "type": "module",
     "scripts": {
+        "dev": "rsbuild dev",
         "start": "rsbuild dev -o",
         "build": "rsbuild build",
         "watch": "rsbuild build --watch",
