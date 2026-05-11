@@ -1,92 +1,39 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@/hooks/useStore';
-import { localize } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
-import NoSearchResult from './common/no-search-result-found';
-import QuickStrategyGuides from './quick-strategy-content/quick-strategy-guides';
-import FAQContent from './faq-content';
-import GuideContent from './guide-content';
-import TutorialsTabDesktop from './tutorials-tab-desktop';
-import TutorialsTabMobile from './tutorials-tab-mobile';
+import './tutorials.scss';
 
-type TTutorialsTab = {
-    handleTabChange: (active_number: number) => void;
-};
-
-export type TTutorialsTabItem = {
-    label: string;
-    content?: JSX.Element;
-};
-
-const TutorialsTab = observer(({ handleTabChange }: TTutorialsTab) => {
+const TutorialsTab = () => {
     const { isDesktop } = useDevice();
-    const { dashboard } = useStore();
-    const [prev_active_tutorials, setPrevActiveTutorialsTab] = React.useState<number>(0);
 
-    const {
-        active_tab_tutorials,
-        video_tab_content,
-        guide_tab_content,
-        faq_tab_content,
-        is_dialog_open,
-        quick_strategy_tab_content,
-    } = dashboard;
+    const handleOpenDTrader = () => {
+        window.open('https://app.deriv.com/dtrader', '_blank', 'noopener,noreferrer');
+    };
 
-    React.useEffect(() => {
-        if ([0, 1, 2].includes(active_tab_tutorials)) {
-            setPrevActiveTutorialsTab(active_tab_tutorials);
-        }
-    }, [active_tab_tutorials]);
-
-    const has_content_guide_tab =
-        guide_tab_content().length > 0 ||
-        video_tab_content().length > 0 ||
-        faq_tab_content().length > 0 ||
-        quick_strategy_tab_content().length > 0;
-
-    const tutorial_tabs: TTutorialsTabItem[] = [
-        {
-            label: localize('Guide'),
-            content: (
-                <GuideContent
-                    is_dialog_open={is_dialog_open}
-                    guide_tab_content={guide_tab_content()}
-                    video_tab_content={video_tab_content()}
-                />
-            ),
-        },
-        {
-            label: localize('FAQ'),
-            content: <FAQContent faq_list={faq_tab_content()} handleTabChange={handleTabChange} />,
-        },
-        {
-            label: localize('Quick strategy guides'),
-            content: <QuickStrategyGuides quick_strategy_tab_content={quick_strategy_tab_content()} />,
-        },
-        {
-            label: localize('Search'),
-            content: has_content_guide_tab ? (
-                <>
-                    <GuideContent
-                        is_dialog_open={is_dialog_open}
-                        guide_tab_content={guide_tab_content()}
-                        video_tab_content={video_tab_content()}
-                    />
-                    <FAQContent faq_list={faq_tab_content()} />
-                    <QuickStrategyGuides quick_strategy_tab_content={quick_strategy_tab_content()} />
-                </>
-            ) : (
-                <NoSearchResult />
-            ),
-        },
-    ];
-
-    return isDesktop ? (
-        <TutorialsTabDesktop tutorial_tabs={tutorial_tabs} prev_active_tutorials={prev_active_tutorials} />
-    ) : (
-        <TutorialsTabMobile tutorial_tabs={tutorial_tabs} prev_active_tutorials={prev_active_tutorials} />
+    return (
+        <div className='tutorials-dtrader'>
+            <div className='tutorials-dtrader__content'>
+                <div className='tutorials-dtrader__icon'>
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 17L9 11L13 15L21 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M17 7H21V11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                </div>
+                <h2 className='tutorials-dtrader__title'>Trade with DTrader</h2>
+                <p className='tutorials-dtrader__description'>
+                    Access the full trading experience on Deriv&apos;s DTrader platform. 
+                    Trade forex, commodities, cryptocurrencies, and more with advanced charting tools.
+                </p>
+                <button 
+                    className='tutorials-dtrader__button'
+                    onClick={handleOpenDTrader}
+                >
+                    Open DTrader
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
     );
-});
+};
 
 export default TutorialsTab;

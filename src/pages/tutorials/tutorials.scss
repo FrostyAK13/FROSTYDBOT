@@ -1,5 +1,113 @@
 @use 'components/shared/styles/mixins' as *;
 
+.tutorials-dtrader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 20rem);
+    padding: 2.4rem;
+    background-color: var(--general-main-1);
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: 40rem;
+        padding: 3.2rem;
+        background-color: var(--general-section-1);
+        border-radius: 1.2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    &__icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 8rem;
+        height: 8rem;
+        margin-bottom: 2rem;
+        background: linear-gradient(135deg, #c9a227 0%, #daa520 50%, #c9a227 100%);
+        border-radius: 50%;
+        color: #fff;
+
+        svg {
+            width: 4rem;
+            height: 4rem;
+        }
+    }
+
+    &__title {
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: var(--text-prominent);
+        margin-bottom: 1.2rem;
+    }
+
+    &__description {
+        font-size: 1.4rem;
+        line-height: 1.6;
+        color: var(--text-general);
+        margin-bottom: 2.4rem;
+    }
+
+    &__button {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1.2rem 2.4rem;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(135deg, #c9a227 0%, #daa520 50%, #c9a227 100%);
+        border: none;
+        border-radius: 0.8rem;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 162, 39, 0.4);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        svg {
+            width: 1.6rem;
+            height: 1.6rem;
+        }
+    }
+
+    @include mobile-or-tablet-screen {
+        min-height: calc(100vh - 24rem);
+        padding: 1.6rem;
+
+        &__content {
+            padding: 2.4rem;
+        }
+
+        &__icon {
+            width: 6.4rem;
+            height: 6.4rem;
+
+            svg {
+                width: 3.2rem;
+                height: 3.2rem;
+            }
+        }
+
+        &__title {
+            font-size: 2rem;
+        }
+
+        &__description {
+            font-size: 1.3rem;
+        }
+    }
+}
+
 .tutorials-wrap {
     .no-search {
         display: flex;
