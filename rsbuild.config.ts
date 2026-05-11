@@ -89,6 +89,7 @@ export default defineConfig({
     },
     server: {
         port: 8443,
+        strictPort: true,
         host: '0.0.0.0',
         compress: true,
         headers: {
