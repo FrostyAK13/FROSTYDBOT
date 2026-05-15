@@ -19,18 +19,6 @@ const BOTS: Bot[] = [
         fileName: 'FROSTY_ENTRY_LOOP.xml',
     },
     {
-        id: '2',
-        name: 'Multi Over Under Bot',
-        description: 'Multi-strategy over/under bot with dynamic prediction algorithms.',
-        fileName: 'FROSTY_MULTI_OVER_UNDER.xml',
-    },
-    {
-        id: '3',
-        name: 'FROSTY Digit Match V1',
-        description: 'Precision digit matching bot with intelligent pattern recognition.',
-        fileName: 'FROSTY_DIGIT_MATCH_V1.xml',
-    },
-    {
         id: '4',
         name: 'FROSTY Entry Point V2',
         description: 'Enhanced entry point detection with improved accuracy and timing.',
