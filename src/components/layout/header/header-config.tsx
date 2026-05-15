@@ -94,4 +94,10 @@ export const MenuItems: MenuItemsConfig[] = [
         icon: <AnalyticsLogo iconSize='xs' />,
         label: localize('Analysis Tool'),
     },
+    {
+        as: 'a',
+        href: standalone_routes.trade_pulse,
+        icon: <AnalyticsLogo iconSize='xs' />,
+        label: localize('Trade Pulse'),
+    },
 ];

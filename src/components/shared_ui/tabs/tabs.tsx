@@ -24,7 +24,7 @@ type TTabsProps = {
     has_active_line?: boolean;
     has_bottom_line?: boolean;
     header_fit_content?: boolean;
-    history: History;
+    history?: History;
     icon_color?: string;
     icon_size?: number;
     is_100vw?: boolean;
@@ -65,6 +65,7 @@ const Tabs = ({
     const active_tab_ref = React.useRef<HTMLLIElement>(null);
     const tabs_wrapper_ref = React.useRef<HTMLUListElement>(null);
     const pushHash = (hash: string) => {
+        if (!history) return;
         history.replace(`${history.location.pathname}${window.location.search}#${hash}`);
     };
 
@@ -88,7 +89,7 @@ const Tabs = ({
 
     useConstructor(() => {
         initial_index_to_show = active_index;
-        if (should_update_hash) {
+        if (should_update_hash && history) {
             // if hash is in url, find which tab index correlates to it
             const hash = location.hash.slice(1);
             const hash_index = children.findIndex(child => child && child.props && child.props.hash === hash);

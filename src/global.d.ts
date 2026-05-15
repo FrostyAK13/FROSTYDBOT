@@ -1,4 +1,15 @@
 // Google Drive API Type Definitions
+
+declare module '*.scss' {
+    const content: { [className: string]: string };
+    export default content;
+}
+
+declare module '*.sass' {
+    const content: { [className: string]: string };
+    export default content;
+}
+
 interface DriveFileListParams {
     pageSize?: number;
     fields?: string;

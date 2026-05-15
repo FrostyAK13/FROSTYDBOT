@@ -29,7 +29,7 @@ export const MenuItems = observer(() => {
 
     // Use handleTraderHubRedirect for all links
     const getModifiedHref = (originalHref: string) => {
-        const redirect_url = new URL(originalHref);
+        const redirect_url = new URL(originalHref, window.location.origin);
 
         if (is_virtual) {
             // For demo accounts, set the account parameter to 'demo'

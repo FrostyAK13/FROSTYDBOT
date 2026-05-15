@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@/hooks/useStore';
 import { load, save_types } from '@/external/bot-skeleton';
+import { useStore } from '@/hooks/useStore';
 import './free-bots.scss';
 
 interface Bot {
@@ -81,14 +81,14 @@ const FreeBots = observer(() => {
     const loadBot = async (bot: Bot) => {
         try {
             setLoadingBotId(bot.id);
-            
+
             const response = await fetch(`/bots/${bot.fileName}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch bot file');
             }
-            
+
             const xmlContent = await response.text();
-            
+
             await load({
                 block_string: xmlContent,
                 file_name: bot.name,
@@ -101,7 +101,6 @@ const FreeBots = observer(() => {
 
             dashboard.setActiveTab(1);
             window.location.hash = 'bot_builder';
-            
         } catch (error) {
             console.error('Error loading bot:', error);
         } finally {
@@ -140,8 +139,15 @@ const FreeBots = observer(() => {
                             ) : (
                                 <>
                                     <span>Load Bot</span>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                                    <svg
+                                        width='16'
+                                        height='16'
+                                        viewBox='0 0 24 24'
+                                        fill='none'
+                                        stroke='currentColor'
+                                        strokeWidth='2'
+                                    >
+                                        <path d='M5 12h14M12 5l7 7-7 7' />
                                     </svg>
                                 </>
                             )}

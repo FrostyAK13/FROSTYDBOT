@@ -103,7 +103,9 @@ export default class GoogleDriveStore {
     initialiseClient = () => {
         // Skip initialization if Google Drive credentials are not configured
         if (!this.client_id || !this.api_key || !this.app_id) {
-            console.warn('Google Drive integration is disabled: missing credentials (GD_CLIENT_ID, GD_API_KEY, or GD_APP_ID)');
+            console.warn(
+                'Google Drive integration is disabled: missing credentials (GD_CLIENT_ID, GD_API_KEY, or GD_APP_ID)'
+            );
             return;
         }
 

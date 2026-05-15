@@ -18,6 +18,7 @@ const Layout = lazy(() => import('../components/layout'));
 const AppRoot = lazy(() => import('./app-root'));
 const FreeBots = lazy(() => import('../pages/free-bots'));
 const AnalysisTool = lazy(() => import('../pages/analysis-tool'));
+const TradePulse = lazy(() => import('../pages/trade-pulse'));
 
 const { TRANSLATIONS_CDN_URL, R2_PROJECT_NAME, CROWDIN_BRANCH_NAME } = process.env;
 const i18nInstance = initializeI18n({
@@ -60,6 +61,7 @@ const router = createBrowserRouter(
             <Route path='oauth/callback' element={<CallbackPage />} />
             <Route path='free-bots' element={<FreeBots />} />
             <Route path='analysis-tool' element={<AnalysisTool />} />
+            <Route path='trade-pulse' element={<TradePulse />} />
         </Route>
     )
 );

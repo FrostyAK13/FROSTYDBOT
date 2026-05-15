@@ -1,0 +1,140 @@
+.trade-pulse-page {
+    padding: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    color: var(--text-general);
+}
+
+.trade-pulse-page__hero {
+    margin-bottom: 32px;
+}
+
+.trade-pulse-page__hero h1 {
+    margin: 0 0 12px;
+    font-size: 2.4rem;
+}
+
+.trade-pulse-page__hero p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 720px;
+}
+
+.trade-pulse-page__grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.trade-pulse-page__card {
+    background: var(--container-background);
+    border: 1px solid var(--color-grey-4);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--box-shadow);
+}
+
+.trade-pulse-page__card h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 1.3rem;
+}
+
+.trade-pulse-page__card label {
+    display: block;
+    margin-bottom: 16px;
+    font-weight: 600;
+    color: var(--text-general);
+}
+
+.trade-pulse-page__card input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 8px;
+    border-radius: 10px;
+    border: 1px solid var(--color-grey-4);
+    background: var(--input-background);
+    color: inherit;
+    outline: none;
+}
+
+.trade-pulse-page__account-mode {
+    padding: 16px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--color-grey-4);
+    margin-bottom: 18px;
+    background: var(--background-secondary);
+}
+
+.trade-pulse-page__account-mode legend {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    color: var(--text-general);
+}
+
+.trade-pulse-page__account-mode label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.trade-pulse-page__button {
+    width: 100%;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    background: var(--color-blue);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.trade-pulse-page__button:hover {
+    background: var(--color-blue-dark);
+}
+
+.trade-pulse-page__button--secondary {
+    background: var(--color-grey-5);
+    color: var(--text-general);
+}
+
+.trade-pulse-page__button--secondary:hover {
+    background: var(--color-grey-6);
+}
+
+.trade-pulse-page__status {
+    margin-top: 32px;
+    padding: 20px;
+    background: var(--background-secondary);
+    border-radius: 16px;
+    border: 1px solid var(--color-grey-4);
+}
+
+.trade-pulse-page__status-label {
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.trade-pulse-page__status-message {
+    color: var(--text-general);
+    line-height: 1.5;
+}
+
+.trade-pulse-page__note {
+    margin-top: 24px;
+    padding: 18px 20px;
+    border-left: 4px solid var(--color-blue);
+    background: var(--background-secondary);
+    border-radius: 12px;
+    color: var(--text-secondary);
+}
+
+.trade-pulse-page__note p {
+    margin: 0;
+    line-height: 1.6;
+}

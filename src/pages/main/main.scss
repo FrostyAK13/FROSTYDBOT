@@ -1,6 +1,8 @@
 @use 'components/shared/styles/constants' as *;
 @use 'components/shared/styles/mixins' as *;
 
+/* stylelint-disable no-duplicate-selectors */
+
 .run-panel {
     // fix for the RTL issue on tab active line
     .dc-tabs__active-line {
@@ -74,11 +76,11 @@
             &__active {
                 background: rgb(255 255 255 / 70%);
                 color: var(--frosty-gold-dark) !important;
-                
+
                 span {
                     color: var(--frosty-gold-dark) !important;
                 }
-                
+
                 svg {
                     fill: var(--frosty-gold-dark) !important;
                 }

@@ -13,7 +13,6 @@ import { DBOT_TABS, TAB_IDS } from '@/constants/bot-contents';
 import { api_base, updateWorkspaceName } from '@/external/bot-skeleton';
 import { CONNECTION_STATUS } from '@/external/bot-skeleton/services/api/observables/connection-status-stream';
 import { isDbotRTL } from '@/external/bot-skeleton/utils/workspace';
-import { useOauth2 } from '@/hooks/auth/useOauth2';
 import { useApiBase } from '@/hooks/useApiBase';
 import { useStore } from '@/hooks/useStore';
 import useTMB from '@/hooks/useTMB';
@@ -36,6 +35,7 @@ const ChartWrapper = lazy(() => import('../chart/chart-wrapper'));
 const Tutorial = lazy(() => import('../tutorials'));
 const FreeBots = lazy(() => import('../free-bots'));
 const AnalysisTool = lazy(() => import('../analysis-tool'));
+const TradePulse = lazy(() => import('../trade-pulse'));
 const MarketAnalyzer = lazy(() => import('../market-analyzer'));
 
 const AppWrapper = observer(() => {
@@ -63,12 +63,26 @@ const AppWrapper = observer(() => {
     } = run_panel;
     const { is_open } = quick_strategy;
     const { cancel_button_text, ok_button_text, title, message, dismissable, is_closed_on_cancel } = dialog_options as {
-        [key: string]: string;
+        cancel_button_text?: string;
+        ok_button_text?: string;
+        title?: string;
+        message?: string;
+        dismissable?: boolean;
+        is_closed_on_cancel?: boolean;
     };
     const { clear } = summary_card;
     const { DASHBOARD, BOT_BUILDER } = DBOT_TABS;
     const init_render = React.useRef(true);
-    const hash = ['dashboard', 'bot_builder', 'chart', 'tutorial', 'free_bots', 'analysis_tool', 'market_analyzer'];
+    const hash = [
+        'dashboard',
+        'bot_builder',
+        'chart',
+        'tutorial',
+        'free_bots',
+        'analysis_tool',
+        'trade_pulse',
+        'market_analyzer',
+    ];
     const { isDesktop } = useDevice();
     const location = useLocation();
     const navigate = useNavigate();
@@ -83,11 +97,11 @@ const AppWrapper = observer(() => {
     };
     const active_hash_tab = GetHashedValue(active_tab);
 
-    const { onRenderTMBCheck, isTmbEnabled } = useTMB();
+    const { onRenderTMBCheck, isTmbEnabled, isOAuth2Enabled } = useTMB();
 
     React.useEffect(() => {
         const el_dashboard = document.getElementById('id-dbot-dashboard');
-        const el_tutorial = document.getElementById('id-tutorials');
+        const el_last_tab = document.getElementById('id-market-analyzer');
 
         const observer_dashboard = new window.IntersectionObserver(
             ([entry]) => {
@@ -103,7 +117,7 @@ const AppWrapper = observer(() => {
             }
         );
 
-        const observer_tutorial = new window.IntersectionObserver(
+        const observer_last_tab = new window.IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
                     setRightTabShadow(false);
@@ -116,8 +130,12 @@ const AppWrapper = observer(() => {
                 threshold: 0.5, // set offset 0.1 means trigger if atleast 10% of element in viewport
             }
         );
-        observer_dashboard.observe(el_dashboard);
-        observer_tutorial.observe(el_tutorial);
+        if (el_dashboard) {
+            observer_dashboard.observe(el_dashboard);
+        }
+        if (el_last_tab) {
+            observer_last_tab.observe(el_last_tab);
+        }
     });
 
     React.useEffect(() => {
@@ -182,7 +200,8 @@ const AppWrapper = observer(() => {
 
     React.useEffect(() => {
         const trashcan_init_id = setTimeout(() => {
-            if (active_tab === BOT_BUILDER && Blockly?.derivWorkspace?.trashcan) {
+            const derivWorkspace = (Blockly as any)?.derivWorkspace;
+            if (active_tab === BOT_BUILDER && derivWorkspace?.trashcan) {
                 const trashcanY = window.innerHeight - 250;
                 let trashcanX;
                 if (is_drawer_open) {
@@ -190,7 +209,7 @@ const AppWrapper = observer(() => {
                 } else {
                     trashcanX = isDbotRTL() ? 20 : window.innerWidth - 100;
                 }
-                Blockly?.derivWorkspace?.trashcan?.setTrashcanPosition(trashcanX, trashcanY);
+                derivWorkspace.trashcan.setTrashcanPosition(trashcanX, trashcanY);
             }
         }, 100);
 
@@ -229,7 +248,6 @@ const AppWrapper = observer(() => {
         [active_tab]
     );
 
-    const { isOAuth2Enabled } = useOauth2();
     const handleLoginGeneration = async () => {
         if (!isOAuth2Enabled) {
             window.location.replace(generateOAuthURL());
@@ -400,6 +418,29 @@ const AppWrapper = observer(() => {
                             <div
                                 label={
                                     <>
+                                        <LabelPairedObjectsColumnCaptionRegularIcon
+                                            height='24px'
+                                            width='24px'
+                                            fill='var(--text-general)'
+                                        />
+                                        <Localize i18n_default_text='Trade Pulse' />
+                                    </>
+                                }
+                                id='id-trade-pulse'
+                            >
+                                <div className='trade-pulse-wrapper'>
+                                    <Suspense
+                                        fallback={
+                                            <ChunkLoader message={localize('Please wait, loading Trade Pulse...')} />
+                                        }
+                                    >
+                                        <TradePulse />
+                                    </Suspense>
+                                </div>
+                            </div>
+                            <div
+                                label={
+                                    <>
                                         <LabelPairedChartLineCaptionRegularIcon
                                             height='24px'
                                             width='24px'
@@ -413,7 +454,9 @@ const AppWrapper = observer(() => {
                                 <div className='market-analyzer-wrapper'>
                                     <Suspense
                                         fallback={
-                                            <ChunkLoader message={localize('Please wait, loading market analyzer...')} />
+                                            <ChunkLoader
+                                                message={localize('Please wait, loading market analyzer...')}
+                                            />
                                         }
                                     >
                                         <MarketAnalyzer />
@@ -441,13 +484,13 @@ const AppWrapper = observer(() => {
                 has_close_icon
                 is_mobile_full_width={false}
                 is_visible={is_dialog_open}
-                onCancel={onCancelButtonClick}
+                onCancel={onCancelButtonClick ?? undefined}
                 onClose={onCloseDialog}
                 onConfirm={onOkButtonClick || onCloseDialog}
                 portal_element_id='modal_root'
                 title={title}
                 login={handleLoginGeneration}
-                dismissable={dismissable} // Prevents closing on outside clicks
+                dismissable={dismissable}
                 is_closed_on_cancel={is_closed_on_cancel}
             >
                 {message}
