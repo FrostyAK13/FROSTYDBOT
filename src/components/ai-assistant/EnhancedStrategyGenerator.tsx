@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { load, save_types } from '@/external/bot-skeleton';
+import { useStore } from '@/hooks/useStore';
 import MarketScanner, { MarketScanResult } from './MarketScanner';
 import StrategyParametersEditor, { StrategyParameters } from './StrategyParametersEditor';
 
 const EnhancedStrategyGenerator: React.FC = () => {
     const [scanResults, setScanResults] = useState<MarketScanResult[]>([]);
     const [selectedMarket, setSelectedMarket] = useState<MarketScanResult | null>(null);
+    const [contractDirection, setContractDirection] = useState<'Over' | 'Under'>('Over');
+    const [prediction, setPrediction] = useState('');
     const [isLoadingBot, setIsLoadingBot] = useState(false);
     const [parameters, setParameters] = useState<StrategyParameters>({
         stake: 10,
@@ -16,49 +20,62 @@ const EnhancedStrategyGenerator: React.FC = () => {
         martingaleLimit: 4,
     });
 
+    const { dashboard } = useStore();
+
     const handleScanComplete = (results: MarketScanResult[]) => {
         setScanResults(results);
         if (results.length > 0) {
-            setSelectedMarket(results[0]);
+            const best = results.reduce((winner, market) => {
+                const rank = { High: 3, Medium: 2, Low: 1 } as const;
+                return rank[market.volatility] > rank[winner.volatility] ? market : winner;
+            }, results[0]);
+            setSelectedMarket(best);
+            const direction = best.volatility === 'Low' ? 'Under' : 'Over';
+            setContractDirection(direction);
+            setPrediction(`AI predicts a ${direction} entry on ${best.market} using ${best.entryPoint}.`);
         }
     };
 
     const handleLoadBot = async () => {
         if (!selectedMarket) return;
-
         setIsLoadingBot(true);
 
-        // Simulate loading the FROSTY Dominator bot with parameters
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        try {
+            const botFileName = 'FROSTY_DOMINATOR.xml';
+            const response = await fetch(`/bots/${botFileName}`);
+            if (!response.ok) {
+                throw new Error('Frosty Dominator bot file not found');
+            }
 
-        const botConfig = {
-            botName: 'FROSTY Dominator',
-            botFile: 'FROSTY_DOMINATOR.xml',
-            market: selectedMarket.symbol,
-            tradeTypes: selectedMarket.tradeTypes,
-            entryPoint: selectedMarket.entryPoint,
-            parameters: parameters,
-            loadedAt: new Date().toISOString(),
-        };
+            const xmlContent = await response.text();
 
-        console.log('Loading bot with configuration:', botConfig);
+            await load({
+                block_string: xmlContent,
+                file_name: 'FROSTY Dominator',
+                workspace: (window as unknown as { Blockly?: { derivWorkspace?: unknown } }).Blockly?.derivWorkspace,
+                from: save_types.LOCAL,
+                drop_event: null,
+                strategy_id: null,
+                showIncompatibleStrategyDialog: null,
+            });
 
-        // In a real implementation, this would:
-        // 1. Fetch the FROSTY_DOMINATOR.xml file
-        // 2. Parse it into Blockly blocks
-        // 3. Update the blocks with the selected market and parameters
-        // 4. Inject into the bot builder workspace
+            dashboard.setActiveTab(1);
+            window.location.hash = 'bot_builder';
 
-        alert(
-            `✅ Bot Loaded Successfully!\n\n` +
-                `Bot: ${botConfig.botName}\n` +
-                `Market: ${selectedMarket.market}\n` +
-                `Entry Point: ${selectedMarket.entryPoint}\n` +
-                `Stake: $${parameters.stake}\n` +
-                `Stop Loss: $${parameters.stopLoss}\n` +
-                `Take Profit: $${parameters.takeProfit}\n` +
-                `Martingale: ${parameters.martingaleEnabled ? `${parameters.martingaleMultiplier}x (Max ${parameters.martingaleLimit})` : 'Disabled'}`
-        );
+            alert(
+                `✅ Frosty Dominator loaded with the best market:\n` +
+                    `${selectedMarket.market} (${selectedMarket.symbol})\n` +
+                    `Prediction: ${contractDirection}\n` +
+                    `Entry: ${selectedMarket.entryPoint}\n` +
+                    `Stake: $${parameters.stake}\n` +
+                    `Stop Loss: $${parameters.stopLoss}\n` +
+                    `Take Profit: $${parameters.takeProfit}\n` +
+                    `Martingale: ${parameters.martingaleEnabled ? `${parameters.martingaleMultiplier}x (Max ${parameters.martingaleLimit})` : 'Disabled'}`
+            );
+        } catch (error) {
+            console.error('Error loading Frosty Dominator:', error);
+            alert('Unable to load Frosty Dominator. Check console for details.');
+        }
 
         setIsLoadingBot(false);
     };
@@ -140,6 +157,41 @@ const EnhancedStrategyGenerator: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                     >
+                        {selectedMarket && (
+                            <div className='rounded-3xl border border-green-500/15 bg-slate-950/80 p-4'>
+                                <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
+                                    <div className='space-y-1'>
+                                        <p className='text-xs uppercase tracking-[0.18em] text-slate-400'>
+                                            Best Market
+                                        </p>
+                                        <h3 className='text-lg font-semibold text-white'>{selectedMarket.market}</h3>
+                                        <p className='text-sm text-slate-300'>{prediction}</p>
+                                    </div>
+                                    <div className='grid gap-2 sm:grid-cols-3'>
+                                        <div className='rounded-2xl bg-[#071014]/90 px-3 py-2 text-xs text-slate-300 border border-white/10'>
+                                            <p className='text-[10px] uppercase tracking-[0.2em] text-slate-500'>
+                                                Entry
+                                            </p>
+                                            <p className='mt-2 font-semibold text-white'>{selectedMarket.entryPoint}</p>
+                                        </div>
+                                        <div className='rounded-2xl bg-[#071014]/90 px-3 py-2 text-xs text-slate-300 border border-white/10'>
+                                            <p className='text-[10px] uppercase tracking-[0.2em] text-slate-500'>
+                                                Direction
+                                            </p>
+                                            <p className='mt-2 font-semibold text-green-300'>{contractDirection}</p>
+                                        </div>
+                                        <div className='rounded-2xl bg-[#071014]/90 px-3 py-2 text-xs text-slate-300 border border-white/10'>
+                                            <p className='text-[10px] uppercase tracking-[0.2em] text-slate-500'>
+                                                Volatility
+                                            </p>
+                                            <p className='mt-2 font-semibold text-slate-100'>
+                                                {selectedMarket.volatility}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         <p className='text-sm font-semibold text-yellow-400'>⚙️ Step 3: Configure Parameters</p>
                         <StrategyParametersEditor parameters={parameters} onParametersChange={setParameters} />
                     </motion.div>

@@ -1,83 +1,63 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import AIAssistantPanel from './AIAssistantPanel';
 
 const AIAssistantWidget: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
+    const openAssistant = useCallback(() => setIsOpen(true), []);
 
     return (
         <AnimatePresence>
-            {/* Floating AI Button */}
             <motion.div
-                className='fixed bottom-8 right-8 z-50'
-                whileHover={{ scale: 1.15 }}
-                whileTap={{ scale: 0.95 }}
-                onHoverStart={() => setIsHovering(true)}
-                onHoverEnd={() => setIsHovering(false)}
+                className='fixed right-6 bottom-6 z-[100000] pointer-events-auto'
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: [0, -8, 0], opacity: 1 }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
             >
                 <motion.button
-                    onClick={() => setIsOpen(true)}
-                    className='relative w-16 h-16 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300'
+                    type='button'
+                    onClick={openAssistant}
+                    onHoverStart={() => setIsHovering(true)}
+                    onHoverEnd={() => setIsHovering(false)}
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.95 }}
+                    aria-label='Open AI Assistant'
+                    className='relative flex h-[6.5rem] w-[6.5rem] items-center justify-center rounded-full border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(218,213,117,0.96),_rgba(16,255,120,0.18),_rgba(255,231,170,0.16))] text-white shadow-[0_0_46px_rgba(0,255,127,0.28),0_0_24px_rgba(255,213,0,0.2),inset_0_0_18px_rgba(255,255,255,0.12)] cursor-pointer outline-none transition-all duration-300 ease-in-out'
                     style={{
-                        background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 255, 127, 0.15) 100%)',
-                        border: '2px solid',
-                        borderImage: 'linear-gradient(135deg, #FFD700 0%, #00FF7F 100%) 1',
-                        backdropFilter: 'blur(10px)',
-                        boxShadow: isHovering
-                            ? '0 0 40px rgba(255, 215, 0, 0.6), 0 0 80px rgba(0, 255, 127, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.1)'
-                            : '0 0 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(0, 255, 127, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.1)',
+                        backdropFilter: 'blur(22px)',
+                        WebkitBackdropFilter: 'blur(22px)',
                     }}
-                    animate={
-                        isHovering
-                            ? { boxShadow: '0 0 40px rgba(255, 215, 0, 0.6), 0 0 80px rgba(0, 255, 127, 0.4)' }
-                            : {}
-                    }
-                    transition={{ duration: 0.3 }}
                 >
-                    {/* Animated AI Icon */}
-                    <motion.svg
-                        width='32'
-                        height='32'
-                        viewBox='0 0 32 32'
-                        fill='none'
-                        xmlns='http://www.w3.org/2000/svg'
-                        animate={isHovering ? { rotate: 360 } : { rotate: 0 }}
-                        transition={{ duration: 2, repeat: Infinity, repeatType: 'loop' }}
-                    >
-                        <circle cx='16' cy='16' r='14' stroke='#FFD700' strokeWidth='2' />
-                        <circle cx='16' cy='16' r='10' stroke='#00FF7F' strokeWidth='1.5' opacity='0.7' />
-                        <circle cx='16' cy='16' r='2' fill='#FFD700' />
-                        <circle cx='10' cy='12' r='1.5' fill='#00FF7F' opacity='0.8' />
-                        <circle cx='22' cy='12' r='1.5' fill='#00FF7F' opacity='0.8' />
-                        <circle cx='16' cy='24' r='1.5' fill='#00FF7F' opacity='0.8' />
-                    </motion.svg>
+                    <span className='relative z-20 flex items-center justify-center text-4xl font-black uppercase tracking-[0.18em] text-white leading-none'>
+                        AI
+                    </span>
 
-                    {/* Floating Animation */}
-                    <motion.div
-                        className='absolute inset-0 rounded-full'
-                        animate={{ scale: [1, 1.2, 1] }}
-                        transition={{ duration: 2, repeat: Infinity }}
+                    <motion.span
+                        className='absolute inset-0 rounded-full pointer-events-none'
+                        animate={
+                            isHovering
+                                ? { scale: [1, 1.16, 1.05], opacity: [0.9, 0.45, 0.9] }
+                                : { scale: [1, 1.04, 1], opacity: [0.75, 0.58, 0.75] }
+                        }
+                        transition={{ duration: 0.9, repeat: Infinity, ease: 'easeInOut' }}
                         style={{
-                            background: 'radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%)',
-                            pointerEvents: 'none',
+                            border: '1px solid rgba(255, 255, 255, 0.18)',
+                            boxShadow: '0 0 32px rgba(0,255,127,0.32), inset 0 0 22px rgba(255,215,0,0.18)',
                         }}
                     />
-
-                    {/* Pulse Ring Effect */}
-                    {isHovering && (
-                        <motion.div
-                            className='absolute inset-0 rounded-full border-2'
-                            initial={{ scale: 0.8, opacity: 1 }}
-                            animate={{ scale: 1.5, opacity: 0 }}
-                            transition={{ duration: 0.8, repeat: Infinity }}
-                            style={{ borderColor: '#00FF7F' }}
-                        />
-                    )}
+                    <motion.span
+                        className='absolute inset-0 rounded-full pointer-events-none'
+                        style={{
+                            background: 'radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 48%)',
+                            opacity: 0.65,
+                        }}
+                        animate={{ scale: [1, 1.2, 1], opacity: [0.7, 0.25, 0.7] }}
+                        transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+                    />
                 </motion.button>
             </motion.div>
 
-            {/* AI Assistant Panel */}
             {isOpen && <AIAssistantPanel onClose={() => setIsOpen(false)} />}
         </AnimatePresence>
     );

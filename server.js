@@ -7,11 +7,13 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Allow an explicit public port via PUBLIC_PORT, then fallback to PORT, then prefer 8443
 const ENV_PORT = Number(process.env.PORT) || 0;
-const INITIAL_PORT = ENV_PORT || 3000;
+const PUBLIC_PORT = Number(process.env.PUBLIC_PORT) || 0;
+const INITIAL_PORT = PUBLIC_PORT || ENV_PORT || 8443 || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'dist');
 const HOST = '0.0.0.0';
-const FALLBACK_PORTS = [INITIAL_PORT, 3000, 3001, 3002, 8080, 8081, 8888, 9000].filter(
+const FALLBACK_PORTS = [INITIAL_PORT, 8443, 3000, 3001, 3002, 8080, 8081, 8888, 9000].filter(
     (port, index, self) => port > 0 && self.indexOf(port) === index
 );
 
@@ -90,12 +92,16 @@ function startServer(portIndex = 0) {
         .listen(PORT, HOST, () => {
             const url = `http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}`;
             const publicUrl = process.env.CODESPACE_NAME
+                ? `https://${PORT}-${process.env.CODESPACE_NAME}.preview.app.github.dev`
+                : url;
+            const legacyUrl = process.env.CODESPACE_NAME
                 ? `https://${process.env.CODESPACE_NAME}-${PORT}.app.github.dev`
                 : url;
 
             console.log(`\n✅ Static server running on port ${PORT}!`);
             console.log(`📍 Local:  ${url}`);
-            console.log(`🌐 Public: ${publicUrl}\n`);
+            console.log(`🌐 Preview: ${publicUrl}`);
+            console.log(`🌐 Legacy:  ${legacyUrl}\n`);
             console.log(`📁 Serving files from: ${PUBLIC_DIR}`);
 
             // Auto-open browser (only if not in Codespaces)
