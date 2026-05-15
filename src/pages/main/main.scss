@@ -413,8 +413,35 @@
     top: 6.6rem;
     inset-inline-start: 1.6rem;
     z-index: -1;
-    background: var(--general-main-1);
+    background: linear-gradient(
+        180deg,
+        var(--general-main-1) 0%,
+        rgba($color-green-3, 0.08) 35%,
+        rgba($color-gold, 0.08) 100%
+    );
+    border: 1px solid $color-gold;
+    box-shadow:
+        0 32px 80px rgba($color-green-4, 0.08),
+        0 12px 24px rgba($color-gold, 0.12);
     height: var(--tab-content-height);
+    border-radius: 24px;
+    overflow: hidden;
+
+    .toolbar__btn,
+    .dc-btn--blue,
+    .dc-btn--primary__blue,
+    .dc-btn--tertiary__blue {
+        background: linear-gradient(90deg, $color-green-4 0%, $color-gold 100%) !important;
+        color: $color-frosty-dark !important;
+        border-color: transparent !important;
+    }
+
+    .toolbar__btn:hover,
+    .dc-btn--blue:hover,
+    .dc-btn--primary__blue:hover,
+    .dc-btn--tertiary__blue:hover {
+        background: linear-gradient(90deg, $color-green-3 0%, $color-gold-dark 100%) !important;
+    }
 
     .injectionDiv {
         .blocklyTrash {
@@ -785,7 +812,8 @@
 }
 
 .analysis-tool-wrapper,
-.market-analyzer-wrapper {
+.market-analyzer-wrapper,
+.trade-pulse-wrapper {
     width: 100%;
     height: calc(100vh - 9rem);
     background: var(--general-main-1);
