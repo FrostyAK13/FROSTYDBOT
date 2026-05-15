@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>App Preview Dashboard</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            }
+
+            .container {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                max-width: 800px;
+                width: 100%;
+                padding: 40px;
+            }
+
+            h1 {
+                color: #333;
+                margin-bottom: 10px;
+                font-size: 32px;
+            }
+
+            .subtitle {
+                color: #666;
+                margin-bottom: 30px;
+                font-size: 14px;
+            }
+
+            .links-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 16px;
+                margin-bottom: 30px;
+            }
+
+            .link-card {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 20px;
+                border-radius: 8px;
+                text-decoration: none;
+                transition:
+                    transform 0.2s,
+                    box-shadow 0.2s;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .link-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            }
+
+            .link-card-icon {
+                font-size: 32px;
+                margin-bottom: 10px;
+            }
+
+            .link-card-title {
+                font-weight: 600;
+                margin-bottom: 5px;
+                font-size: 16px;
+            }
+
+            .link-card-desc {
+                font-size: 12px;
+                opacity: 0.9;
+            }
+
+            .info-section {
+                background: #f5f5f5;
+                padding: 20px;
+                border-radius: 8px;
+                margin-top: 20px;
+            }
+
+            .info-section h3 {
+                color: #333;
+                margin-bottom: 10px;
+                font-size: 14px;
+            }
+
+            .info-section p {
+                color: #666;
+                font-size: 13px;
+                line-height: 1.6;
+            }
+
+            .info-section code {
+                background: white;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-family: 'Monaco', 'Courier New', monospace;
+                color: #d63384;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🚀 App Preview</h1>
+            <p class="subtitle">Welcome to your static server. Click below to explore:</p>
+
+            <div class="links-grid">
+                <a href="/" class="link-card">
+                    <div class="link-card-icon">🏠</div>
+                    <div class="link-card-title">Home</div>
+                    <div class="link-card-desc">Main application</div>
+                </a>
+
+                <a href="/assets/images/" class="link-card">
+                    <div class="link-card-icon">🖼️</div>
+                    <div class="link-card-title">Images</div>
+                    <div class="link-card-desc">Image assets</div>
+                </a>
+
+                <a href="/bots/" class="link-card">
+                    <div class="link-card-icon">🤖</div>
+                    <div class="link-card-title">Bots</div>
+                    <div class="link-card-desc">Bot configurations</div>
+                </a>
+
+                <a href="/assets/" class="link-card">
+                    <div class="link-card-icon">📦</div>
+                    <div class="link-card-title">Assets</div>
+                    <div class="link-card-desc">All static assets</div>
+                </a>
+            </div>
+
+            <div class="info-section">
+                <h3>💡 Server Information</h3>
+                <p>
+                    <strong>Server Status:</strong> ✅ Running<br />
+                    <strong>URL:</strong> <code id="url">http://localhost:3000</code><br />
+                    <strong>Root Directory:</strong> <code>./public/</code><br />
+                    <strong>Port:</strong> You can change it with <code>PORT=8080 npm run static-server</code>
+                </p>
+            </div>
+        </div>
+
+        <script>
+            // Update URL display
+            document.getElementById('url').textContent = window.location.origin;
+        </script>
+    </body>
+</html>
