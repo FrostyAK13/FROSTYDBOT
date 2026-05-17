@@ -7,11 +7,14 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Allow an explicit public port via LINK_PORT, then PUBLIC_PORT, then PORT, then prefer 8443
+// Allow an explicit public port via LINK_PORT, then PUBLIC_PORT, then PORT.
+// In Codespaces preview, prefer port 8443 by default if no explicit port is provided.
 const ENV_PORT = Number(process.env.PORT) || 0;
 const PUBLIC_PORT = Number(process.env.PUBLIC_PORT) || 0;
 const LINK_PORT = Number(process.env.LINK_PORT) || 0;
-const INITIAL_PORT = LINK_PORT || PUBLIC_PORT || ENV_PORT || 3000;
+const CODESPACE_NAME = process.env.CODESPACE_NAME || '';
+const DEFAULT_PORT = CODESPACE_NAME ? 8443 : 3000;
+const INITIAL_PORT = LINK_PORT || PUBLIC_PORT || ENV_PORT || DEFAULT_PORT;
 const HOST = process.env.HOST || '0.0.0.0';
 
 const defaultPublicDirs = ['dist', 'public'];
