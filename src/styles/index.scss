@@ -1,15 +1,16 @@
 @use 'components/shared/styles/themes' as *;
 @import 'https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,700&display=swap&subset=cyrillic,cyrillic-ext,latin-ext,vietnamese';
+@import './theme-enhancements';
 
 body {
     font-family: 'IBM Plex Sans', sans-serif;
     background: var(--general-main-1);
 }
 
-/* Frosty Gold Theme Global Styles */
+/* Deep Slate Fintech Theme Global Styles */
 ::selection {
-    background: var(--frosty-gold);
-    color: var(--frosty-dark);
+    background: var(--button-primary-default);
+    color: var(--text-prominent);
 }
 
 ::-webkit-scrollbar {
@@ -22,12 +23,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--frosty-gold) 0%, var(--frosty-gold-dark) 100%);
+    background: linear-gradient(180deg, var(--button-primary-default) 0%, var(--button-secondary-hover) 100%);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, var(--frosty-gold-light) 0%, var(--frosty-gold) 100%);
+    background: linear-gradient(180deg, var(--button-secondary-hover) 0%, var(--button-primary-default) 100%);
 }
 
 .icon-general-fill-path {

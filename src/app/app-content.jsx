@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { ToastContainer } from 'react-toastify';
-import { AIAssistantWidget } from '@/components/ai-assistant';
 import AuthLoadingWrapper from '@/components/auth-loading-wrapper';
 import useLiveChat from '@/components/chat/useLiveChat';
 import { BOT_RESTRICTED_COUNTRIES_LIST } from '@/components/layout/header/utils';
@@ -296,7 +295,6 @@ const AppContent = observer(() => {
                         <PWAInstallModal />
                         <ToastContainer limit={3} draggable={false} />
                         <TncStatusUpdateModal />
-                        <AIAssistantWidget />
                     </div>
                 </ThemeProvider>
             </AuthLoadingWrapper>
@@ -319,7 +317,6 @@ const AppContent = observer(() => {
                     <PWAInstallModal />
                     <ToastContainer limit={3} draggable={false} />
                     <TncStatusUpdateModal />
-                    <AIAssistantWidget />
                 </div>
             </ThemeProvider>
         </AuthLoadingWrapper>

@@ -13,6 +13,8 @@
         "watch": "rsbuild build --watch",
         "serve": "http-server dist -p 8443 -a localhost -o",
         "static-server": "PORT=3000 node server.js",
+        "link-server": "node link-server.js",
+        "link-server:3000": "LINK_PORT=3000 node link-server.js",
         "start:webpack": "webpack serve --open --config webpack.config.js",
         "build:webpack": "webpack --config webpack.config.js",
         "test:lint": "prettier --log-level silent --write . && eslint \"./src/**/*.?(js|jsx|ts|tsx)\"",

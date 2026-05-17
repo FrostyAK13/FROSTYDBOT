@@ -8,7 +8,7 @@ type TMainBodyProps = {
 };
 
 const MainBody: React.FC<TMainBodyProps> = ({ children }) => {
-    const current_theme = localStorage.getItem('theme') ?? 'light';
+    const current_theme = localStorage.getItem('theme') ?? 'slate';
     const { ui } = useStore() ?? {
         ui: {
             setDevice: () => {},
@@ -20,12 +20,17 @@ const MainBody: React.FC<TMainBodyProps> = ({ children }) => {
     useEffect(() => {
         const body = document.querySelector('body');
         if (!body) return;
+
+        // Remove all existing theme classes
+        body.classList.remove('theme--light', 'theme--dark', 'theme--slate');
+
         if (current_theme === 'light') {
-            body.classList.remove('theme--dark');
             body.classList.add('theme--light');
-        } else {
-            body.classList.remove('theme--light');
+        } else if (current_theme === 'dark') {
             body.classList.add('theme--dark');
+        } else {
+            // Default to slate theme
+            body.classList.add('theme--slate');
         }
     }, [current_theme]);
 

@@ -1,3 +1,88 @@
 .main-body {
     flex-grow: 1;
+    background: var(--general-main-1);
+    color: var(--text-prominent);
+    position: relative;
+
+    /* Deep Slate Theme specific styling */
+    .theme--slate & {
+        background: linear-gradient(
+            135deg,
+            var(--general-main-1) 0%,
+            var(--general-section-2) 50%,
+            var(--general-main-1) 100%
+        );
+
+        /* Enhanced readability for content areas */
+        .bot-dashboard {
+            background: var(--general-section-1);
+            border: 1px solid var(--border-normal);
+
+            &__content {
+                background: var(--general-main-1);
+            }
+        }
+
+        /* Button styling enhancements */
+        button,
+        [type='button'],
+        [type='submit'] {
+            &:not(.dc-modal__close-button) {
+                transition: all 0.3s ease-in-out;
+
+                &:hover {
+                    box-shadow: 0 0 20px rgb(0 212 255 / 30%);
+                }
+
+                &:active {
+                    transform: scale(0.98);
+                }
+            }
+        }
+
+        /* Input styling */
+        input,
+        textarea,
+        select {
+            background: var(--general-section-1);
+            border: 1px solid var(--border-normal);
+            color: var(--text-prominent);
+
+            &:focus {
+                border-color: var(--button-primary-default);
+                box-shadow: 0 0 15px rgb(0 212 255 / 20%);
+            }
+
+            &::placeholder {
+                color: var(--text-disabled);
+            }
+        }
+
+        /* Text area enhancements */
+        textarea {
+            resize: vertical;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    /* Light theme */
+    .theme--light & {
+        background: #fff;
+
+        .bot-dashboard {
+            background: #f6f8fb;
+        }
+    }
+
+    /* Dark theme fallback */
+    .theme--dark & {
+        background: var(--general-main-1);
+
+        .bot-dashboard {
+            background: var(--general-section-1);
+        }
+    }
 }

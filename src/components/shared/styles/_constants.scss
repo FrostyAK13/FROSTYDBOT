@@ -84,6 +84,21 @@ $color-frosty-dark: #0a1628;
 $color-frosty-navy: #0d2137;
 $color-frosty-deep: #051220;
 
+/* Deep Slate Fintech Theme Colors */
+$color-slate-main: #0b1420;
+$color-slate-panel: #111e2e;
+$color-slate-content-light: #f6f8fb;
+$color-slate-content-lighter: #eef2f5;
+$color-slate-cyan-primary: #00d4ff;
+$color-slate-cyan-secondary: #00bfff;
+$color-slate-cyan-light: #33e0ff;
+$color-slate-silver: #c0c7d1;
+$color-slate-text-primary: #fff;
+$color-slate-text-secondary: #b7c5d6;
+$color-slate-text-muted: #7d8a9b;
+$color-slate-border: #1e2a3d;
+$color-slate-glow-cyan: rgb(0 212 255 / 40%);
+
 /* status colors */
 $color-status-warning: rgb(255 173 58 / 16%);
 $color-status-information: rgb(55 124 252 / 16%);
@@ -145,6 +160,12 @@ $gradient-frosty-gold: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #d4af37 
 $gradient-frosty-ice: linear-gradient(135deg, #87ceeb 0%, #00bfff 50%, #87ceeb 100%);
 $gradient-frosty-dark: linear-gradient(180deg, #0a1628 0%, #0d2137 50%, #051220 100%);
 $gradient-frosty-accent: linear-gradient(90deg, #d4af37 0%, #87ceeb 50%, #00bfff 100%);
+
+/* Deep Slate Fintech Gradients */
+$gradient-slate-main: linear-gradient(135deg, #0b1420 0%, #111e2e 100%);
+$gradient-slate-cyan: linear-gradient(90deg, #00d4ff 0%, #00bfff 100%);
+$gradient-slate-cyan-glow: linear-gradient(135deg, rgb(0 212 255 / 30%) 0%, rgb(0 191 255 / 10%) 100%);
+$gradient-slate-ice-blue: linear-gradient(180deg, #1a3a52 0%, #0b1420 100%);
 
 /* Preserve legacy variables */
 

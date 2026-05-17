@@ -12,8 +12,28 @@
     --zindex-draggable-modal: 7;
     --zindex-snackbar: 8;
 
+    background: linear-gradient(135deg, #0b1420 0%, #111e2e 50%, #0d2137 100%);
+    background-attachment: fixed;
+    position: relative;
+
+    &:before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+            radial-gradient(circle at 20% 50%, rgb(0 212 255 / 5%) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgb(0 191 255 / 3%) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
     &-dashboard {
         background: var(--general-section-1);
+        position: relative;
+        z-index: 2;
     }
 }
 

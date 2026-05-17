@@ -7,12 +7,23 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Allow an explicit public port via PUBLIC_PORT, then fallback to PORT, then prefer 8443
+// Allow an explicit public port via LINK_PORT, then PUBLIC_PORT, then PORT, then prefer 8443
 const ENV_PORT = Number(process.env.PORT) || 0;
 const PUBLIC_PORT = Number(process.env.PUBLIC_PORT) || 0;
-const INITIAL_PORT = PUBLIC_PORT || ENV_PORT || 8443 || 3000;
-const PUBLIC_DIR = path.join(__dirname, 'dist');
-const HOST = '0.0.0.0';
+const LINK_PORT = Number(process.env.LINK_PORT) || 0;
+const INITIAL_PORT = LINK_PORT || PUBLIC_PORT || ENV_PORT || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
+
+const defaultPublicDirs = ['dist', 'public'];
+const PUBLIC_DIR =
+    defaultPublicDirs.map(dir => path.join(__dirname, dir)).find(dirPath => fs.existsSync(dirPath)) ||
+    path.join(__dirname, 'dist');
+
+if (!fs.existsSync(PUBLIC_DIR)) {
+    console.error(`❌ No public directory found. Checked: ${defaultPublicDirs.join(', ')}`);
+    process.exit(1);
+}
+
 const FALLBACK_PORTS = [INITIAL_PORT, 8443, 3000, 3001, 3002, 8080, 8081, 8888, 9000].filter(
     (port, index, self) => port > 0 && self.indexOf(port) === index
 );

@@ -10,6 +10,18 @@ To run the development server:
 npm run dev
 ```
 
+To run the link-port static server:
+
+```bash
+npm run link-server
+```
+
+To bind a specific port for the link server:
+
+```bash
+LINK_PORT=3000 npm run link-server
+```
+
 To generate a build:
 
 ```bash

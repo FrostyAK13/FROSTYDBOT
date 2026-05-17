@@ -13,15 +13,23 @@ const useThemeSwitcher = () => {
     const toggleTheme = useCallback(() => {
         const body = document.querySelector('body');
         if (!body) return;
-        if (body.classList.contains('theme--dark')) {
+
+        // Get current theme
+        const hasSlate = body.classList.contains('theme--slate');
+        const hasDark = body.classList.contains('theme--dark');
+
+        // Remove all theme classes
+        body.classList.remove('theme--light', 'theme--dark', 'theme--slate');
+
+        if (hasSlate || hasDark) {
+            // Switch to light theme
             localStorage.setItem('theme', 'light');
-            body.classList.remove('theme--dark');
             body.classList.add('theme--light');
             setDarkMode(false);
         } else {
-            localStorage.setItem('theme', 'dark');
-            body.classList.remove('theme--light');
-            body.classList.add('theme--dark');
+            // Switch to slate theme (deep dark)
+            localStorage.setItem('theme', 'slate');
+            body.classList.add('theme--slate');
             setDarkMode(true);
         }
     }, [setDarkMode]);
