@@ -6,6 +6,7 @@ import StrategyTemplates from './StrategyTemplates';
 
 interface AIAssistantPanelProps {
     onClose: () => void;
+    scanTrigger?: number;
 }
 
 interface GeneratedStrategy {
@@ -81,7 +82,7 @@ const createStrategyFromPrompt = (prompt: string): GeneratedStrategy => {
     };
 };
 
-const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({ onClose }) => {
+const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({ onClose, scanTrigger }) => {
     const [activeTab, setActiveTab] = useState<'generate' | 'templates'>('generate');
     const [prompt, setPrompt] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
@@ -426,7 +427,7 @@ const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({ onClose }) => {
                                                 </ul>
                                             </div>
 
-                                            <EnhancedStrategyGenerator />
+                                            <EnhancedStrategyGenerator externalScanTrigger={scanTrigger} />
                                         </motion.div>
                                     ) : (
                                         <motion.div

@@ -126,7 +126,11 @@ const getInjectedBotXml = (xmlText: string, opportunity: AIScanOpportunity, para
     return new XMLSerializer().serializeToString(xmlDoc);
 };
 
-const EnhancedStrategyGenerator: React.FC = () => {
+interface EnhancedStrategyGeneratorProps {
+    externalScanTrigger?: number;
+}
+
+const EnhancedStrategyGenerator: React.FC<EnhancedStrategyGeneratorProps> = ({ externalScanTrigger }) => {
     const [selectedOpportunity, setSelectedOpportunity] = useState<AIScanOpportunity | null>(null);
     const [parameters, setParameters] = useState<StrategyParameters>(defaultParameters);
     const [isLoadingBot, setIsLoadingBot] = useState(false);
@@ -150,10 +154,17 @@ const EnhancedStrategyGenerator: React.FC = () => {
         setSelectedOpportunity(best);
     };
 
-    const refreshScan = () => {
+    const refreshScan = React.useCallback(() => {
         if (isScanning) return;
         setScanCount(prev => prev + 1);
-    };
+    }, [isScanning]);
+
+    const previousExternalScanTrigger = React.useRef<number | undefined>(externalScanTrigger);
+    React.useEffect(() => {
+        if (externalScanTrigger === undefined || externalScanTrigger === previousExternalScanTrigger.current) return;
+        previousExternalScanTrigger.current = externalScanTrigger;
+        refreshScan();
+    }, [externalScanTrigger, refreshScan]);
 
     const getScanMessage = () => {
         if (isScanning) return 'Scanning volatility indices for the strongest Over 1 / Under 8 setup...';

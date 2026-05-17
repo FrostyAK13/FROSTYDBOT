@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import AIAssistantPanel from './AIAssistantPanel';
 import './AIAssistantWidget.scss';
@@ -6,7 +6,61 @@ import './AIAssistantWidget.scss';
 const AIAssistantWidget: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
+    const [externalScanTrigger, setExternalScanTrigger] = useState(0);
     const openAssistant = useCallback(() => setIsOpen(true), []);
+    const triggerScan = useCallback(() => {
+        setIsOpen(true);
+        setExternalScanTrigger(prev => prev + 1);
+    }, []);
+
+    type AIAssistantWindow = Window & {
+        aiAssistant?: {
+            open: () => void;
+            scan: () => void;
+            close: () => void;
+        };
+    };
+
+    useEffect(() => {
+        const globalWindow = window as AIAssistantWindow;
+        globalWindow.aiAssistant = {
+            open: openAssistant,
+            scan: triggerScan,
+            close: () => setIsOpen(false),
+        };
+
+        return () => {
+            if (globalWindow.aiAssistant) {
+                delete globalWindow.aiAssistant;
+            }
+        };
+    }, [openAssistant, triggerScan]);
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'a') {
+                event.preventDefault();
+                openAssistant();
+            }
+            if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 's') {
+                event.preventDefault();
+                triggerScan();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [openAssistant, triggerScan]);
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('ai') === 'open') {
+            openAssistant();
+        }
+        if (params.get('ai') === 'scan') {
+            triggerScan();
+        }
+    }, [openAssistant, triggerScan]);
 
     return (
         <AnimatePresence>
@@ -51,7 +105,7 @@ const AIAssistantWidget: React.FC = () => {
                 </motion.button>
             </motion.div>
 
-            {isOpen && <AIAssistantPanel onClose={() => setIsOpen(false)} />}
+            {isOpen && <AIAssistantPanel onClose={() => setIsOpen(false)} scanTrigger={externalScanTrigger} />}
         </AnimatePresence>
     );
 };
