@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import AIAssistantPanel from './AIAssistantPanel';
 import './AIAssistantWidget.scss';
@@ -21,7 +21,7 @@ const AIAssistantWidget: React.FC = () => {
         };
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const globalWindow = window as AIAssistantWindow;
         globalWindow.aiAssistant = {
             open: openAssistant,
@@ -69,15 +69,29 @@ const AIAssistantWidget: React.FC = () => {
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: [0, -8, 0], opacity: 1 }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+                onClick={openAssistant}
+                role='button'
+                aria-label='Open AI Assistant'
+                tabIndex={0}
+                onKeyDown={event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        openAssistant();
+                    }
+                }}
             >
                 <motion.button
                     type='button'
-                    onClick={openAssistant}
+                    onClick={event => {
+                        event.stopPropagation();
+                        openAssistant();
+                    }}
                     onHoverStart={() => setIsHovering(true)}
                     onHoverEnd={() => setIsHovering(false)}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.96 }}
                     aria-label='Open AI Assistant'
+                    aria-expanded={isOpen}
                     className='ai-assistant-button'
                 >
                     <div className='ai-assistant-button-bg' />

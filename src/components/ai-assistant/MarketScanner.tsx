@@ -38,6 +38,7 @@ export const MarketScanner: React.FC<MarketScannerProps> = ({
     autoScanOnMount = false,
     scanTrigger,
     onScanStart,
+    showButton = true,
 }) => {
     const [isScanning_local, setIsScanning] = useState(isScanning);
     const [scanProgress, setScanProgress] = useState(0);
@@ -85,9 +86,11 @@ export const MarketScanner: React.FC<MarketScannerProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scanTrigger]);
 
+    const shouldShowButton = typeof showButton === 'undefined' ? true : showButton;
+
     return (
         <div className='space-y-4'>
-            {showButton !== false && (
+            {shouldShowButton && (
                 <motion.button
                     onClick={handleScan}
                     disabled={isScanning_local}
