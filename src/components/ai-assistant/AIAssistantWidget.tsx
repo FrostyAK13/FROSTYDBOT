@@ -1,15 +1,22 @@
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import EntryScannerModal from './EntryScannerModal';
 import AIAssistantPanel from './AIAssistantPanel';
 import './AIAssistantWidget.scss';
 
+type ViewMode = 'scanner' | 'panel' | null;
+
 const AIAssistantWidget: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [view, setView] = useState<ViewMode>(null);
     const [isHovering, setIsHovering] = useState(false);
     const [externalScanTrigger, setExternalScanTrigger] = useState(0);
-    const openAssistant = useCallback(() => setIsOpen(true), []);
+
+    const openScanner = useCallback(() => setView('scanner'), []);
+    const openPanel = useCallback(() => setView('panel'), []);
+    const close = useCallback(() => setView(null), []);
+
     const triggerScan = useCallback(() => {
-        setIsOpen(true);
+        setView('scanner');
         setExternalScanTrigger(prev => prev + 1);
     }, []);
 
@@ -17,6 +24,7 @@ const AIAssistantWidget: React.FC = () => {
         aiAssistant?: {
             open: () => void;
             scan: () => void;
+            openPanel: () => void;
             close: () => void;
         };
     };
@@ -24,83 +32,69 @@ const AIAssistantWidget: React.FC = () => {
     useLayoutEffect(() => {
         const globalWindow = window as AIAssistantWindow;
         globalWindow.aiAssistant = {
-            open: openAssistant,
+            open: openScanner,
             scan: triggerScan,
-            close: () => setIsOpen(false),
+            openPanel,
+            close,
         };
-
         return () => {
-            if (globalWindow.aiAssistant) {
-                delete globalWindow.aiAssistant;
-            }
+            if (globalWindow.aiAssistant) delete globalWindow.aiAssistant;
         };
-    }, [openAssistant, triggerScan]);
+    }, [openScanner, triggerScan, openPanel, close]);
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'a') {
                 event.preventDefault();
-                openAssistant();
+                openScanner();
             }
             if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 's') {
                 event.preventDefault();
                 triggerScan();
             }
         };
-
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [openAssistant, triggerScan]);
+    }, [openScanner, triggerScan]);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
-        if (params.get('ai') === 'open') {
-            openAssistant();
-        }
-        if (params.get('ai') === 'scan') {
-            triggerScan();
-        }
-    }, [openAssistant, triggerScan]);
+        if (params.get('ai') === 'open' || params.get('ai') === 'scan') openScanner();
+    }, [openScanner]);
 
     return (
-        <AnimatePresence>
-            <motion.div
+        <>
+            {/* Floating AI Button */}
+            <div
                 className='ai-assistant-widget-container'
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: [0, -8, 0], opacity: 1 }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-                onClick={openAssistant}
                 role='button'
-                aria-label='Open AI Assistant'
+                aria-label='Open Entry Scanner'
                 tabIndex={0}
-                onKeyDown={event => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault();
-                        openAssistant();
+                onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openScanner();
                     }
                 }}
             >
                 <motion.button
                     type='button'
-                    onClick={event => {
-                        event.stopPropagation();
-                        openAssistant();
-                    }}
+                    onClick={openScanner}
                     onHoverStart={() => setIsHovering(true)}
                     onHoverEnd={() => setIsHovering(false)}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.96 }}
-                    aria-label='Open AI Assistant'
-                    aria-expanded={isOpen}
+                    aria-label='Open Entry Scanner'
+                    aria-expanded={view !== null}
                     className='ai-assistant-button'
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
                 >
                     <div className='ai-assistant-button-bg' />
-
                     <div className='ai-assistant-button-content'>
                         <span className='ai-assistant-icon'>🤖</span>
                         <span className='ai-assistant-label'>AI</span>
                     </div>
-
                     <motion.span
                         className='ai-assistant-outer-ring'
                         animate={
@@ -117,10 +111,26 @@ const AIAssistantWidget: React.FC = () => {
                     />
                     <span className='ai-assistant-arrow' />
                 </motion.button>
-            </motion.div>
+            </div>
 
-            {isOpen && <AIAssistantPanel onClose={() => setIsOpen(false)} scanTrigger={externalScanTrigger} />}
-        </AnimatePresence>
+            {/* Modals */}
+            <AnimatePresence>
+                {view === 'scanner' && (
+                    <EntryScannerModal
+                        key='scanner'
+                        onClose={close}
+                        onOpenFullPanel={() => { close(); setTimeout(openPanel, 120); }}
+                    />
+                )}
+                {view === 'panel' && (
+                    <AIAssistantPanel
+                        key='panel'
+                        onClose={close}
+                        scanTrigger={externalScanTrigger}
+                    />
+                )}
+            </AnimatePresence>
+        </>
     );
 };
 
