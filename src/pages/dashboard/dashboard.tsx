@@ -22,23 +22,9 @@ const DashboardComponent = observer(({ handleTabChange }: TMobileIconGuide) => {
     const has_dashboard_strategies = !!dashboard_strategies?.length;
     const { isDesktop, isTablet } = useDevice();
 
+    // Prefer opening the standalone Analysis Tool instead of the in-page AI panel.
     const openAIAssistant = useCallback(() => {
-        const global_window = window as Window & {
-            aiAssistant?: { open: () => void; scan: () => void };
-        };
-
-        if (global_window.aiAssistant?.open) {
-            global_window.aiAssistant.open();
-            return;
-        }
-
-        setTimeout(() => {
-            if (global_window.aiAssistant?.open) {
-                global_window.aiAssistant.open();
-            } else {
-                handleTabChange(DBOT_TABS.ANALYSIS_TOOL);
-            }
-        }, 50);
+        handleTabChange(DBOT_TABS.ANALYSIS_TOOL);
     }, [handleTabChange]);
 
     const quick_links = [
