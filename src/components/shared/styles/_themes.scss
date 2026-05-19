@@ -353,62 +353,62 @@
     }
 
     .theme--slate {
-        // General - Deep Slate Fintech Theme
-        --general-main-1: #{constants.$color-slate-main};
-        --general-main-2: #{constants.$color-slate-panel};
-        --general-main-3: #{constants.$color-slate-panel};
-        --general-main-4: rgb(17 30 46 / 80%);
-        --general-section-1: #{constants.$color-slate-panel};
-        --general-section-2: #{constants.$color-slate-main};
-        --general-section-3: #{constants.$color-slate-panel};
-        --general-section-4: #{constants.$color-slate-panel};
-        --general-section-5: #{constants.$color-slate-panel};
-        --general-section-6: #{constants.$color-slate-border};
-        --general-disabled: rgb(125 138 155 / 30%);
-        --general-hover: rgb(0 212 255 / 8%);
-        --general-active: rgb(0 212 255 / 15%);
+        // General - Orange Gold & Green Ice Theme
+        --general-main-1: #0d0800;
+        --general-main-2: #170f02;
+        --general-main-3: #1f1504;
+        --general-main-4: rgb(20 12 0 / 80%);
+        --general-section-1: #1f1504;
+        --general-section-2: #0d0800;
+        --general-section-3: #1f1504;
+        --general-section-4: #1f1504;
+        --general-section-5: #1f1504;
+        --general-section-6: #2e1e06;
+        --general-disabled: rgb(160 130 80 / 30%);
+        --general-hover: rgb(249 115 22 / 8%);
+        --general-active: rgb(249 115 22 / 15%);
 
         // Icons and Texts
-        --text-prominent: #{constants.$color-slate-text-primary};
-        --text-general: #{constants.$color-slate-text-secondary};
-        --text-less-prominent: #{constants.$color-slate-text-muted};
-        --text-primary: #{constants.$color-slate-text-secondary};
-        --text-disabled: #{constants.$color-slate-text-muted};
-        --text-disabled-1: #{constants.$color-slate-text-muted};
-        --text-profit-success: #4bb4b3;
+        --text-prominent: #fff8ee;
+        --text-general: #d4b896;
+        --text-less-prominent: #9a7d5c;
+        --text-primary: #d4b896;
+        --text-disabled: #9a7d5c;
+        --text-disabled-1: #9a7d5c;
+        --text-profit-success: #4ade80;
         --text-loss-danger: #ff444f;
         --text-red: #ff444f;
-        --text-colored-background: #{constants.$color-slate-text-primary};
-        --text-info-blue: #{constants.$color-slate-cyan-primary};
-        --text-info-blue-background: rgb(0 212 255 / 15%);
-        --text-status-info-blue: #{constants.$color-slate-cyan-primary};
-        --text-hint: #{constants.$color-slate-text-secondary};
-        --icon-light-background: #{constants.$color-slate-panel};
-        --icon-dark-background: #{constants.$color-slate-text-primary};
-        --icon-grey-background: #{constants.$color-slate-border};
-        --icon-black-plus: #{constants.$color-slate-text-primary};
+        --text-colored-background: #fff8ee;
+        --text-info-blue: #f97316;
+        --text-info-blue-background: rgb(249 115 22 / 15%);
+        --text-status-info-blue: #f97316;
+        --text-hint: #d4b896;
+        --icon-light-background: #1f1504;
+        --icon-dark-background: #fff8ee;
+        --icon-grey-background: #2e1e06;
+        --icon-black-plus: #fff8ee;
 
         // Purchase
-        --purchase-main-1: #4bb4b3;
-        --purchase-section-1: #3d9494;
+        --purchase-main-1: #4ade80;
+        --purchase-section-1: #22c55e;
         --purchase-main-2: #ff444f;
         --purchase-section-2: #cc2e3d;
-        --purchase-disabled-main: rgb(125 138 155 / 30%);
-        --purchase-disabled-section: rgb(125 138 155 / 20%);
+        --purchase-disabled-main: rgb(160 130 80 / 30%);
+        --purchase-disabled-section: rgb(160 130 80 / 20%);
 
-        // Buttons - Deep Slate Fintech Theme
-        --button-primary-default: #{constants.$color-slate-cyan-primary};
-        --button-secondary-default: #{constants.$color-slate-cyan-primary};
+        // Buttons - Orange Gold & Green Ice Theme
+        --button-primary-default: #f97316;
+        --button-secondary-default: #4ade80;
         --button-tertiary-default: transparent;
-        --button-primary-light-default: rgb(0 212 255 / 10%);
-        --button-primary-hover: #{constants.$color-slate-cyan-light};
-        --button-secondary-hover: #{constants.$color-slate-cyan-light};
-        --button-tertiary-hover: rgb(0 212 255 / 8%);
-        --button-primary-light-hover: rgb(0 212 255 / 18%);
-        --button-toggle-primary: #{constants.$color-slate-cyan-primary};
-        --button-toggle-secondary: #{constants.$color-slate-border};
-        --button-toggle-alternate: #{constants.$color-slate-panel};
-        --button-get-started-bg: #{constants.$color-slate-cyan-primary};
+        --button-primary-light-default: rgb(249 115 22 / 10%);
+        --button-primary-hover: #fb923c;
+        --button-secondary-hover: #86efac;
+        --button-tertiary-hover: rgb(249 115 22 / 8%);
+        --button-primary-light-hover: rgb(249 115 22 / 18%);
+        --button-toggle-primary: #4ade80;
+        --button-toggle-secondary: #2e1e06;
+        --button-toggle-alternate: #1f1504;
+        --button-get-started-bg: #f97316;
 
         // Overlay
         --overlay-outside-dialog: rgb(0 0 0 / 72%);
@@ -421,75 +421,75 @@
         --shadow-box: rgb(0 0 0 / 50%);
 
         // States
-        --state-normal: #{constants.$color-slate-panel};
-        --state-hover: rgb(0 212 255 / 8%);
-        --state-active: rgb(0 212 255 / 15%);
-        --state-disabled: rgb(125 138 155 / 30%);
-        --checkbox-disabled-grey: rgb(125 138 155 / 40%);
-        --sidebar-tab: rgb(125 138 155 / 30%);
+        --state-normal: #1f1504;
+        --state-hover: rgb(249 115 22 / 8%);
+        --state-active: rgb(249 115 22 / 15%);
+        --state-disabled: rgb(160 130 80 / 30%);
+        --checkbox-disabled-grey: rgb(160 130 80 / 40%);
+        --sidebar-tab: rgb(160 130 80 / 30%);
 
-        // Border - Deep Slate Theme
-        --border-normal: #{constants.$color-slate-border};
-        --border-normal-1: rgb(0 212 255 / 20%);
-        --border-normal-2: rgb(0 212 255 / 15%);
-        --border-normal-3: #{constants.$color-slate-border};
-        --border-hover: #{constants.$color-slate-cyan-primary};
-        --border-hover-1: #{constants.$color-slate-cyan-primary};
-        --border-active: #{constants.$color-slate-cyan-primary};
-        --border-disabled: #{constants.$color-slate-border};
-        --border-divider: rgb(0 212 255 / 10%);
+        // Border - Orange Gold & Green Ice Theme
+        --border-normal: #2e1e06;
+        --border-normal-1: rgb(249 115 22 / 20%);
+        --border-normal-2: rgb(74 222 128 / 20%);
+        --border-normal-3: #2e1e06;
+        --border-hover: #f97316;
+        --border-hover-1: #4ade80;
+        --border-active: #f97316;
+        --border-disabled: #2e1e06;
+        --border-divider: rgb(249 115 22 / 10%);
 
         // Fill
-        --fill-normal: #{constants.$color-slate-panel};
-        --fill-normal-1: #{constants.$color-slate-border};
-        --fill-hover: rgb(0 212 255 / 10%);
-        --fill-active: #{constants.$color-slate-cyan-primary};
-        --fill-disabled: rgb(125 138 155 / 20%);
+        --fill-normal: #1f1504;
+        --fill-normal-1: #2e1e06;
+        --fill-hover: rgb(249 115 22 / 10%);
+        --fill-active: #f97316;
+        --fill-disabled: rgb(160 130 80 / 20%);
 
         // Status
-        --status-default: #{constants.$color-slate-border};
-        --status-adjustment: #{constants.$color-slate-text-secondary};
+        --status-default: #2e1e06;
+        --status-adjustment: #d4b896;
         --status-danger: #ff444f;
-        --status-success: #4bb4b3;
+        --status-success: #4ade80;
         --status-warning: #ffad3a;
         --status-warning-transparent: rgb(255 173 58 / 16%);
         --status-transfer: #ff6444;
-        --status-info: #{constants.$color-slate-cyan-primary};
-        --status-colored-background: #{constants.$color-slate-text-primary};
+        --status-info: #f97316;
+        --status-colored-background: #fff8ee;
         --status-alert-background: rgb(255 173 58 / 16%);
 
         // Transparentize
-        --transparent-success: rgb(75 180 179 / 16%);
-        --transparent-info: rgb(0 212 255 / 16%);
-        --transparent-hint: rgb(0 212 255 / 8%);
+        --transparent-success: rgb(74 222 128 / 16%);
+        --transparent-info: rgb(249 115 22 / 16%);
+        --transparent-hint: rgb(249 115 22 / 8%);
         --transparent-danger: rgb(255 68 79 / 16%);
-        --transparent-correct-message: #4bb4b3;
+        --transparent-correct-message: #4ade80;
         --transparent-fake-message: #ff444f;
 
         // Gradient
-        --gradient-success: linear-gradient(90deg, #4bb4b3 0%, #3d9494 100%);
+        --gradient-success: linear-gradient(90deg, #4ade80 0%, #22c55e 100%);
         --gradient-danger: linear-gradient(90deg, #ff444f 0%, #cc2e3d 100%);
-        --contract-gradient-danger: linear-gradient(to top, #{constants.$color-slate-main} 85%, rgb(255 68 79 / 16%));
-        --gradient-right-edge: #{constants.$gradient-slate-main};
-        --gradient-blue: #{constants.$gradient-slate-cyan};
-        --gradient-gold: #{constants.$gradient-slate-cyan};
-        --gradient-green: linear-gradient(90deg, #1db193 0%, #09da7a 104.41%);
+        --contract-gradient-danger: linear-gradient(to top, #0d0800 85%, rgb(255 68 79 / 16%));
+        --gradient-right-edge: linear-gradient(to right, rgb(13 8 0 / 0%) -5%, #0d0800 71%);
+        --gradient-blue: linear-gradient(90deg, #f97316 0%, #d4af37 100%);
+        --gradient-gold: linear-gradient(90deg, #f97316 0%, #d4af37 100%);
+        --gradient-green: linear-gradient(90deg, #4ade80 0%, #86efac 100%);
 
         // Badge
-        --badge-white: #{constants.$color-slate-text-primary};
-        --badge-blue: #{constants.$color-slate-cyan-primary};
-        --badge-violet: #{constants.$color-slate-cyan-secondary};
-        --badge-green: #4bb4b3;
+        --badge-white: #fff8ee;
+        --badge-blue: #f97316;
+        --badge-violet: #fb923c;
+        --badge-green: #4ade80;
 
         // TradersHub Banner
-        --traders-hub-banner-border-color: #{constants.$color-slate-border};
+        --traders-hub-banner-border-color: #2e1e06;
 
         // Demo view
-        --demo-text-color-1: #{constants.$color-slate-text-secondary};
-        --demo-text-color-2: #{constants.$color-slate-text-primary};
+        --demo-text-color-1: #d4b896;
+        --demo-text-color-2: #fff8ee;
 
         // Header
-        --header-background-mt5: #{constants.$color-slate-panel};
-        --header-background-others: #{constants.$color-slate-panel};
+        --header-background-mt5: #1f1504;
+        --header-background-others: #1f1504;
     }
 }

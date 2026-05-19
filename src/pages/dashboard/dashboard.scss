@@ -107,6 +107,110 @@
     }
 }
 
+/* ===== Quick-link cube cards shared mixin ===== */
+%cube-card-base {
+    /* ~1 inch cube (7rem ≈ 112px at 16px base) */
+    width: 7rem;
+    height: 7rem;
+    min-height: unset;
+    padding: 0.6rem 0.4rem;
+    border: 1px solid transparent;
+    outline: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        border-color 0.22s ease;
+    position: relative;
+    overflow: hidden;
+
+    /* shimmer sweep on hover */
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgb(255 255 255 / 0%) 40%,
+            rgb(255 255 255 / 16%) 50%,
+            rgb(255 255 255 / 0%) 60%
+        );
+        transform: translateX(-110%);
+        transition: transform 0.48s ease;
+    }
+
+    &:hover::before {
+        transform: translateX(110%);
+    }
+
+    &:hover {
+        transform: translateY(-5px) scale(1.07);
+    }
+}
+
+%cube-card-free-bots {
+    background: linear-gradient(135deg, #92400e 0%, #d97706 55%, #f59e0b 100%);
+    border-color: rgb(251 191 36 / 45%);
+    box-shadow:
+        0 0 18px rgb(245 158 11 / 55%),
+        0 0 36px rgb(245 158 11 / 28%),
+        inset 0 0 14px rgb(255 255 255 / 8%);
+
+    &:hover {
+        box-shadow:
+            0 0 28px rgb(245 158 11 / 78%),
+            0 0 58px rgb(245 158 11 / 42%),
+            inset 0 0 18px rgb(255 255 255 / 12%);
+    }
+}
+
+%cube-card-static-ft-tool {
+    background: linear-gradient(135deg, #064e3b 0%, #059669 55%, #34d399 100%);
+    border-color: rgb(52 211 153 / 45%);
+    box-shadow:
+        0 0 18px rgb(52 211 153 / 55%),
+        0 0 36px rgb(52 211 153 / 28%),
+        inset 0 0 14px rgb(255 255 255 / 8%);
+
+    &:hover {
+        box-shadow:
+            0 0 28px rgb(52 211 153 / 78%),
+            0 0 58px rgb(52 211 153 / 42%),
+            inset 0 0 18px rgb(255 255 255 / 12%);
+    }
+}
+
+%cube-card-ai-assistant {
+    background: linear-gradient(135deg, #78350f 0%, #b45309 55%, #d97706 100%);
+    border-color: rgb(217 119 6 / 55%);
+    box-shadow:
+        0 0 18px rgb(217 119 6 / 60%),
+        0 0 36px rgb(217 119 6 / 30%),
+        inset 0 0 14px rgb(255 255 255 / 8%);
+
+    &:hover {
+        box-shadow:
+            0 0 28px rgb(217 119 6 / 82%),
+            0 0 58px rgb(217 119 6 / 44%),
+            inset 0 0 18px rgb(255 255 255 / 12%);
+    }
+}
+
+%cube-card-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0;
+    text-shadow: 0 1px 4px rgb(0 0 0 / 50%);
+}
+
 .tab {
     &__dashboard {
         display: flex;
@@ -166,121 +270,79 @@
             }
 
             &__quick-links {
-                display: grid;
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                gap: 1rem;
+                display: flex;
+                flex-direction: row;
+                gap: 1.2rem;
                 margin-top: 1.6rem;
                 margin-bottom: 2rem;
+                justify-content: center;
+                flex-wrap: wrap;
 
                 @include mobile-or-tablet-screen {
-                    grid-template-columns: 1fr;
+                    justify-content: flex-start;
                 }
 
                 .tab__dashboard__quick-link {
-                    padding: 1.6rem;
-                    border: none;
-                    outline: none;
-                    border-radius: 2rem;
-                    min-height: 12rem;
-                    width: 100%;
-                    text-align: left;
-                    cursor: pointer;
-                    transition:
-                        transform 0.25s ease,
-                        box-shadow 0.25s ease;
-                    box-shadow: 0 20px 45px rgb(34 41 47 / 8%);
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    color: #fff;
-                }
-
-                .tab__dashboard__quick-link:hover {
-                    transform: translateY(-4px);
-                    box-shadow: 0 28px 60px rgb(34 41 47 / 18%);
+                    @extend %cube-card-base;
                 }
 
                 .tab__dashboard__quick-link--free-bots {
-                    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+                    @extend %cube-card-free-bots;
                 }
 
                 .tab__dashboard__quick-link--static-ft-tool {
-                    background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
+                    @extend %cube-card-static-ft-tool;
                 }
 
                 .tab__dashboard__quick-link--ai-assistant {
-                    background: linear-gradient(135deg, #7c3aed 0%, #c084fc 100%);
+                    @extend %cube-card-ai-assistant;
                 }
 
                 .tab__dashboard__quick-link__title {
-                    margin-bottom: 0.7rem;
-                    font-size: 1.35rem;
-                    font-weight: 700;
+                    @extend %cube-card-title;
                 }
 
                 .tab__dashboard__quick-link__description {
-                    line-height: 1.6;
-                    opacity: 0.95;
+                    display: none;
                 }
             }
         }
 
         &__quick-links {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 1rem;
+            display: flex;
+            flex-direction: row;
+            gap: 1.2rem;
             margin-top: 1.6rem;
             margin-bottom: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
 
             @include mobile-or-tablet-screen {
-                grid-template-columns: 1fr;
+                justify-content: flex-start;
             }
 
             .tab__dashboard__quick-link {
-                padding: 1.6rem;
-                border: none;
-                outline: none;
-                border-radius: 2rem;
-                min-height: 12rem;
-                width: 100%;
-                text-align: left;
-                cursor: pointer;
-                transition:
-                    transform 0.25s ease,
-                    box-shadow 0.25s ease;
-                box-shadow: 0 20px 45px rgb(34 41 47 / 8%);
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                color: #fff;
-            }
-
-            .tab__dashboard__quick-link:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 28px 60px rgb(34 41 47 / 18%);
+                @extend %cube-card-base;
             }
 
             .tab__dashboard__quick-link--free-bots {
-                background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+                @extend %cube-card-free-bots;
             }
 
             .tab__dashboard__quick-link--static-ft-tool {
-                background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
+                @extend %cube-card-static-ft-tool;
             }
 
             .tab__dashboard__quick-link--ai-assistant {
-                background: linear-gradient(135deg, #7c3aed 0%, #c084fc 100%);
+                @extend %cube-card-ai-assistant;
             }
 
             .tab__dashboard__quick-link__title {
-                margin-bottom: 0.7rem;
-                font-size: 1.35rem;
-                font-weight: 700;
+                @extend %cube-card-title;
             }
 
             .tab__dashboard__quick-link__description {
-                line-height: 1.6;
-                opacity: 0.95;
+                display: none;
             }
         }
 
