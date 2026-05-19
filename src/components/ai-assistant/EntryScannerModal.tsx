@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { load, save_types } from '@/external/bot-skeleton';
 import { useStore } from '@/hooks/useStore';
 import MarketScanner, { MarketScanResult } from './MarketScanner';
+import './EntryScannerModal.scss';
 
 interface ScannerTab {
     id: string;
@@ -188,91 +189,89 @@ const EntryScannerModal: React.FC<EntryScannerModalProps> = ({ onClose, onOpenFu
         return '';
     };
 
-    const getStatusColor = () => {
-        if (status === 'found') return 'text-green-400';
-        if (status === 'notfound') return 'text-red-400';
-        if (status === 'scanning') return 'text-blue-400';
-        return 'text-slate-500';
-    };
-
-    // Close on Escape
     useEffect(() => {
         const handle = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
         window.addEventListener('keydown', handle);
         return () => window.removeEventListener('keydown', handle);
     }, [onClose]);
 
+    const loadBtnClass = () => {
+        if (loadSuccess) return 'esm-btn-load esm-btn-load--success';
+        if (scanResult && !isLoadingBot) return 'esm-btn-load esm-btn-load--ready';
+        return 'esm-btn-load';
+    };
+
     return (
         <>
             {/* Backdrop */}
             <motion.div
-                className='fixed inset-0 z-[9998] bg-black/60 backdrop-blur-[3px]'
+                className='esm-backdrop'
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={onClose}
             />
 
-            {/* Modal */}
+            {/* Centered wrapper */}
             <motion.div
-                className='fixed inset-0 z-[9999] flex items-center justify-center p-4'
+                className='esm-wrapper'
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
             >
+                {/* Card */}
                 <motion.div
-                    className='relative w-full max-w-[420px] rounded-2xl border border-white/15 bg-[#0d1420] text-white shadow-[0_20px_60px_rgba(0,0,0,0.7)]'
-                    initial={{ scale: 0.93, y: 16 }}
+                    className='esm-card'
+                    initial={{ scale: 0.93, y: 18 }}
                     animate={{ scale: 1, y: 0 }}
-                    exit={{ scale: 0.93, y: 16 }}
+                    exit={{ scale: 0.93, y: 18 }}
                     transition={{ type: 'spring', damping: 26, stiffness: 300 }}
                     onClick={e => e.stopPropagation()}
                 >
                     {/* Header */}
-                    <div className='flex items-center justify-between border-b border-white/10 px-5 py-4'>
-                        <h2 className='text-base font-bold text-white'>Entry Scanner</h2>
+                    <div className='esm-header'>
+                        <h2 className='esm-title'>Entry Scanner</h2>
                         <button
+                            type='button'
                             onClick={onClose}
-                            className='flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm text-gray-400 transition hover:bg-white/15 hover:text-white'
+                            className='esm-close-btn'
+                            aria-label='Close scanner'
                         >
                             ✕
                         </button>
                     </div>
 
                     {/* Tabs */}
-                    <div className='flex border-b border-white/10'>
-                        {SCANNER_TABS.map((tab, i) => (
+                    <div className='esm-tabs'>
+                        {SCANNER_TABS.map(tab => (
                             <button
                                 key={tab.id}
                                 type='button'
                                 onClick={() => handleTabChange(tab.id)}
-                                className={`relative flex-1 px-3 py-3 text-xs font-semibold transition-all ${
-                                    i !== SCANNER_TABS.length - 1 ? 'border-r border-white/10' : ''
-                                } ${
-                                    activeTabId === tab.id
-                                        ? 'bg-blue-500/20 text-blue-300'
-                                        : 'text-slate-400 hover:bg-white/4 hover:text-slate-200'
-                                }`}
+                                className={`esm-tab${activeTabId === tab.id ? ' esm-tab--active' : ''}`}
                             >
                                 {tab.label}
                                 {activeTabId === tab.id && (
-                                    <span className='absolute bottom-0 left-0 right-0 h-0.5 bg-blue-400' />
+                                    <motion.span
+                                        layoutId='esm-tab-line'
+                                        className='esm-tab-indicator'
+                                    />
                                 )}
                             </button>
                         ))}
                     </div>
 
                     {/* Body */}
-                    <div className='p-5 space-y-4'>
+                    <div className='esm-body'>
 
                         {/* Scanner name + ticks */}
-                        <div className='flex items-start justify-between gap-4'>
+                        <div className='esm-scanner-row'>
                             <div>
-                                <p className='text-sm font-bold text-white'>Digits Scanner</p>
-                                <p className='mt-0.5 text-xs text-slate-400'>{activeTab.description}</p>
+                                <p className='esm-scanner-name'>Digits Scanner</p>
+                                <p className='esm-scanner-desc'>{activeTab.description}</p>
                             </div>
-                            <div className='flex-shrink-0 text-right'>
-                                <p className='text-[10px] uppercase tracking-widest text-slate-500 mb-1'>Ticks</p>
+                            <div className='esm-ticks-group'>
+                                <span className='esm-field-label'>Ticks</span>
                                 <input
                                     ref={ticksRef}
                                     type='number'
@@ -281,51 +280,44 @@ const EntryScannerModal: React.FC<EntryScannerModalProps> = ({ onClose, onOpenFu
                                     max={10000}
                                     step={100}
                                     onChange={e => setTicks(Number(e.target.value))}
-                                    className='w-20 rounded-lg border border-white/15 bg-white/8 px-2 py-1.5 text-center text-sm font-bold text-white outline-none focus:border-blue-400/60 focus:ring-1 focus:ring-blue-400/20 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none'
+                                    className='esm-ticks-input'
                                 />
                             </div>
                         </div>
 
-                        {/* Market + Trade Type fields */}
-                        <div className='grid grid-cols-2 gap-3'>
+                        {/* Selected Market + Trade Type */}
+                        <div className='esm-fields-grid'>
                             <div>
-                                <p className='text-[9px] uppercase tracking-widest text-slate-500 mb-1.5'>Selected Market</p>
-                                <div className={`rounded-lg border px-3 py-2.5 text-xs transition-colors ${
-                                    scanResult
-                                        ? 'border-blue-400/30 bg-blue-500/8 text-white font-semibold'
-                                        : 'border-white/10 bg-white/4 text-slate-400 italic'
-                                }`}>
+                                <span className='esm-field-label'>Selected Market</span>
+                                <div className={`esm-field-box${scanResult ? ' esm-field-box--active' : ''}`}>
                                     {scanResult ? scanResult.market : 'Scan to find the best market'}
                                 </div>
                             </div>
                             <div>
-                                <p className='text-[9px] uppercase tracking-widest text-slate-500 mb-1.5'>Trade Type</p>
-                                <div className={`rounded-lg border px-3 py-2.5 text-xs transition-colors ${
-                                    scanResult
-                                        ? 'border-blue-400/30 bg-blue-500/8 text-white font-semibold'
-                                        : 'border-white/10 bg-white/4 text-slate-400 italic'
-                                }`}>
+                                <span className='esm-field-label'>Trade Type</span>
+                                <div className={`esm-field-box${scanResult ? ' esm-field-box--active' : ''}`}>
                                     {scanResult ? scanResult.tradeType : 'Waiting for scan'}
                                 </div>
                             </div>
                         </div>
 
-                        {/* Confidence bar — only shown after scan */}
+                        {/* Confidence bar */}
                         <AnimatePresence>
                             {scanResult && (
                                 <motion.div
+                                    key='confidence'
+                                    className='esm-confidence'
                                     initial={{ opacity: 0, height: 0 }}
                                     animate={{ opacity: 1, height: 'auto' }}
                                     exit={{ opacity: 0, height: 0 }}
-                                    className='overflow-hidden'
                                 >
-                                    <div className='flex items-center justify-between mb-1.5'>
-                                        <p className='text-[9px] uppercase tracking-widest text-slate-500'>Confidence</p>
-                                        <p className='text-xs font-bold text-blue-300'>{scanResult.confidence}%</p>
+                                    <div className='esm-confidence-header'>
+                                        <span className='esm-field-label' style={{ marginBottom: 0 }}>Confidence</span>
+                                        <span className='esm-confidence-value'>{scanResult.confidence}%</span>
                                     </div>
-                                    <div className='h-1.5 w-full rounded-full bg-white/8 overflow-hidden'>
+                                    <div className='esm-bar-track'>
                                         <motion.div
-                                            className='h-full rounded-full bg-gradient-to-r from-blue-400 to-cyan-400'
+                                            className='esm-bar-fill'
                                             initial={{ width: 0 }}
                                             animate={{ width: `${scanResult.confidence}%` }}
                                             transition={{ duration: 0.7, delay: 0.1 }}
@@ -335,17 +327,18 @@ const EntryScannerModal: React.FC<EntryScannerModalProps> = ({ onClose, onOpenFu
                             )}
                         </AnimatePresence>
 
-                        {/* Scan progress */}
+                        {/* Scan progress bar */}
                         <AnimatePresence>
                             {isScanning && (
                                 <motion.div
+                                    key='progress'
+                                    className='esm-progress-track'
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
-                                    className='h-1 w-full rounded-full bg-white/8 overflow-hidden'
                                 >
                                     <motion.div
-                                        className='h-full rounded-full bg-gradient-to-r from-blue-400 to-cyan-400'
+                                        className='esm-progress-fill'
                                         initial={{ width: '0%' }}
                                         animate={{ width: '100%' }}
                                         transition={{ duration: 2.6, ease: 'easeInOut' }}
@@ -355,23 +348,19 @@ const EntryScannerModal: React.FC<EntryScannerModalProps> = ({ onClose, onOpenFu
                         </AnimatePresence>
 
                         {/* Status */}
-                        <p className={`text-xs ${getStatusColor()}`}>
-                            {status === 'scanning' ? (
-                                <span className='flex items-center gap-1.5'>
-                                    <motion.span
-                                        className='inline-block h-2 w-2 rounded-full border border-blue-400/40 border-t-blue-400'
-                                        animate={{ rotate: 360 }}
-                                        transition={{ duration: 0.7, repeat: Infinity, ease: 'linear' }}
-                                    />
-                                    {getStatusText()}
-                                </span>
-                            ) : (
-                                getStatusText()
+                        <p className={`esm-status esm-status--${status}`}>
+                            {status === 'scanning' && (
+                                <motion.span
+                                    className='esm-spinner'
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 0.7, repeat: Infinity, ease: 'linear' }}
+                                />
                             )}
+                            {getStatusText()}
                         </p>
 
                         {/* Hidden scanner logic */}
-                        <div className='hidden'>
+                        <div className='esm-hidden'>
                             <MarketScanner
                                 scanTrigger={scanCount}
                                 isScanning={isScanning}
@@ -382,22 +371,22 @@ const EntryScannerModal: React.FC<EntryScannerModalProps> = ({ onClose, onOpenFu
                         </div>
 
                         {/* Action buttons */}
-                        <div className='grid grid-cols-2 gap-3 pt-1'>
+                        <div className='esm-actions'>
                             <button
                                 type='button'
                                 onClick={handleScanMarkets}
                                 disabled={isScanning}
-                                className='h-10 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-sm font-bold text-white transition hover:brightness-110 disabled:opacity-60 disabled:cursor-not-allowed'
+                                className='esm-btn-scan'
                             >
                                 {isScanning ? (
-                                    <span className='flex items-center justify-center gap-1.5'>
+                                    <>
                                         <motion.span
-                                            className='inline-block h-3.5 w-3.5 rounded-full border-2 border-white/30 border-t-white'
+                                            className='esm-btn-scan-spinner'
                                             animate={{ rotate: 360 }}
                                             transition={{ duration: 0.7, repeat: Infinity, ease: 'linear' }}
                                         />
                                         Scanning...
-                                    </span>
+                                    </>
                                 ) : (
                                     'Scan Markets'
                                 )}
@@ -405,14 +394,8 @@ const EntryScannerModal: React.FC<EntryScannerModalProps> = ({ onClose, onOpenFu
                             <button
                                 type='button'
                                 onClick={handleLoadBot}
-                                disabled={!scanResult || isLoadingBot}
-                                className={`h-10 rounded-xl text-sm font-bold transition disabled:cursor-not-allowed disabled:opacity-50 ${
-                                    loadSuccess
-                                        ? 'bg-green-500 text-white'
-                                        : scanResult
-                                        ? 'border border-blue-400/40 bg-blue-500/15 text-blue-200 hover:bg-blue-500/25'
-                                        : 'border border-white/10 bg-white/5 text-slate-500'
-                                }`}
+                                disabled={!scanResult || isLoadingBot || loadSuccess}
+                                className={loadBtnClass()}
                             >
                                 {isLoadingBot ? 'Loading...' : loadSuccess ? '✓ Loaded!' : 'Load Scanner Bot'}
                             </button>
@@ -420,11 +403,11 @@ const EntryScannerModal: React.FC<EntryScannerModalProps> = ({ onClose, onOpenFu
 
                         {/* Full panel link */}
                         {onOpenFullPanel && (
-                            <div className='border-t border-white/8 pt-3 text-center'>
+                            <div className='esm-footer'>
                                 <button
                                     type='button'
                                     onClick={onOpenFullPanel}
-                                    className='text-xs text-slate-500 transition hover:text-slate-300'
+                                    className='esm-footer-link'
                                 >
                                     Open full AI cockpit →
                                 </button>

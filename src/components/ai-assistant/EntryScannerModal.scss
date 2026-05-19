@@ -1,0 +1,428 @@
+/* ===== Entry Scanner Modal ===== */
+
+.esm-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: rgb(0 0 0 / 65%);
+    backdrop-filter: blur(3px);
+}
+
+.esm-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    pointer-events: none;
+}
+
+/* ===== Card ===== */
+
+.esm-card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 1rem;
+    border: 1px solid rgb(255 255 255 / 14%);
+    background: #0d1420;
+    color: #fff;
+    box-shadow:
+        0 20px 60px rgb(0 0 0 / 70%),
+        0 0 0 1px rgb(255 255 255 / 4%);
+    pointer-events: auto;
+    overflow: hidden;
+}
+
+/* ===== Header ===== */
+
+.esm-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgb(255 255 255 / 10%);
+}
+
+.esm-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.esm-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / 10%);
+    background: rgb(255 255 255 / 5%);
+    color: #9ca3af;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+    line-height: 1;
+    padding: 0;
+
+    &:hover {
+        background: rgb(255 255 255 / 15%);
+        color: #fff;
+    }
+}
+
+/* ===== Tabs ===== */
+
+.esm-tabs {
+    display: flex;
+    border-bottom: 1px solid rgb(255 255 255 / 10%);
+}
+
+.esm-tab {
+    position: relative;
+    flex: 1;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #94a3b8;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition:
+        color 0.15s ease,
+        background 0.15s ease;
+    text-align: center;
+
+    &:not(:last-child) {
+        border-right: 1px solid rgb(255 255 255 / 10%);
+    }
+
+    &:hover {
+        color: #e2e8f0;
+        background: rgb(255 255 255 / 3%);
+    }
+
+    &--active {
+        color: #93c5fd;
+        background: rgb(59 130 246 / 12%);
+    }
+}
+
+.esm-tab-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #60a5fa;
+    border-radius: 2px 2px 0 0;
+}
+
+/* ===== Body ===== */
+
+.esm-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* ===== Scanner row (title + ticks) ===== */
+
+.esm-scanner-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.esm-scanner-name {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 0.25rem;
+}
+
+.esm-scanner-desc {
+    font-size: 0.72rem;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.esm-ticks-group {
+    flex-shrink: 0;
+    text-align: right;
+}
+
+.esm-field-label {
+    display: block;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #475569;
+    margin-bottom: 0.3rem;
+}
+
+.esm-ticks-input {
+    width: 5rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(255 255 255 / 14%);
+    background: rgb(255 255 255 / 7%);
+    padding: 0.375rem 0.5rem;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #fff;
+    outline: none;
+    appearance: textfield;
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+
+    /* hide number spin arrows */
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+        appearance: none;
+        margin: 0;
+    }
+
+    &:focus {
+        border-color: rgb(96 165 250 / 55%);
+        box-shadow: 0 0 0 2px rgb(96 165 250 / 15%);
+    }
+}
+
+/* ===== Market / Trade Type grid ===== */
+
+.esm-fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.esm-field-box {
+    border-radius: 0.5rem;
+    border: 1px solid rgb(255 255 255 / 10%);
+    background: rgb(255 255 255 / 4%);
+    padding: 0.625rem 0.75rem;
+    font-size: 0.72rem;
+    color: #64748b;
+    font-style: italic;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+
+    &--active {
+        border-color: rgb(96 165 250 / 28%);
+        background: rgb(59 130 246 / 8%);
+        color: #fff;
+        font-weight: 600;
+        font-style: normal;
+    }
+}
+
+/* ===== Confidence bar ===== */
+
+.esm-confidence {
+    overflow: hidden;
+}
+
+.esm-confidence-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.375rem;
+}
+
+.esm-confidence-value {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #93c5fd;
+}
+
+.esm-bar-track {
+    height: 6px;
+    width: 100%;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 8%);
+    overflow: hidden;
+}
+
+.esm-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #60a5fa, #22d3ee);
+}
+
+/* ===== Progress bar (during scan) ===== */
+
+.esm-progress-track {
+    height: 4px;
+    width: 100%;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 8%);
+    overflow: hidden;
+}
+
+.esm-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #60a5fa, #22d3ee);
+}
+
+/* ===== Status text ===== */
+
+.esm-status {
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 1rem;
+
+    &--idle    { color: #475569; }
+    &--scanning { color: #60a5fa; }
+    &--found   { color: #34d399; }
+    &--notfound { color: #f87171; }
+}
+
+/* spinner inside status */
+.esm-spinner {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    border: 1.5px solid rgb(96 165 250 / 35%);
+    border-top-color: #60a5fa;
+    flex-shrink: 0;
+}
+
+/* ===== Buttons ===== */
+
+.esm-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    padding-top: 0.25rem;
+}
+
+.esm-btn-scan {
+    height: 2.5rem;
+    border-radius: 0.625rem;
+    border: none;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    transition: filter 0.15s ease;
+
+    &:hover:not(:disabled) {
+        filter: brightness(1.12);
+    }
+
+    &:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+}
+
+.esm-btn-scan-spinner {
+    display: inline-block;
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: 50%;
+    border: 2px solid rgb(255 255 255 / 28%);
+    border-top-color: #fff;
+}
+
+.esm-btn-load {
+    height: 2.5rem;
+    border-radius: 0.625rem;
+    border: 1px solid rgb(255 255 255 / 10%);
+    background: rgb(255 255 255 / 5%);
+    color: #64748b;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    cursor: not-allowed;
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+
+    &--ready {
+        border-color: rgb(96 165 250 / 38%);
+        background: rgb(59 130 246 / 14%);
+        color: #bfdbfe;
+        cursor: pointer;
+
+        &:hover {
+            background: rgb(59 130 246 / 22%);
+        }
+    }
+
+    &--success {
+        border-color: transparent;
+        background: #22c55e;
+        color: #fff;
+        cursor: default;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+/* ===== Footer link ===== */
+
+.esm-footer {
+    border-top: 1px solid rgb(255 255 255 / 7%);
+    padding-top: 0.75rem;
+    text-align: center;
+}
+
+.esm-footer-link {
+    background: none;
+    border: none;
+    color: #475569;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: color 0.15s ease;
+    padding: 0;
+
+    &:hover {
+        color: #94a3b8;
+    }
+}
+
+/* ===== Hidden scanner container ===== */
+
+.esm-hidden {
+    display: none;
+}
+
+/* ===== Mobile ===== */
+
+@media (width <= 480px) {
+    .esm-card {
+        max-width: 100%;
+        border-radius: 0.875rem;
+    }
+
+    .esm-tab {
+        font-size: 0.65rem;
+        padding: 0.625rem 0.25rem;
+    }
+}
