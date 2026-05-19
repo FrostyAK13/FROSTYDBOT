@@ -9,9 +9,14 @@ import RootStore from '@/stores/root-store';
 import { LegacyReportsIcon, LegacyTheme1pxIcon, LegacyWhatsappIcon } from '@deriv/quill-icons/Legacy';
 import { useTranslations } from '@deriv-com/translations';
 import { ToggleSwitch } from '@deriv-com/ui';
-import { URLConstants } from '@deriv-com/utils';
 
 export type TSubmenuSection = 'accountSettings' | 'cashier' | 'reports';
+
+const TelegramMenuIcon = () => (
+    <svg width='16' height='16' viewBox='0 0 24 24' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>
+        <path d='M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.26l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.299z' />
+    </svg>
+);
 
 //IconTypes
 type TMenuConfig = {
@@ -32,12 +37,10 @@ const useMobileMenuConfig = (client?: RootStore['client']) => {
     const { is_dark_mode_on, toggleTheme } = useThemeSwitcher();
 
     const { data } = useRemoteConfig(true);
-    const { cs_chat_whatsapp } = data;
 
     const { is_livechat_available } = useIsLiveChatWidgetAvailable();
     const icAvailable = useIsIntercomAvailable();
 
-    // Get current account information for dependency tracking
     const is_virtual = client?.is_virtual;
     const currency = client?.getCurrency?.();
     const is_logged_in = client?.is_logged_in;
@@ -63,15 +66,20 @@ const useMobileMenuConfig = (client?: RootStore['client']) => {
                 },
             ].filter(Boolean) as TMenuConfig,
             [
-                cs_chat_whatsapp
-                    ? {
-                          as: 'a',
-                          href: URLConstants.whatsApp,
-                          label: localize('WhatsApp'),
-                          LeftComponent: LegacyWhatsappIcon,
-                          target: '_blank',
-                      }
-                    : null,
+                {
+                    as: 'a',
+                    href: 'https://wa.me/254115335502',
+                    label: localize('WhatsApp'),
+                    LeftComponent: LegacyWhatsappIcon,
+                    target: '_blank',
+                },
+                {
+                    as: 'a',
+                    href: 'https://t.me/frostytraders_signals',
+                    label: localize('Telegram'),
+                    LeftComponent: TelegramMenuIcon,
+                    target: '_blank',
+                },
                 is_livechat_available || icAvailable
                     ? {
                           as: 'button',
@@ -83,7 +91,6 @@ const useMobileMenuConfig = (client?: RootStore['client']) => {
                       }
                     : null,
             ].filter(Boolean) as TMenuConfig,
-            // Logout button removed from mobile interface as per acceptance criteria
             [],
         ],
         [is_virtual, currency, is_logged_in, client_residence, is_tmb_enabled]

@@ -13,6 +13,7 @@ import HelpCentre from './HelpCentre';
 import LanguageSettings from './LanguageSettings';
 import NetworkStatus from './NetworkStatus';
 import ServerTime from './ServerTime';
+import Telegram from './Telegram';
 import WhatsApp from './WhatsApp';
 import './footer.scss';
 
@@ -23,7 +24,6 @@ const Footer = () => {
     const openLanguageSettingModal = () => showModal('DesktopLanguagesModal');
 
     const { data } = useRemoteConfig(true);
-    const { cs_chat_whatsapp } = data;
 
     return (
         <footer className='app-footer'>
@@ -34,7 +34,8 @@ const Footer = () => {
             <ChangeTheme />
             <Deriv />
             <Livechat />
-            {cs_chat_whatsapp && <WhatsApp />}
+            <WhatsApp />
+            <Telegram />
             <div className='app-footer__vertical-line' />
             <ServerTime />
             <div className='app-footer__vertical-line' />

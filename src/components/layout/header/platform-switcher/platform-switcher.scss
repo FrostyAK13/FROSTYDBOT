@@ -9,12 +9,39 @@
     width: 40px;
     height: 40px;
     object-fit: contain;
+    filter: drop-shadow(0 0 6px #c9a227) drop-shadow(0 0 12px #c9a22788);
+    animation: logo-pulse 2.5s ease-in-out infinite;
 }
 
 .frosty-logo-text {
     font-size: 1.125rem;
-    font-weight: 700;
-    color: #c9a227;
-    letter-spacing: 0.05em;
+    font-weight: 900;
+    letter-spacing: 0.1em;
     white-space: nowrap;
+    background: linear-gradient(90deg, #c9a227 0%, #ffe066 40%, #c9a227 60%, #fff5b0 80%, #c9a227 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shine-text 2.5s linear infinite;
+    text-shadow: none;
+    filter: drop-shadow(0 0 6px #c9a22799);
+}
+
+@keyframes logo-pulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 5px #c9a227) drop-shadow(0 0 10px #c9a22777);
+    }
+    50% {
+        filter: drop-shadow(0 0 12px #ffe066) drop-shadow(0 0 24px #c9a227cc);
+    }
+}
+
+@keyframes shine-text {
+    0% {
+        background-position: 200% center;
+    }
+    100% {
+        background-position: -200% center;
+    }
 }
