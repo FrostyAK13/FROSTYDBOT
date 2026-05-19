@@ -59,9 +59,9 @@ export const useOauth2 = ({
         client?.setIsLoggingOut(true);
         try {
             await OAuth2Logout({
-                redirectCallbackUri: 'https://www.frostytraders.com/oauth/callback',
+                redirectCallbackUri: `${window.location.origin}/callback`,
                 WSLogoutAndRedirect: handleLogout ?? (() => Promise.resolve()),
-                postLogoutRedirectUri: 'https://www.frostytraders.com',
+                postLogoutRedirectUri: window.location.origin,
             }).catch(err => {
                 // eslint-disable-next-line no-console
                 console.error(err);
@@ -80,8 +80,8 @@ export const useOauth2 = ({
     const retriggerOAuth2Login = async () => {
         try {
             await requestOidcAuthentication({
-                redirectCallbackUri: 'https://www.frostytraders.com/oauth/callback',
-                postLogoutRedirectUri: 'https://www.frostytraders.com',
+                redirectCallbackUri: `${window.location.origin}/callback`,
+                postLogoutRedirectUri: window.location.origin,
             }).catch(err => {
                 handleOidcAuthFailure(err);
             });

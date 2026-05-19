@@ -102,14 +102,14 @@ const CallbackPage = () => {
                 // Determine the appropriate currency to use
                 const selected_currency = getSelectedCurrency(tokens, clientAccounts, state);
 
-                window.location.replace(`https://www.frostytraders.com/?account=${selected_currency}`);
+                window.location.replace(`${window.location.origin}/?account=${selected_currency}`);
             }}
             renderReturnButton={() => {
                 return (
                     <Button
                         className='callback-return-button'
                         onClick={() => {
-                            window.location.href = 'https://www.frostytraders.com';
+                            window.location.href = window.location.origin;
                         }}
                     >
                         {'Return to Frosty Traders'}
