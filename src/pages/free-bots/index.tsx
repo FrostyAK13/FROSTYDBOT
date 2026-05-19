@@ -114,7 +114,10 @@ const FreeBots = observer(() => {
                     <div key={bot.id} className='free-bots__card'>
                         <div className='free-bots__card-header'>
                             <span className='free-bots__card-icon'>&#10052;</span>
-                            <span className='free-bots__card-badge'>FROSTY</span>
+                            <div className='free-bots__card-badges'>
+                                <span className='free-bots__card-badge'>FROSTY</span>
+                                <span className='free-bots__card-premium'>⭐ PREMIUM</span>
+                            </div>
                         </div>
                         <h3 className='free-bots__card-title'>{bot.name}</h3>
                         <p className='free-bots__card-description'>{bot.description}</p>
