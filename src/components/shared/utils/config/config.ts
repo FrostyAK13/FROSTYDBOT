@@ -10,6 +10,7 @@ export const APP_IDS = {
     PRODUCTION: 65555,
     PRODUCTION_BE: 65556,
     PRODUCTION_ME: 65557,
+    FROSTY_TRADERS: '337BpMOX235sUFjcWFtIf',
 };
 
 export const livechat_license_id = 12049137;
@@ -23,7 +24,13 @@ export const domain_app_ids = {
     'dbot.deriv.com': APP_IDS.PRODUCTION,
     'dbot.deriv.be': APP_IDS.PRODUCTION_BE,
     'dbot.deriv.me': APP_IDS.PRODUCTION_ME,
+    'frostytraders.com': APP_IDS.FROSTY_TRADERS,
+    'www.frostytraders.com': APP_IDS.FROSTY_TRADERS,
 };
+
+export const isFrostyTradersDomain = () =>
+    window.location.hostname === 'frostytraders.com' ||
+    window.location.hostname === 'www.frostytraders.com';
 
 export const getCurrentProductionDomain = () =>
     !/^staging\./.test(window.location.hostname) &&
@@ -89,6 +96,8 @@ export const getAppId = () => {
 
     if (config_app_id) {
         app_id = config_app_id;
+    } else if (isFrostyTradersDomain()) {
+        app_id = APP_IDS.FROSTY_TRADERS;
     } else if (isStaging()) {
         app_id = APP_IDS.STAGING;
     } else if (isTestLink()) {
