@@ -74,12 +74,8 @@
 }
 
 .ai-assistant-label {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 900;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    text-shadow: 0 0 18px rgb(0 212 255 / 35%);
+    /* hide textual label to keep the widget compact; icon remains */
+    display: none;
 }
 
 .ai-assistant-outer-ring,

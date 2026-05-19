@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import AITypingAnimation from './AITypingAnimation';
 import EnhancedStrategyGenerator from './EnhancedStrategyGenerator';
@@ -88,6 +88,14 @@ const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({ onClose, scanTrigge
     const [isGenerating, setIsGenerating] = useState(false);
     const [generatedStrategy, setGeneratedStrategy] = useState<GeneratedStrategy | null>(null);
     const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
+    const promptRef = useRef<HTMLTextAreaElement | null>(null);
+
+    useEffect(() => {
+        // Focus the prompt textarea when the assistant panel opens so functions are immediately visible.
+        if (promptRef.current) {
+            promptRef.current.focus();
+        }
+    }, []);
 
     const quickTags = useMemo(
         () => [
@@ -213,6 +221,7 @@ const AIAssistantPanel: React.FC<AIAssistantPanelProps> = ({ onClose, scanTrigge
                                         Prompt your strategy
                                     </p>
                                     <textarea
+                                        ref={promptRef}
                                         value={prompt}
                                         onChange={e => setPrompt(e.target.value)}
                                         placeholder='e.g. Build a premium martingale Over/Under strategy with stop loss, take profit and backtest simulation.'
