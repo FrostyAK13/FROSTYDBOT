@@ -1,0 +1,121 @@
+AI
+Futuristic Bot Builder Cockpit
+
+AI Assistant
+Convert natural language into trading strategies, generate bot blocks, and preview risk-managed Over/Under plans.
+
+Over/UnderRise/FallMatches/DiffersMultipliersMartingale logicStop lossTake profitBacktest preview
+GenerateTemplates
+Prompt your strategy
+
+e.g. Build a premium martingale Over/Under strategy with stop loss, take profit and backtest simulation.
+Generate Strategy
+Create a martingale Over/Under bot with stop loss and take profitGenerate a low-risk trading cockpit strategy for Over/UnderBuild a premium AI strategy with stop loss, take profit, and backtest preview
+AI Assistant
+
+Strategy workspace
+Live cockpit
+AI response
+
+Instant strategy synthesis
+Trading cockpit
+Over/UnderRise/FallMatches/DiffersMultipliers
+Use the prompt above to convert natural language into a strategy instantly.
+
+Quick strategy templates
+
+Instant ideas
+Martingale Over/UnderStop Loss + Take ProfitRisk ManagementBacktest PreviewAuto Block Generation
+Strategy suggestions
+
+Bot builder tips
+•Use a hybrid entry combining momentum and support validation.
+•Auto-create bot blocks for entry, risk, and payout flow.
+•Limit martingale sequences to reduce drawdown.
+•Apply take profit tiers as market confidence rises.
+Live AI Market Scanner
+
+Frosty Entry Loop Opportunity
+Best setup ready. Load it into the Frosty Entry Loop bot or refresh to rescan.
+
+Refresh ScanLoad to Bot
+Selected Market
+
+Volatility 100 Index
+
+1HZ100V
+
+Contract Type
+
+Under 8
+
+Under
+
+Prediction
+
+8
+
+Entry Point
+
+8
+
+Confidence
+
+98%
+
+Risk Level
+
+Low
+
+Entry Signal
+
+8 on Volatility 100 Index
+
+Manual Inputs
+
+Keep these settings editable. AI will not override them automatically.
+
+💰 Base Stake ($)
+
+$10.00
+Recommended: $10 - $100
+
+🛑 Stop Loss ($)
+
+$500.00
+Stop trading when loss reaches this amount
+
+📈 Take Profit ($)
+
+$200.00
+Stop trading when profit reaches this amount
+
+🔄 Enable Martingale Progression
+📊 Multiplier
+
+2.0x
+2.0x = Double the stake after loss (recommended)
+
+🚫 Max Consecutive Doublings
+
+4
+Reset after this many consecutive losses
+
+⚠️ Risk Summary
+
+• Max Loss Per Trade: $10
+
+• Daily Stop Loss: $500
+
+• Daily Profit Target: $200
+
+• Martingale Multiplier: 2x
+
+• Max Risk Per Sequence: $160.00
+
+AI Scan Insights
+
+• Continuous scanner refreshes every 30 seconds while the panel is open.
+• Only one high-probability market is selected at a time.
+• The AI prioritizes market stability and avoids weak or unstable entries.
+• Only Over 1 or Under 8 setups are considered for Frosty Entry Loop.
