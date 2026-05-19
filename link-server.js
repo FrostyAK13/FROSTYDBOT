@@ -8,6 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const LINK_PORT = Number(process.env.LINK_PORT) || 3000;
+const DEV_PORT = Number(process.env.DEV_PORT) || 8443;
 const HOST = process.env.HOST || '0.0.0.0';
 
 const publicPaths = ['dist', 'public'];
@@ -72,12 +73,11 @@ const server = http.createServer((req, res) => {
             return;
         }
 
-        // Static file not found: proxy request to dev server (localhost:8443)
+        // Static file not found: proxy request to the dev server.
         const devHost = '127.0.0.1';
-        const devPort = 8443;
         const proxyOptions = {
             hostname: devHost,
-            port: devPort,
+            port: DEV_PORT,
             path: req.url,
             method: req.method,
             headers: req.headers,
