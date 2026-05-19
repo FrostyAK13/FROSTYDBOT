@@ -16,6 +16,9 @@ To run the link-port static server:
 npm run link-server
 ```
 
+Note: for the preview URL to work, the local dev server must also be running on port 3000.
+Start the app with `npm run dev` first, then run the link server.
+
 To bind a specific port for the link server:
 
 ```bash
