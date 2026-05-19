@@ -8,9 +8,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const LINK_PORT = Number(process.env.LINK_PORT) || 3000;
-// In Codespaces preview, the local dev server is usually exposed on port 8443,
-// so link-server proxies to that port by default.
-const DEV_PORT = Number(process.env.DEV_PORT) || 8443;
+// Auto-detect the dev server port. Prefer explicit `DEV_PORT`, then `PORT` (common in dev tools),
+// then `PUBLIC_PORT`, and finally fall back to the Codespaces preview default 8443.
+const DEV_PORT =
+    Number(process.env.DEV_PORT) || Number(process.env.PORT) || Number(process.env.PUBLIC_PORT) || 8443;
 const HOST = process.env.HOST || '0.0.0.0';
 
 const publicPaths = ['dist', 'public'];
