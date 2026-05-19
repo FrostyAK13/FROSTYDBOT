@@ -47,34 +47,70 @@ const server = http.createServer((req, res) => {
     }
 
     fs.stat(filePath, (err, stats) => {
-        if (err) {
-            if (fs.existsSync(filePath + '.html')) {
-                filePath += '.html';
-            } else {
-                res.writeHead(404, { 'Content-Type': 'text/plain' });
-                res.end('Not Found');
-                return;
+        // If static file exists, serve it
+        if (!err) {
+            if (stats.isDirectory()) {
+                filePath = path.join(filePath, 'index.html');
             }
-        } else if (stats.isDirectory()) {
-            filePath = path.join(filePath, 'index.html');
+
+            fs.readFile(filePath, (readErr, data) => {
+                if (readErr) {
+                    res.writeHead(404, { 'Content-Type': 'text/plain' });
+                    res.end('Not Found');
+                    return;
+                }
+
+                const ext = path.extname(filePath).toLowerCase();
+                const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+
+                res.writeHead(200, {
+                    'Content-Type': contentType,
+                    'Cache-Control': 'public, max-age=3600',
+                });
+                res.end(data);
+            });
+            return;
         }
 
-        fs.readFile(filePath, (readErr, data) => {
-            if (readErr) {
-                res.writeHead(404, { 'Content-Type': 'text/plain' });
-                res.end('Not Found');
+        // Static file not found: proxy request to dev server (localhost:8443)
+        const devHost = '127.0.0.1';
+        const devPort = 8443;
+        const proxyOptions = {
+            hostname: devHost,
+            port: devPort,
+            path: req.url,
+            method: req.method,
+            headers: req.headers,
+        };
+
+        const proxyReq = http.request(proxyOptions, proxyRes => {
+            // Forward status and headers
+            res.writeHead(proxyRes.statusCode, proxyRes.headers);
+            proxyRes.pipe(res, { end: true });
+        });
+
+        proxyReq.on('error', () => {
+            // If dev server is not available, try serving preview.html fallback
+            const previewFallback = path.join(PUBLIC_DIR, 'preview.html');
+            if (fs.existsSync(previewFallback)) {
+                fs.readFile(previewFallback, (readErr, data) => {
+                    if (readErr) {
+                        res.writeHead(502, { 'Content-Type': 'text/plain' });
+                        res.end('Bad Gateway');
+                        return;
+                    }
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.end(data);
+                });
                 return;
             }
 
-            const ext = path.extname(filePath).toLowerCase();
-            const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-
-            res.writeHead(200, {
-                'Content-Type': contentType,
-                'Cache-Control': 'public, max-age=3600',
-            });
-            res.end(data);
+            res.writeHead(502, { 'Content-Type': 'text/plain' });
+            res.end('Bad Gateway');
         });
+
+        // Pipe request body to dev server
+        req.pipe(proxyReq, { end: true });
     });
 });
 

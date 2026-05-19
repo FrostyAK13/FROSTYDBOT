@@ -88,7 +88,7 @@ export default defineConfig({
         template: './index.html',
     },
     server: {
-        port: 8443,
+        port: 3000,
         strictPort: true,
         host: '0.0.0.0',
         compress: true,
