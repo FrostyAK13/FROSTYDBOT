@@ -63,7 +63,8 @@ const BOTS: Bot[] = [
 ];
 
 const FreeBots = observer(() => {
-    const { dashboard } = useStore();
+    const store = useStore();
+    const dashboard = store?.dashboard;
     const [loadingBotId, setLoadingBotId] = useState<string | null>(null);
 
     const loadBot = async (bot: Bot) => {
