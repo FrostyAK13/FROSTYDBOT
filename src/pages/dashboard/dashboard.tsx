@@ -29,9 +29,16 @@ const DashboardComponent = observer(({ handleTabChange }: TMobileIconGuide) => {
 
         if (global_window.aiAssistant?.open) {
             global_window.aiAssistant.open();
-        } else {
-            handleTabChange(DBOT_TABS.TUTORIAL);
+            return;
         }
+
+        setTimeout(() => {
+            if (global_window.aiAssistant?.open) {
+                global_window.aiAssistant.open();
+            } else {
+                handleTabChange(DBOT_TABS.ANALYSIS_TOOL);
+            }
+        }, 50);
     }, [handleTabChange]);
 
     const quick_links = [
