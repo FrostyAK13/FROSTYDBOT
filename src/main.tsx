@@ -24,5 +24,17 @@ if (shouldRedirectToFrostyTradersCanonical()) {
             console.error('PWA service worker registration failed:', error);
         });
 
-    ReactDOM.createRoot(document.getElementById('root')!).render(<AuthWrapper />);
+    const root = ReactDOM.createRoot(document.getElementById('root')!);
+    root.render(<AuthWrapper />);
+
+    // Remove the inline preloader added in index.html once React has mounted
+    // Use requestAnimationFrame to ensure the first paint has occurred
+    requestAnimationFrame(() => {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            preloader.style.transition = 'opacity 400ms ease';
+            preloader.style.opacity = '0';
+            setTimeout(() => preloader.remove(), 450);
+        }
+    });
 }

@@ -3,8 +3,8 @@ import { observer } from 'mobx-react-lite';
 import { ToastContainer } from 'react-toastify';
 import AuthLoadingWrapper from '@/components/auth-loading-wrapper';
 import useLiveChat from '@/components/chat/useLiveChat';
+import FullscreenLogoLoader from '@/components/fullscreen-logo-loader/FullscreenLogoLoader';
 import { BOT_RESTRICTED_COUNTRIES_LIST } from '@/components/layout/header/utils';
-import ChunkLoader from '@/components/loader/chunk-loader';
 import PWAInstallModal from '@/components/pwa-install-modal';
 import { getUrlBase } from '@/components/shared';
 import TncStatusUpdateModal from '@/components/tnc-status-update-modal';
@@ -302,7 +302,7 @@ const AppContent = observer(() => {
     }
 
     return is_loading ? (
-        <ChunkLoader message={getLoadingMessage()} />
+        <FullscreenLogoLoader message={getLoadingMessage()} />
     ) : (
         <AuthLoadingWrapper>
             <ThemeProvider theme={is_dark_mode_on ? 'dark' : 'light'}>
