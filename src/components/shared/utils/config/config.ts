@@ -91,10 +91,13 @@ export const getDefaultAppIdAndUrl = () => {
 
 export const getAppId = () => {
     let app_id = null;
+    const env_app_id = process.env.DERIV_APP_ID;
     const config_app_id = window.localStorage.getItem('config.app_id');
     const current_domain = getCurrentProductionDomain() ?? '';
 
-    if (config_app_id) {
+    if (env_app_id) {
+        app_id = env_app_id;
+    } else if (config_app_id) {
         app_id = config_app_id;
     } else if (isFrostyTradersDomain()) {
         app_id = APP_IDS.FROSTY_TRADERS;
