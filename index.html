@@ -41,15 +41,6 @@
 
     <body class="body theme theme--light">
         <div id="modal_root" class="modal-root"></div>
-        <div id="popup_root" class="popup-root"></div>
-        <div id="preloader" class="preloader">
-            <div class="preloader__inner">
-                <div class="preloader__title">frostytraders</div>
-                <div class="preloader__text">Preparing your workspace...</div>
-                <div class="preloader__gold-overlay" aria-hidden></div>
-            </div>
-        </div>
-        <div id="root"></div>
         <!-- LiveChat script -->
         <script type="text/javascript" defer>
             window.__lc = window.__lc || {};
@@ -61,42 +52,44 @@
                 }
                 var e = {
                     _q: [],
-            .preloader__title {
-                font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-                font-weight: 800;
-                font-size: clamp(36px, 10vw, 120px);
-                text-transform: lowercase;
-                letter-spacing: 0.06em;
-                background: linear-gradient(90deg, #ffd86b 0%, #ffb700 50%, #ffd86b 100%);
-                -webkit-background-clip: text;
-                background-clip: text;
-                color: transparent;
-                text-shadow: 0 6px 24px rgba(255, 183, 0, 0.18);
-                transform-origin: center;
-                animation: preloader-bounce 1.6s cubic-bezier(0.22, 1, 0.36, 1) infinite, preloader-glint 2.6s linear infinite;
+                    _h: null,
+                    _v: '2.0',
+                    on: function () {
+                        i(['on', c.call(arguments)]);
                     },
-            .preloader__text {
-                color: #fff;
-                font-size: 1.2rem;
-                opacity: 0.95;
-                letter-spacing: 0.02em;
-            }
-            .preloader__gold-overlay {
-                position: fixed;
-                inset: 0;
-                background: linear-gradient(180deg, rgba(255, 199, 71, 0.12), rgba(255, 183, 0, 0.06));
-                pointer-events: none;
-                z-index: 2;
-                animation: gold-fade 3s ease-in-out infinite;
-                                (n.src = 'https://cdn.livechatinc.com/tracking.js'),
-                                t.head.appendChild(n));
+                    once: function () {
+                        i(['once', c.call(arguments)]);
+                    },
+                    off: function () {
+                        i(['off', c.call(arguments)]);
+                    },
+                    get: function () {
+                        if (!e._h) throw new Error('[LiveChatWidget] You can’t use getters before load.');
+                        return i(['get', c.call(arguments)]);
+                    },
+                    call: function () {
+                        i(['call', c.call(arguments)]);
+                    },
+                    init: function () {
+                        setTimeout(() => {
+                            var n = t.createElement('script');
+                            n.async = true;
+                            n.type = 'text/javascript';
+                            n.src = 'https://cdn.livechatinc.com/tracking.js';
+                            t.head.appendChild(n);
                         }, 3000);
                     },
                 };
                 (!n.__lc.asyncInit && e.init(), (n.LiveChatWidget = n.LiveChatWidget || e));
             })(window, document, [].slice);
         </script>
+
         <style>
+            :root {
+                --ft-gold-1: #ffd86b;
+                --ft-gold-2: #ffb700;
+            }
+
             /* Minimal inline preloader styles so it displays immediately */
             .preloader {
                 position: fixed;
@@ -108,9 +101,70 @@
                 background: linear-gradient(180deg, #061018 0%, #071226 100%);
                 -webkit-font-smoothing: antialiased;
             }
+
             .preloader__inner {
                 display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                z-index: 3;
             }
+
+            .preloader__title {
+                font-family:
+                    Inter,
+                    system-ui,
+                    -apple-system,
+                    'Segoe UI',
+                    Roboto,
+                    'Helvetica Neue',
+                    Arial;
+                font-weight: 800;
+                font-size: clamp(36px, 10vw, 120px);
+                text-transform: lowercase;
+                letter-spacing: 0.06em;
+                background: linear-gradient(90deg, var(--ft-gold-1) 0%, var(--ft-gold-2) 50%, var(--ft-gold-1) 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                text-shadow: 0 6px 24px rgba(255, 183, 0, 0.18);
+                transform-origin: center;
+                animation:
+                    preloader-bounce 1.6s cubic-bezier(0.22, 1, 0.36, 1) infinite,
+                    preloader-glint 2.6s linear infinite;
+            }
+
+            .preloader__text {
+                color: #fff;
+                font-size: 1.2rem;
+                opacity: 0.95;
+                letter-spacing: 0.02em;
+            }
+
+            .preloader__gold-overlay {
+                position: fixed;
+                inset: 0;
+                background: linear-gradient(180deg, rgba(255, 199, 71, 0.16), rgba(255, 183, 0, 0.08));
+                pointer-events: none;
+                z-index: 2;
+                animation: gold-fade 3s ease-in-out infinite;
+            }
+
+            @keyframes preloader-bounce {
+                0% {
+                    transform: translateY(0) scale(0.98);
+                }
+                40% {
+                    transform: translateY(-12px) scale(1.06);
+                }
+                70% {
+                    transform: translateY(-6px) scale(1.02);
+                }
+                100% {
+                    transform: translateY(0) scale(0.98);
+                }
+            }
+
             @keyframes preloader-glint {
                 0% {
                     filter: brightness(1);
@@ -122,6 +176,7 @@
                     filter: brightness(1);
                 }
             }
+
             @keyframes gold-fade {
                 0% {
                     opacity: 0;
@@ -137,57 +192,6 @@
                 }
                 100% {
                     opacity: 0;
-                }
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
-            }
-            .preloader__logo {
-                width: clamp(120px, 28vw, 360px);
-                height: clamp(120px, 28vw, 360px);
-                border-radius: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background:
-                    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 30%),
-                    linear-gradient(135deg, #06b6d4 0%, #7c3aed 100%);
-                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-                animation: preloader-bounce 1.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-            }
-            .preloader__logo img {
-                width: 60%;
-                height: auto;
-                filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.45));
-                transform-origin: center;
-                animation: preloader-rotate 6s linear infinite;
-            }
-            .preloader__text {
-                color: #fff;
-                font-size: 1.6rem;
-                opacity: 0.95;
-                letter-spacing: 0.02em;
-            }
-            @keyframes preloader-bounce {
-                0% {
-                    transform: translateY(0) scale(0.98);
-                }
-                40% {
-                    transform: translateY(-12px) scale(1.06);
-                }
-                70% {
-                    transform: translateY(-6px) scale(1.02);
-                }
-                100% {
-                    transform: translateY(0) scale(0.98);
-                }
-            }
-            @keyframes preloader-rotate {
-                0% {
-                    transform: rotate(0deg);
-                }
-                100% {
-                    transform: rotate(360deg);
                 }
             }
         </style>
