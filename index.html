@@ -44,10 +44,9 @@
         <div id="popup_root" class="popup-root"></div>
         <div id="preloader" class="preloader">
             <div class="preloader__inner">
-                <div class="preloader__logo">
-                    <img src="/deriv-logo.svg" alt="Frosty Traders" />
-                </div>
-                <div class="preloader__text">Frosty Traders — Loading</div>
+                <div class="preloader__title">frostytraders</div>
+                <div class="preloader__text">Preparing your workspace...</div>
+                <div class="preloader__gold-overlay" aria-hidden></div>
             </div>
         </div>
         <div id="root"></div>
@@ -62,29 +61,33 @@
                 }
                 var e = {
                     _q: [],
-                    _h: null,
-                    _v: '2.0',
-                    on: function () {
-                        i(['on', c.call(arguments)]);
+            .preloader__title {
+                font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+                font-weight: 800;
+                font-size: clamp(36px, 10vw, 120px);
+                text-transform: lowercase;
+                letter-spacing: 0.06em;
+                background: linear-gradient(90deg, #ffd86b 0%, #ffb700 50%, #ffd86b 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                text-shadow: 0 6px 24px rgba(255, 183, 0, 0.18);
+                transform-origin: center;
+                animation: preloader-bounce 1.6s cubic-bezier(0.22, 1, 0.36, 1) infinite, preloader-glint 2.6s linear infinite;
                     },
-                    once: function () {
-                        i(['once', c.call(arguments)]);
-                    },
-                    off: function () {
-                        i(['off', c.call(arguments)]);
-                    },
-                    get: function () {
-                        if (!e._h) throw new Error('[LiveChatWidget] You can’t use getters before load.');
-                        return i(['get', c.call(arguments)]);
-                    },
-                    call: function () {
-                        i(['call', c.call(arguments)]);
-                    },
-                    init: function () {
-                        setTimeout(() => {
-                            var n = t.createElement('script');
-                            ((n.async = !0),
-                                (n.type = 'text/javascript'),
+            .preloader__text {
+                color: #fff;
+                font-size: 1.2rem;
+                opacity: 0.95;
+                letter-spacing: 0.02em;
+            }
+            .preloader__gold-overlay {
+                position: fixed;
+                inset: 0;
+                background: linear-gradient(180deg, rgba(255, 199, 71, 0.12), rgba(255, 183, 0, 0.06));
+                pointer-events: none;
+                z-index: 2;
+                animation: gold-fade 3s ease-in-out infinite;
                                 (n.src = 'https://cdn.livechatinc.com/tracking.js'),
                                 t.head.appendChild(n));
                         }, 3000);
@@ -107,6 +110,34 @@
             }
             .preloader__inner {
                 display: flex;
+            }
+            @keyframes preloader-glint {
+                0% {
+                    filter: brightness(1);
+                }
+                50% {
+                    filter: brightness(1.12);
+                }
+                100% {
+                    filter: brightness(1);
+                }
+            }
+            @keyframes gold-fade {
+                0% {
+                    opacity: 0;
+                }
+                25% {
+                    opacity: 0.12;
+                }
+                50% {
+                    opacity: 0.18;
+                }
+                75% {
+                    opacity: 0.12;
+                }
+                100% {
+                    opacity: 0;
+                }
                 flex-direction: column;
                 align-items: center;
                 gap: 1rem;
