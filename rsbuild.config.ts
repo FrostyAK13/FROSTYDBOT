@@ -57,6 +57,7 @@ export default defineConfig({
             '@/utils': path.resolve(__dirname, './src/utils'),
             '@/constants': path.resolve(__dirname, './src/constants'),
             '@/stores': path.resolve(__dirname, './src/stores'),
+            '@deriv/quill-icons/Illustration': path.resolve(__dirname, './src/stubs/quill-icons-illustration.tsx'),
         },
     },
     output: {
