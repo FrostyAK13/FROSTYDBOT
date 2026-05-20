@@ -9,6 +9,18 @@ import { localize } from '@deriv-com/translations';
 import { URLUtils } from '@deriv-com/utils';
 import App from './App';
 
+const setLoggedStateCookie = (value: 'true' | 'false') => {
+    const hostname = window.location.hostname;
+    const parts = hostname.split('.');
+    const domain = parts.length > 2 ? '.' + parts.slice(-2).join('.') : hostname;
+    Cookies.set('logged_state', value, {
+        domain,
+        expires: 30,
+        path: '/',
+        secure: true,
+    });
+};
+
 // Extend Window interface to include is_tmb_enabled property
 declare global {
     interface Window {
@@ -39,6 +51,9 @@ const setLocalStorageToken = async (
             localStorage.setItem('clientAccounts', JSON.stringify(clientAccounts));
 
             URLUtils.filterSearchParams(paramsToDelete);
+
+            // Mark session as active so it persists across page refreshes
+            setLoggedStateCookie('true');
 
             // Skip API connection when offline
             if (!isOnline) {

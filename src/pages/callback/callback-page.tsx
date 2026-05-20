@@ -7,6 +7,18 @@ import { clearAuthData } from '@/utils/auth-utils';
 import { Callback } from '@deriv-com/auth-client';
 import { Button } from '@deriv-com/ui';
 
+const setLoggedStateCookie = (value: 'true' | 'false') => {
+    const hostname = window.location.hostname;
+    const parts = hostname.split('.');
+    const domain = parts.length > 2 ? '.' + parts.slice(-2).join('.') : hostname;
+    Cookies.set('logged_state', value, {
+        domain,
+        expires: 30,
+        path: '/',
+        secure: true,
+    });
+};
+
 /**
  * Gets the selected currency or falls back to appropriate defaults
  */
@@ -101,6 +113,9 @@ const CallbackPage = () => {
                 }
                 // Determine the appropriate currency to use
                 const selected_currency = getSelectedCurrency(tokens, clientAccounts, state);
+
+                // Mark user as logged in so session persists across page refreshes
+                setLoggedStateCookie('true');
 
                 window.location.replace(`${window.location.origin}/?account=${selected_currency}`);
             }}
