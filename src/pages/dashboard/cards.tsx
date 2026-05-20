@@ -29,6 +29,7 @@ type TCardProps = {
 type TCardArray = {
     id: string;
     icon: React.ReactElement;
+    emoji: string;
     content: React.ReactElement;
     callback: () => void;
 };
@@ -55,6 +56,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
     const actions: TCardArray[] = [
         {
             id: 'my-computer',
+            emoji: '💻',
             icon: is_mobile ? (
                 <DerivLightLocalDeviceIcon height='48px' width='48px' />
             ) : (
@@ -73,6 +75,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
         },
         {
             id: 'google-drive',
+            emoji: '📁',
             icon: <DerivLightGoogleDriveIcon height='48px' width='48px' />,
             content: <Localize i18n_default_text='Google Drive' />,
             callback: () => {
@@ -87,6 +90,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
         },
         {
             id: 'bot-builder',
+            emoji: '🤖',
             icon: <DerivLightBotBuilderIcon height='48px' width='48px' />,
             content: <Localize i18n_default_text='Bot builder' />,
             callback: () => {
@@ -99,6 +103,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
         },
         {
             id: 'quick-strategy',
+            emoji: '⚡',
             icon: <DerivLightQuickStrategyIcon height='48px' width='48px' />,
             content: <Localize i18n_default_text='Quick strategy' />,
             callback: () => {
@@ -131,9 +136,14 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                         return (
                             <div
                                 key={id}
-                                className={classNames('tab__dashboard__table__block', {
-                                    'tab__dashboard__table__block--minimized': has_dashboard_strategies && is_mobile,
-                                })}
+                                className={classNames(
+                                    'tab__dashboard__table__block',
+                                    `tab__dashboard__table__block--${id}`,
+                                    {
+                                        'tab__dashboard__table__block--minimized':
+                                            has_dashboard_strategies && is_mobile,
+                                    }
+                                )}
                             >
                                 <div
                                     className={classNames('tab__dashboard__table__images', {
@@ -150,7 +160,8 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                                     {icon}
                                 </div>
                                 <Text color='prominent' size={is_mobile ? 'xxs' : 'xs'}>
-                                    {content}
+                                    <span className='dashboard-card__emoji'>{icons.emoji}</span>
+                                    <span>{content}</span>
                                 </Text>
                             </div>
                         );

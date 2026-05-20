@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import PWAInstallButton from '@/components/pwa-install-button';
 import { generateOAuthURL, standalone_routes } from '@/components/shared';
+import { getCallbackUrl } from '@/components/shared/utils/config/config';
 import Button from '@/components/shared_ui/button';
 import useActiveAccount from '@/hooks/api/account/useActiveAccount';
 import { useOauth2 } from '@/hooks/auth/useOauth2';
@@ -154,7 +155,7 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
                                     // Always use OIDC if TMB is not enabled
                                     try {
                                         await requestOidcAuthentication({
-                                            redirectCallbackUri: `${window.location.origin}/callback`,
+                                            redirectCallbackUri: getCallbackUrl(),
                                             ...(query_param_currency
                                                 ? {
                                                       state: {

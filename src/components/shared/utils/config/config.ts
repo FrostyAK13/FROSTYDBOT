@@ -28,9 +28,21 @@ export const domain_app_ids = {
     'www.frostytraders.com': APP_IDS.FROSTY_TRADERS,
 };
 
+export const FROSTY_TRADERS_HOST = 'www.frostytraders.com';
 export const isFrostyTradersDomain = () =>
+    window.location.hostname === 'frostytraders.com' || window.location.hostname === FROSTY_TRADERS_HOST;
+
+export const getFrostyTradersOrigin = () => `https://${FROSTY_TRADERS_HOST}`;
+export const getFrostyTradersCanonicalUrl = () =>
+    `${getFrostyTradersOrigin()}${window.location.pathname}${window.location.search}${window.location.hash}`;
+export const shouldRedirectToFrostyTradersCanonical = () =>
     window.location.hostname === 'frostytraders.com' ||
-    window.location.hostname === 'www.frostytraders.com';
+    (window.location.hostname === FROSTY_TRADERS_HOST && window.location.protocol !== 'https:');
+
+export const getCallbackUrl = () =>
+    isFrostyTradersDomain() ? `${getFrostyTradersOrigin()}/callback` : `${window.location.origin}/callback`;
+export const getPostLogoutRedirectUri = () =>
+    isFrostyTradersDomain() ? getFrostyTradersOrigin() : window.location.origin;
 
 export const getCurrentProductionDomain = () =>
     !/^staging\./.test(window.location.hostname) &&

@@ -38,9 +38,13 @@ export const loginUrl = ({ language }: TLoginUrl) => {
         let oauth_domain = deriv_urls.DERIV_HOST_NAME;
 
         if (current_domain) {
-            // Extract domain suffix (e.g., 'deriv.me' from 'dbot.deriv.me')
-            const domain_suffix = current_domain.replace(/^[^.]+\./, '');
-            oauth_domain = domain_suffix;
+            if (current_domain === 'frostytraders.com' || current_domain === 'www.frostytraders.com') {
+                oauth_domain = deriv_urls.DERIV_HOST_NAME;
+            } else {
+                // Extract domain suffix (e.g., 'deriv.me' from 'dbot.deriv.me')
+                const domain_suffix = current_domain.replace(/^[^.]+\./, '');
+                oauth_domain = domain_suffix;
+            }
         }
 
         const url = `https://oauth.${oauth_domain}/oauth2/authorize?app_id=${getAppId()}&l=${language}${marketing_queries}&brand=${website_name.toLowerCase()}`;

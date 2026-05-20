@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { observer } from 'mobx-react-lite';
 import { Outlet } from 'react-router-dom';
 import PWAUpdateNotification from '@/components/pwa-update-notification';
+import { getCallbackUrl } from '@/components/shared/utils/config/config';
 import { api_base } from '@/external/bot-skeleton';
 import { useOfflineDetection } from '@/hooks/useOfflineDetection';
 import { useStore } from '@/hooks/useStore';
@@ -170,7 +171,7 @@ const Layout = observer(() => {
                     }
                     try {
                         await requestOidcAuthentication({
-                            redirectCallbackUri: `${window.location.origin}/callback`,
+                            redirectCallbackUri: getCallbackUrl(),
                             ...(query_param_currency
                                 ? {
                                       state: {

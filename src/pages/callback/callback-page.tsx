@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { crypto_currencies_display_order, fiat_currencies_display_order } from '@/components/shared';
+import { getPostLogoutRedirectUri } from '@/components/shared/utils/config/config';
 import { generateDerivApiInstance } from '@/external/bot-skeleton/services/api/appId';
 import { observer as globalObserver } from '@/external/bot-skeleton/utils/observer';
 import useTMB from '@/hooks/useTMB';
@@ -117,14 +118,17 @@ const CallbackPage = () => {
                 // Mark user as logged in so session persists across page refreshes
                 setLoggedStateCookie('true');
 
-                window.location.replace(`${window.location.origin}/?account=${selected_currency}`);
+                const redirect_root = getPostLogoutRedirectUri();
+                window.location.replace(
+                    `${redirect_root}${selected_currency ? `/?account=${selected_currency}` : '/'}`
+                );
             }}
             renderReturnButton={() => {
                 return (
                     <Button
                         className='callback-return-button'
                         onClick={() => {
-                            window.location.href = window.location.origin;
+                            window.location.href = getPostLogoutRedirectUri();
                         }}
                     >
                         {'Return to Frosty Traders'}

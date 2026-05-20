@@ -103,9 +103,9 @@ const FreeBots = observer(() => {
                 <div className='free-bots__logo'>
                     <span className='free-bots__logo-icon'>&#10052;</span>
                 </div>
-                <h1 className='free-bots__title'>FROSTY Trading Bots</h1>
+                <h1 className='free-bots__title'>Trading Bots</h1>
                 <p className='free-bots__subtitle'>
-                    Premium collection of FROSTY trading bots. Click on any bot to load it into the Bot Builder.
+                    Premium collection of trading bots. Click on any bot to load it into the Bot Builder.
                 </p>
             </div>
 
