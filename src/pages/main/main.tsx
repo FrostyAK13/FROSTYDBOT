@@ -94,7 +94,8 @@ const AppWrapper = observer(() => {
     const GetHashedValue = (tab: number) => {
         tab_value = location.hash?.split('#')[1];
         if (!tab_value) return tab;
-        return Number(hash.indexOf(String(tab_value)));
+        const foundIndex = hash.indexOf(String(tab_value));
+        return foundIndex >= 0 ? foundIndex : tab;
     };
     const active_hash_tab = GetHashedValue(active_tab);
 
