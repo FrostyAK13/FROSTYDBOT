@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import { useConstructor } from '@/hooks/useConstructor';
 import ThemedScrollbars from '../themed-scrollbars/themed-scrollbars';
 import Tab from './tab';
 import './tabs.scss';
@@ -39,7 +38,7 @@ type TTabsProps = {
 
 const Tabs = ({
     active_icon_color = '',
-    active_index = 0,
+    active_index,
     background_color = '',
     bottom = false,
     center = false,
@@ -61,7 +60,20 @@ const Tabs = ({
     single_tab_has_no_label = false,
     top,
 }: TTabsProps) => {
-    const [active_line_style, updateActiveLineStyle] = React.useState({});
+    const [active_line_style, setActiveLineStyleState] = React.useState<React.CSSProperties>({});
+    const setActiveLineStyle = () => {
+        const activeEl = active_tab_ref.current;
+        const wrapper = tabs_wrapper_ref.current;
+        if (!activeEl || !wrapper) {
+            setActiveLineStyleState({});
+            return;
+        }
+        const activeRect = activeEl.getBoundingClientRect();
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const left = activeRect.left - wrapperRect.left + wrapper.scrollLeft;
+        const width = activeRect.width;
+        setActiveLineStyleState({ left: `${left}px`, width: `${width}px` } as React.CSSProperties);
+    };
     const active_tab_ref = React.useRef<HTMLLIElement>(null);
     const tabs_wrapper_ref = React.useRef<HTMLUListElement>(null);
     const pushHash = (hash: string) => {
@@ -69,78 +81,62 @@ const Tabs = ({
         history.replace(`${history.location.pathname}${window.location.search}#${hash}`);
     };
 
-    const setActiveLineStyle = React.useCallback(() => {
-        const tabs_wrapper_bounds = tabs_wrapper_ref?.current?.getBoundingClientRect();
-        const active_tab_bounds = active_tab_ref?.current?.getBoundingClientRect();
-        if (tabs_wrapper_bounds && active_tab_bounds) {
-            updateActiveLineStyle({
-                left: active_tab_bounds.left - tabs_wrapper_bounds.left,
-                width: active_tab_bounds.width,
-            });
-        } else {
-            setTimeout(() => {
-                setActiveLineStyle();
-            }, 500);
-        }
-    }, []);
-
-    let initial_index_to_show = 0;
+    const valid_children = React.Children.toArray(children).filter(child =>
+        React.isValidElement(child)
+    ) as React.ReactElement[];
     let tab_width: string;
 
-    useConstructor(() => {
-        initial_index_to_show = active_index;
+    const getInitialActiveIndex = () => {
+        let initial_index_to_show = typeof active_index === 'number' ? active_index : 0;
         if (should_update_hash && history) {
-            // if hash is in url, find which tab index correlates to it
             const hash = location.hash.slice(1);
-            const hash_index = children.findIndex(child => child && child.props && child.props.hash === hash);
+            const hash_index = valid_children.findIndex(child => child && child.props && child.props.hash === hash);
             const has_hash = hash_index > -1;
 
             if (has_hash) {
                 initial_index_to_show = hash_index;
             } else {
-                // if no hash is in url but component has passed hash prop, set hash of the tab shown
-                const child_props = children[initial_index_to_show]?.props;
+                const child_props = valid_children[initial_index_to_show]?.props;
                 const current_id = child_props && child_props.hash;
                 if (current_id) {
                     pushHash(current_id);
                 }
             }
         }
-        setActiveLineStyle();
-    });
+        return initial_index_to_show;
+    };
 
-    const [active_tab_index, setActiveTabIndex] = React.useState(initial_index_to_show);
-
-    React.useEffect(() => {
-        if (active_tab_index >= 0 && active_index !== active_tab_index) {
-            onTabItemClick?.(active_tab_index);
-        }
-        setActiveLineStyle();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [active_tab_index, setActiveLineStyle]);
+    const [internal_active_tab_index, setInternalActiveTabIndex] = React.useState(getInitialActiveIndex);
+    const active_tab_index = typeof active_index === 'number' ? active_index : internal_active_tab_index;
+    const active_child = valid_children[active_tab_index] ?? null;
 
     React.useEffect(() => {
-        if (active_index >= 0 && active_index !== active_tab_index) {
-            setActiveTabIndex(active_index);
+        if (typeof active_index === 'number' && active_index !== internal_active_tab_index) {
+            setInternalActiveTabIndex(active_index);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [active_index]);
 
+    React.useEffect(() => {
+        setActiveLineStyle();
+    }, [active_tab_index, setActiveLineStyle]);
+
     const onClickTabItem = (index: number) => {
+        if (active_index === undefined) {
+            setInternalActiveTabIndex(index);
+        }
         if (should_update_hash) {
-            const hash = children[index]?.props['data-hash'];
+            const hash = valid_children[index]?.props['data-hash'];
             pushHash(hash);
         }
-        setActiveTabIndex(index);
+        onTabItemClick?.(index);
         setActiveLineStyle();
     };
-
-    const valid_children = children.filter(child => child);
 
     if (is_scrollable) {
         tab_width = 'unset';
     } else {
-        tab_width = fit_content ? '150px' : `${(100 / valid_children.length).toFixed(2)}%`;
+        tab_width = fit_content ? '150px' : `${(100 / Math.max(valid_children.length, 1)).toFixed(2)}%`;
     }
 
     return (
@@ -172,8 +168,7 @@ const Tabs = ({
                         is_scrollbar_hidden
                         is_bypassed={!is_scrollable}
                     >
-                        {React.Children.map(children, (child, index) => {
-                            if (!child) return null;
+                        {valid_children.map((child, index) => {
                             const { icon, label, id } = child.props;
                             const header_content = child.props['data-header-content'];
                             const count = child.props['data-count'];
@@ -186,8 +181,8 @@ const Tabs = ({
                                     icon_color={icon_color}
                                     icon_size={icon_size}
                                     is_active={index === active_tab_index}
-                                    key={label}
-                                    is_label_hidden={children.length === 1 && single_tab_has_no_label}
+                                    key={label || id || index}
+                                    is_label_hidden={valid_children.length === 1 && single_tab_has_no_label}
                                     label={label}
                                     id={id}
                                     is_scrollable={is_scrollable}
@@ -221,13 +216,11 @@ const Tabs = ({
                     [`dc-tabs__content--${className}`]: className,
                 })}
             >
-                {React.Children.map(children, (child, index) => {
-                    if (!child) return null;
-                    if (index !== active_tab_index) {
-                        return undefined;
-                    }
-                    return child.props.children;
-                })}
+                {active_child ? (
+                    <div key={active_tab_index} className='dc-tabs__panel'>
+                        {active_child.props.children}
+                    </div>
+                ) : null}
             </div>
         </div>
     );

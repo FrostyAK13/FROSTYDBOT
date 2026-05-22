@@ -132,7 +132,8 @@
         display: flex;
         justify-content: space-between;
         flex-direction: column;
-        overflow: hidden !important;
+        overflow: visible !important;
+        min-height: 0;
 
         .dc-tabs {
             &__item {

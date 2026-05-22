@@ -133,6 +133,17 @@
         color: var(--text-prominent);
     }
 
+    &__content {
+        min-height: 0;
+        overflow: visible;
+        width: 100%;
+
+        .dc-tabs__panel {
+            width: 100%;
+            min-height: 0;
+        }
+    }
+
     &__active-line {
         display: block;
         position: absolute;

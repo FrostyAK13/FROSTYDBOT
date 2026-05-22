@@ -1,11 +1,10 @@
 import React from 'react';
 import Cookies from 'js-cookie';
-import ChunkLoader from '@/components/loader/chunk-loader';
 import { generateDerivApiInstance } from '@/external/bot-skeleton/services/api/appId';
 import { observer as globalObserver } from '@/external/bot-skeleton/utils/observer';
 import { useOfflineDetection } from '@/hooks/useOfflineDetection';
 import { clearAuthData } from '@/utils/auth-utils';
-import { localize } from '@deriv-com/translations';
+import { Loader } from '@deriv-com/ui';
 import { URLUtils } from '@deriv-com/utils';
 import App from './App';
 
@@ -28,8 +27,14 @@ declare global {
     }
 }
 
+type LoginInfo = {
+    loginid: string;
+    token: string;
+    currency: string;
+};
+
 const setLocalStorageToken = async (
-    loginInfo: URLUtils.LoginInfo[],
+    loginInfo: LoginInfo[],
     paramsToDelete: string[],
     setIsAuthComplete: React.Dispatch<React.SetStateAction<boolean>>,
     isOnline: boolean
@@ -42,7 +47,7 @@ const setLocalStorageToken = async (
             const accountsList: Record<string, string> = {};
             const clientAccounts: Record<string, { loginid: string; token: string; currency: string }> = {};
 
-            loginInfo.forEach((account: { loginid: string; token: string; currency: string }) => {
+            loginInfo.forEach((account: LoginInfo) => {
                 accountsList[account.loginid] = account.token;
                 clientAccounts[account.loginid] = account;
             });
@@ -115,7 +120,10 @@ const setLocalStorageToken = async (
 
 export const AuthWrapper = () => {
     const [isAuthComplete, setIsAuthComplete] = React.useState(false);
-    const { loginInfo, paramsToDelete } = URLUtils.getLoginInfoFromURL();
+    const { loginInfo, paramsToDelete } = URLUtils.getLoginInfoFromURL() as {
+        loginInfo: LoginInfo[];
+        paramsToDelete: string[];
+    };
     const { isOnline } = useOfflineDetection();
 
     React.useEffect(() => {
@@ -155,13 +163,8 @@ export const AuthWrapper = () => {
         }
     }, [isOnline, isAuthComplete]);
 
-    const getLoadingMessage = () => {
-        if (!isOnline) return localize('Loading offline mode...');
-        return localize('Initializing...');
-    };
-
     if (!isAuthComplete) {
-        return <ChunkLoader message={getLoadingMessage()} />;
+        return <Loader />;
     }
 
     return <App />;
