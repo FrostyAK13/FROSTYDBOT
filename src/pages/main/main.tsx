@@ -20,6 +20,7 @@ import useTMB from '@/hooks/useTMB';
 import { handleOidcAuthFailure } from '@/utils/auth-utils';
 import {
     LabelPairedChartLineCaptionRegularIcon,
+    LabelPairedChartTradingviewMdRegularIcon,
     LabelPairedObjectsColumnCaptionRegularIcon,
     LabelPairedPuzzlePieceTwoCaptionBoldIcon,
 } from '@deriv/quill-icons/LabelPaired';
@@ -33,6 +34,7 @@ import RunStrategy from '../dashboard/run-strategy';
 import './main.scss';
 
 const ChartWrapper = lazy(() => import('../chart/chart-wrapper'));
+const TradingView = lazy(() => import('../../components/trading-view-chart/trading-view'));
 const Tutorial = lazy(() => import('../tutorials'));
 const FreeBots = lazy(() => import('../free-bots'));
 const AnalysisTool = lazy(() => import('../analysis-tool'));
@@ -81,6 +83,7 @@ const AppWrapper = observer(() => {
         'analysis_tool',
         'market_analyzer',
         'chart',
+        'trading_view',
         'tutorial',
         'trade_pulse',
     ];
@@ -418,6 +421,29 @@ const AppWrapper = observer(() => {
                                 >
                                     <ChartWrapper show_digits_stats={false} />
                                 </Suspense>
+                            </div>
+                            <div
+                                label={
+                                    <>
+                                        <LabelPairedChartTradingviewMdRegularIcon
+                                            height='24px'
+                                            width='24px'
+                                            fill='var(--text-general)'
+                                        />
+                                        <Localize i18n_default_text='Trading View' />
+                                    </>
+                                }
+                                id='id-trading-view'
+                            >
+                                <div className='trading-view-wrapper'>
+                                    <Suspense
+                                        fallback={
+                                            <ChunkLoader message={localize('Please wait, loading Trading View...')} />
+                                        }
+                                    >
+                                        <TradingView />
+                                    </Suspense>
+                                </div>
                             </div>
                             <div
                                 label={

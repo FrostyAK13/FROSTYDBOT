@@ -14,12 +14,13 @@ export const tabs_title: TTabsTitle = Object.freeze({
 export const DBOT_TABS: TDashboardTabIndex = Object.freeze({
     DASHBOARD: 0,
     BOT_BUILDER: 1,
-    CHART: 5,
-    TUTORIAL: 6,
     FREE_BOTS: 2,
     ANALYSIS_TOOL: 3,
-    TRADE_PULSE: 7,
     MARKET_ANALYZER: 4,
+    CHART: 5,
+    TRADING_VIEW: 6,
+    TUTORIAL: 7,
+    TRADE_PULSE: 8,
 });
 
 export const MAX_STRATEGIES = 10;
@@ -31,6 +32,7 @@ export const TAB_IDS = [
     'id-analysis-tool',
     'id-market-analyzer',
     'id-charts',
+    'id-trading-view',
     'id-tutorials',
     'id-trade-pulse',
 ];
