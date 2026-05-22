@@ -350,6 +350,7 @@ const AppWrapper = observer(() => {
                                     <FreeBots />
                                 </div>
                             </div>
+                            
                             <div
                                 label={
                                     <>
