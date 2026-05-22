@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -25,20 +25,25 @@ import {
 } from '@deriv/quill-icons/LabelPaired';
 import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { Localize, localize } from '@deriv-com/translations';
-import { Loader, useDevice } from '@deriv-com/ui';
+import { useDevice } from '@deriv-com/ui';
 import RunPanel from '../../components/run-panel';
+import TradingView from '../../components/trading-view-chart/trading-view';
+import AnalysisTool from '../analysis-tool';
 import ChartModal from '../chart/chart-modal';
+import ChartWrapper from '../chart/chart-wrapper';
 import Dashboard from '../dashboard';
 import RunStrategy from '../dashboard/run-strategy';
+import FreeBots from '../free-bots';
+import MarketAnalyzer from '../market-analyzer';
+import TradePulse from '../trade-pulse';
+import Tutorial from '../tutorials';
 import './main.scss';
-
-const ChartWrapper = lazy(() => import('../chart/chart-wrapper'));
-const TradingView = lazy(() => import('../../components/trading-view-chart/trading-view'));
-const Tutorial = lazy(() => import('../tutorials'));
-const FreeBots = lazy(() => import('../free-bots'));
-const AnalysisTool = lazy(() => import('../analysis-tool'));
-const TradePulse = lazy(() => import('../trade-pulse'));
-const MarketAnalyzer = lazy(() => import('../market-analyzer'));
+// Preload tab page styles so their wrappers are available before lazy load
+import '../free-bots/free-bots.scss';
+import '../analysis-tool/analysis-tool.scss';
+import '../market-analyzer/market-analyzer.scss';
+import '../trade-pulse/trade-pulse.scss';
+import '../chart/chart.scss';
 
 const AppWrapper = observer(() => {
     const { connectionStatus } = useApiBase();
@@ -341,9 +346,7 @@ const AppWrapper = observer(() => {
                                 id='id-free-bots'
                             >
                                 <div className='free-bots-wrapper'>
-                                    <Suspense fallback={<Loader />}>
-                                        <FreeBots />
-                                    </Suspense>
+                                    <FreeBots />
                                 </div>
                             </div>
                             <div
@@ -360,9 +363,7 @@ const AppWrapper = observer(() => {
                                 id='id-analysis-tool'
                             >
                                 <div className='analysis-tool-wrapper'>
-                                    <Suspense fallback={<Loader />}>
-                                        <AnalysisTool />
-                                    </Suspense>
+                                    <AnalysisTool />
                                 </div>
                             </div>
                             <div
@@ -379,9 +380,7 @@ const AppWrapper = observer(() => {
                                 id='id-market-analyzer'
                             >
                                 <div className='market-analyzer-wrapper'>
-                                    <Suspense fallback={<Loader />}>
-                                        <MarketAnalyzer />
-                                    </Suspense>
+                                    <MarketAnalyzer />
                                 </div>
                             </div>
                             <div
@@ -401,9 +400,7 @@ const AppWrapper = observer(() => {
                                         : 'id-charts'
                                 }
                             >
-                                <Suspense fallback={<Loader />}>
-                                    <ChartWrapper show_digits_stats={false} />
-                                </Suspense>
+                                <ChartWrapper show_digits_stats={false} />
                             </div>
                             <div
                                 label={
@@ -419,9 +416,7 @@ const AppWrapper = observer(() => {
                                 id='id-trading-view'
                             >
                                 <div className='trading-view-wrapper'>
-                                    <Suspense fallback={<Loader />}>
-                                        <TradingView />
-                                    </Suspense>
+                                    <TradingView />
                                 </div>
                             </div>
                             <div
@@ -438,9 +433,7 @@ const AppWrapper = observer(() => {
                                 id='id-tutorials'
                             >
                                 <div className='tutorials-wrapper'>
-                                    <Suspense fallback={<Loader />}>
-                                        <Tutorial />
-                                    </Suspense>
+                                    <Tutorial />
                                 </div>
                             </div>
                             <div
@@ -457,9 +450,7 @@ const AppWrapper = observer(() => {
                                 id='id-trade-pulse'
                             >
                                 <div className='trade-pulse-wrapper'>
-                                    <Suspense fallback={<Loader />}>
-                                        <TradePulse />
-                                    </Suspense>
+                                    <TradePulse />
                                 </div>
                             </div>
                         </Tabs>
