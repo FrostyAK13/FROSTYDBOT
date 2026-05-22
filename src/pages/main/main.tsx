@@ -90,6 +90,7 @@ const AppWrapper = observer(() => {
         'trading_view',
         'tutorial',
         'trade_pulse',
+        'dcircles',
     ];
     const { isDesktop } = useDevice();
     const location = useLocation();
@@ -451,6 +452,28 @@ const AppWrapper = observer(() => {
                             >
                                 <div className='trade-pulse-wrapper'>
                                     <TradePulse />
+                                </div>
+                            </div>
+                            <div
+                                label={
+                                    <>
+                                        <LabelPairedObjectsColumnCaptionRegularIcon
+                                            height='24px'
+                                            width='24px'
+                                            fill='var(--text-general)'
+                                        />
+                                        <Localize i18n_default_text='DCircles' />
+                                    </>
+                                }
+                                id='id-dcircles'
+                            >
+                                <div className='dcircles-wrapper' style={{ height: '100%', width: '100%' }}>
+                                    <iframe
+                                        title='DCircles'
+                                        src='https://frostydcircles.vercel.app'
+                                        style={{ border: '0', width: '100%', height: '100%' }}
+                                        sandbox='allow-scripts allow-same-origin allow-forms'
+                                    />
                                 </div>
                             </div>
                         </Tabs>
