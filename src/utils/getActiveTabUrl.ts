@@ -7,7 +7,6 @@ export const getActiveTabUrl = () => {
         'analysis_tool',
         'market_analyzer',
         'chart',
-        'trading_view',
         'tutorial',
         'trade_pulse',
     ] as const;

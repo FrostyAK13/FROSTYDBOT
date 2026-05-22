@@ -8,7 +8,6 @@ import DesktopWrapper from '@/components/shared_ui/desktop-wrapper';
 import Dialog from '@/components/shared_ui/dialog';
 import MobileWrapper from '@/components/shared_ui/mobile-wrapper';
 import Tabs from '@/components/shared_ui/tabs/tabs';
-import TradingViewModal from '@/components/trading-view-chart/trading-view-modal';
 import { DBOT_TABS, TAB_IDS } from '@/constants/bot-contents';
 import { api_base, updateWorkspaceName } from '@/external/bot-skeleton';
 import { CONNECTION_STATUS } from '@/external/bot-skeleton/services/api/observables/connection-status-stream';
@@ -27,7 +26,6 @@ import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { Localize, localize } from '@deriv-com/translations';
 import { useDevice } from '@deriv-com/ui';
 import RunPanel from '../../components/run-panel';
-import TradingView from '../../components/trading-view-chart/trading-view';
 import AnalysisTool from '../analysis-tool';
 import ChartModal from '../chart/chart-modal';
 import ChartWrapper from '../chart/chart-wrapper';
@@ -52,7 +50,6 @@ const AppWrapper = observer(() => {
         active_tab,
         active_tour,
         is_chart_modal_visible,
-        is_trading_view_modal_visible,
         setActiveTab,
         setWebSocketState,
         setActiveTour,
@@ -88,7 +85,6 @@ const AppWrapper = observer(() => {
         'analysis_tool',
         'market_analyzer',
         'chart',
-        'trading_view',
         'tutorial',
         'trade_pulse',
     ];
@@ -397,31 +393,12 @@ const AppWrapper = observer(() => {
                                     </>
                                 }
                                 id={
-                                    is_chart_modal_visible || is_trading_view_modal_visible
+                                    is_chart_modal_visible
                                         ? 'id-charts--disabled'
                                         : 'id-charts'
                                 }
                             >
                                 <ChartWrapper show_digits_stats={false} />
-                            </div>
-                            <div
-                                label={
-                                    <>
-                                        <LabelPairedChartTradingviewMdRegularIcon
-                                            height='24px'
-                                            width='24px'
-                                            fill='var(--text-general)'
-                                        />
-                                        <Localize i18n_default_text='Trading View' />
-                                    </>
-                                }
-                                id='id-trading-view'
-                            >
-                                <div className='trading-view-wrapper'>
-                                    <div className='trading-view__container'>
-                                        <TradingView />
-                                    </div>
-                                </div>
                             </div>
                             <div
                                 label={
@@ -492,7 +469,6 @@ const AppWrapper = observer(() => {
                     <RunPanel />
                 </div>
                 <ChartModal />
-                <TradingViewModal />
             </DesktopWrapper>
             <MobileWrapper>{!is_open && <RunPanel />}</MobileWrapper>
             <Dialog
