@@ -84,13 +84,13 @@ const AppWrapper = observer(() => {
         'dashboard',
         'bot_builder',
         'free_bots',
+        'dcircles',
         'analysis_tool',
         'market_analyzer',
         'chart',
         'trading_view',
         'tutorial',
         'trade_pulse',
-        'dcircles',
     ];
     const { isDesktop } = useDevice();
     const location = useLocation();
