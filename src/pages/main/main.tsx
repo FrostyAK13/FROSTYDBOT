@@ -417,7 +417,9 @@ const AppWrapper = observer(() => {
                                 id='id-trading-view'
                             >
                                 <div className='trading-view-wrapper'>
-                                    <TradingView />
+                                    <div className='trading-view__container'>
+                                        <TradingView />
+                                    </div>
                                 </div>
                             </div>
                             <div
@@ -467,13 +469,15 @@ const AppWrapper = observer(() => {
                                 }
                                 id='id-dcircles'
                             >
-                                <div className='dcircles-wrapper' style={{ height: '100%', width: '100%' }}>
-                                    <iframe
-                                        title='DCircles'
-                                        src='https://frostydcircles.vercel.app'
-                                        style={{ border: '0', width: '100%', height: '100%' }}
-                                        sandbox='allow-scripts allow-same-origin allow-forms'
-                                    />
+                                <div className='dcircles-wrapper'>
+                                    <div className='dcircles__iframe-container'>
+                                        <iframe
+                                            src='https://frostydcircles.vercel.app'
+                                            className='dcircles__iframe'
+                                            title='DCircles'
+                                            sandbox='allow-scripts allow-same-origin allow-forms'
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </Tabs>
