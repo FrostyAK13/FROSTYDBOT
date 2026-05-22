@@ -90,7 +90,7 @@ export default defineConfig({
         template: './index.html',
     },
     server: {
-        port: 5000,
+        port: Number(process.env.RSBUILD_PORT) || 5000,
         strictPort: true,
         host: '0.0.0.0',
         compress: true,
