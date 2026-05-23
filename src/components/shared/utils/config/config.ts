@@ -1,4 +1,5 @@
 import { LocalStorageConstants, LocalStorageUtils, URLUtils } from '@deriv-com/utils';
+import { deriv_urls } from '../url/constants';
 import { isStaging } from '../url/helpers';
 
 export const APP_IDS = {
@@ -205,8 +206,12 @@ export const generateOAuthURL = () => {
             // Fallback to original logic for other domains
             const current_domain = getCurrentProductionDomain();
             if (current_domain) {
-                const domain_suffix = current_domain.replace(/^[^.]+\./, '');
-                original_url.hostname = `oauth.${domain_suffix}`;
+                if (current_domain === 'frostydbot.site' || current_domain === 'www.frostydbot.site') {
+                    original_url.hostname = `oauth.${deriv_urls.DERIV_HOST_NAME}`;
+                } else {
+                    const domain_suffix = current_domain.replace(/^[^.]+\./, '');
+                    original_url.hostname = `oauth.${domain_suffix}`;
+                }
             }
         }
     }
