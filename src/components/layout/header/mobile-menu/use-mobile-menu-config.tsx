@@ -3,12 +3,10 @@ import Livechat from '@/components/chat/Livechat';
 import useIsLiveChatWidgetAvailable from '@/components/chat/useIsLiveChatWidgetAvailable';
 import useRemoteConfig from '@/hooks/growthbook/useRemoteConfig';
 import { useIsIntercomAvailable } from '@/hooks/useIntercom';
-import useThemeSwitcher from '@/hooks/useThemeSwitcher';
 import useTMB from '@/hooks/useTMB';
 import RootStore from '@/stores/root-store';
-import { LegacyReportsIcon, LegacyTheme1pxIcon, LegacyWhatsappIcon } from '@deriv/quill-icons/Legacy';
+import { LegacyReportsIcon, LegacyWhatsappIcon } from '@deriv/quill-icons/Legacy';
 import { useTranslations } from '@deriv-com/translations';
-import { ToggleSwitch } from '@deriv-com/ui';
 
 export type TSubmenuSection = 'accountSettings' | 'cashier' | 'reports';
 
@@ -34,9 +32,7 @@ type TMenuConfig = {
 
 const useMobileMenuConfig = (client?: RootStore['client']) => {
     const { localize } = useTranslations();
-    const { is_dark_mode_on, toggleTheme } = useThemeSwitcher();
-
-    const { data } = useRemoteConfig(true);
+    useRemoteConfig(true);
 
     const { is_livechat_available } = useIsLiveChatWidgetAvailable();
     const icAvailable = useIsIntercomAvailable();
@@ -57,12 +53,6 @@ const useMobileMenuConfig = (client?: RootStore['client']) => {
                     LeftComponent: LegacyReportsIcon,
                     submenu: 'reports',
                     onClick: () => {},
-                },
-                {
-                    as: 'button',
-                    label: localize('Dark theme'),
-                    LeftComponent: LegacyTheme1pxIcon,
-                    RightComponent: <ToggleSwitch value={is_dark_mode_on} onChange={toggleTheme} />,
                 },
             ].filter(Boolean) as TMenuConfig,
             [

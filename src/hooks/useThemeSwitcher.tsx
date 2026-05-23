@@ -14,22 +14,18 @@ const useThemeSwitcher = () => {
         const body = document.querySelector('body');
         if (!body) return;
 
-        // Get current theme
-        const hasSlate = body.classList.contains('theme--slate');
         const hasDark = body.classList.contains('theme--dark');
 
-        // Remove all theme classes
+        // Remove all theme classes and switch mode
         body.classList.remove('theme--light', 'theme--dark', 'theme--slate');
 
-        if (hasSlate || hasDark) {
-            // Switch to light theme
+        if (hasDark) {
             localStorage.setItem('theme', 'light');
             body.classList.add('theme--light');
             setDarkMode(false);
         } else {
-            // Switch to slate theme (deep dark)
-            localStorage.setItem('theme', 'slate');
-            body.classList.add('theme--slate');
+            localStorage.setItem('theme', 'dark');
+            body.classList.add('theme--dark');
             setDarkMode(true);
         }
     }, [setDarkMode]);

@@ -8,7 +8,6 @@ type TMainBodyProps = {
 };
 
 const MainBody: React.FC<TMainBodyProps> = ({ children }) => {
-    const current_theme = localStorage.getItem('theme') ?? 'slate';
     const { ui } = useStore() ?? {
         ui: {
             setDevice: () => {},
@@ -21,18 +20,12 @@ const MainBody: React.FC<TMainBodyProps> = ({ children }) => {
         const body = document.querySelector('body');
         if (!body) return;
 
-        // Remove all existing theme classes
-        body.classList.remove('theme--light', 'theme--dark', 'theme--slate');
+        const current_theme = localStorage.getItem('theme') ?? 'light';
 
-        if (current_theme === 'light') {
-            body.classList.add('theme--light');
-        } else if (current_theme === 'dark') {
-            body.classList.add('theme--dark');
-        } else {
-            // Default to slate theme
-            body.classList.add('theme--slate');
-        }
-    }, [current_theme]);
+        // Remove all existing theme classes and apply stored theme or default to light
+        body.classList.remove('theme--light', 'theme--dark', 'theme--slate');
+        body.classList.add(current_theme === 'dark' ? 'theme--dark' : 'theme--light');
+    }, []);
 
     useEffect(() => {
         if (isMobile) {

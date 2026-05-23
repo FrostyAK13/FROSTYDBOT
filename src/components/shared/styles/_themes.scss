@@ -212,26 +212,26 @@
     }
 
     .theme--dark {
-        // General - Frosty Dark Theme
-        --general-main-1: #{constants.$color-frosty-deep};
-        --general-main-2: #{constants.$color-frosty-dark};
-        --general-main-3: #{constants.$color-frosty-navy};
+        // General - Frosty Gold & Blue Dark Theme
+        --general-main-1: #{constants.$color-frosty-dark};
+        --general-main-2: #{constants.$color-frosty-navy};
+        --general-main-3: #{constants.$color-frosty-deep};
         --general-main-4: #{constants.$alpha-color-black-7};
-        --general-section-1: #{constants.$color-frosty-dark};
-        --general-section-2: #{constants.$color-frosty-deep};
-        --general-section-3: #{constants.$color-frosty-navy};
+        --general-section-1: #{constants.$color-frosty-navy};
+        --general-section-2: #{constants.$color-frosty-dark};
+        --general-section-3: #{constants.$color-frosty-deep};
         --general-section-4: #{constants.$color-frosty-navy};
-        --general-section-5: #{constants.$color-frosty-navy};
-        --general-section-6: #{constants.$color-grey-7};
+        --general-section-5: #{constants.$color-frosty-dark};
+        --general-section-6: #{constants.$color-blue-7};
         --general-disabled: #{constants.$color-black-4};
-        --general-hover: #{constants.$color-black-5};
-        --general-active: #{constants.$color-black-8};
+        --general-hover: #{constants.$color-blue-4};
+        --general-active: #{constants.$color-gold-dark};
 
         // Icons and Texts
         --text-prominent: #{constants.$color-white};
         --text-general: #{constants.$color-grey};
         --text-less-prominent: #{constants.$color-grey-7};
-        --text-primary: #{constants.$color-grey-1};
+        --text-primary: #{constants.$color-white};
         --text-disabled: #{constants.$color-black-6};
         --text-disabled-1: #{constants.$color-black-6};
         --text-profit-success: #{constants.$color-green-3};
@@ -248,20 +248,20 @@
         --icon-black-plus: #{constants.$color-white};
 
         // Purchase
-        --purchase-main-1: #{constants.$color-green-3};
-        --purchase-section-1: #{constants.$color-green-4};
+        --purchase-main-1: #{constants.$color-gold};
+        --purchase-section-1: #{constants.$color-blue-4};
         --purchase-main-2: #{constants.$color-red-2};
         --purchase-section-2: #{constants.$color-red-3};
         --purchase-disabled-main: #{constants.$color-black-4};
         --purchase-disabled-section: #{constants.$color-black};
 
-        // Buttons - Frosty Gold Theme
+        // Buttons - Frosty Gold & Blue Theme
         --button-primary-default: #{constants.$color-gold};
-        --button-secondary-default: #{constants.$color-frosty-cyan};
+        --button-secondary-default: #{constants.$color-frosty-blue};
         --button-tertiary-default: transparent;
         --button-primary-light-default: rgb(212 175 55 / 16%);
         --button-primary-hover: #{constants.$color-gold-light};
-        --button-secondary-hover: #{constants.$color-frosty-blue};
+        --button-secondary-hover: #{constants.$color-frosty-cyan};
         --button-tertiary-hover: rgb(212 175 55 / 8%);
         --button-primary-light-hover: rgb(212 175 55 / 24%);
         --button-toggle-primary: #{constants.$color-frosty-cyan};
