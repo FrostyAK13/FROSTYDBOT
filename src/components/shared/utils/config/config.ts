@@ -47,18 +47,8 @@ export const shouldRedirectToFrostyTradersCanonical = () =>
     window.location.hostname === 'frostytraders.com' ||
     (window.location.hostname === FROSTY_TRADERS_HOST && window.location.protocol !== 'https:');
 
-export const getCallbackUrl = () =>
-    isFrostyDbotDomain()
-        ? `${getFrostyDbotOrigin()}/callback`
-        : isFrostyTradersDomain()
-          ? `${getFrostyTradersOrigin()}/callback`
-          : `${window.location.origin}/callback`;
-export const getPostLogoutRedirectUri = () =>
-    isFrostyDbotDomain()
-        ? getFrostyDbotOrigin()
-        : isFrostyTradersDomain()
-          ? getFrostyTradersOrigin()
-          : window.location.origin;
+export const getCallbackUrl = () => `${window.location.origin}/callback`;
+export const getPostLogoutRedirectUri = () => window.location.origin;
 
 export const getCurrentProductionDomain = () =>
     !/^staging\./.test(window.location.hostname) &&
