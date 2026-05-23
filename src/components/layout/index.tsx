@@ -25,7 +25,7 @@ const Layout = observer(() => {
     const store = useStore();
     const is_quick_strategy_active = store?.quick_strategy?.is_open;
 
-    const isCallbackPage = window.location.pathname === '/callback';
+    const isCallbackPage = ['/callback', '/oauth/callback'].includes(window.location.pathname);
     const { onRenderTMBCheck, is_tmb_enabled: tmb_enabled_from_hook, isTmbEnabled } = useTMB();
     const is_tmb_enabled = useMemo(
         () => window.is_tmb_enabled === true || tmb_enabled_from_hook,
