@@ -26,16 +26,14 @@ export const domain_app_ids = {
     'dbot.deriv.com': APP_IDS.PRODUCTION,
     'dbot.deriv.be': APP_IDS.PRODUCTION_BE,
     'dbot.deriv.me': APP_IDS.PRODUCTION_ME,
-    'frostytraders.com': APP_IDS.FROSTY_TRADERS,
-    'www.frostytraders.com': APP_IDS.FROSTY_TRADERS,
     'frostydbot.site': APP_IDS.FROSTY_DBOT,
     'www.frostydbot.site': APP_IDS.FROSTY_DBOT,
 };
 
-export const FROSTY_TRADERS_HOST = 'www.frostytraders.com';
+export const FROSTY_TRADERS_HOST = 'www.frostydbot.site';
 export const FROSTY_DBOT_HOST = 'www.frostydbot.site';
 export const isFrostyTradersDomain = () =>
-    window.location.hostname === 'frostytraders.com' || window.location.hostname === FROSTY_TRADERS_HOST;
+    window.location.hostname === 'frostydbot.site' || window.location.hostname === FROSTY_TRADERS_HOST;
 export const isFrostyDbotDomain = () =>
     window.location.hostname === 'frostydbot.site' || window.location.hostname === FROSTY_DBOT_HOST;
 
@@ -44,8 +42,8 @@ export const getFrostyDbotOrigin = () => `https://${FROSTY_DBOT_HOST}`;
 export const getFrostyTradersCanonicalUrl = () =>
     `${getFrostyTradersOrigin()}${window.location.pathname}${window.location.search}${window.location.hash}`;
 export const shouldRedirectToFrostyTradersCanonical = () =>
-    window.location.hostname === 'frostytraders.com' ||
-    (window.location.hostname === FROSTY_TRADERS_HOST && window.location.protocol !== 'https:');
+    (window.location.hostname === 'frostydbot.site' || window.location.hostname === FROSTY_TRADERS_HOST) &&
+    window.location.protocol !== 'https:';
 
 export const getCallbackUrl = () => `${window.location.origin}/callback`;
 export const getPostLogoutRedirectUri = () => window.location.origin;

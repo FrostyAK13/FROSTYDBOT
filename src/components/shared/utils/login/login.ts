@@ -38,7 +38,7 @@ export const loginUrl = ({ language }: TLoginUrl) => {
         let oauth_domain = deriv_urls.DERIV_HOST_NAME;
 
         if (current_domain) {
-            if (current_domain === 'frostytraders.com' || current_domain === 'www.frostytraders.com') {
+            if (current_domain === 'frostydbot.site' || current_domain === 'www.frostydbot.site') {
                 oauth_domain = deriv_urls.DERIV_HOST_NAME;
             } else {
                 // Extract domain suffix (e.g., 'deriv.me' from 'dbot.deriv.me')
