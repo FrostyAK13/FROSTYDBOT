@@ -66,6 +66,13 @@ const AppContent = observer(() => {
     useIntercom(token);
 
     useEffect(() => {
+        const connectionTimeout = setTimeout(() => {
+            if (connectionStatus !== CONNECTION_STATUS.OPENED) {
+                console.warn('[API] Connection did not open in time, proceeding without socket open');
+                setIsApiInitialized(true);
+            }
+        }, 10000);
+
         if (connectionStatus === CONNECTION_STATUS.OPENED) {
             setIsApiInitialized(true);
             common.setSocketOpened(true);
@@ -74,9 +81,13 @@ const AppContent = observer(() => {
                 clearTimeout(offline_timeout);
                 setOfflineTimeout(null);
             }
-        } else if (connectionStatus !== CONNECTION_STATUS.OPENED) {
+        } else {
             common.setSocketOpened(false);
         }
+
+        return () => {
+            clearTimeout(connectionTimeout);
+        };
     }, [common, connectionStatus, offline_timeout]);
 
     // Handle offline scenarios - don't wait indefinitely for API
@@ -220,12 +231,28 @@ const AppContent = observer(() => {
         if (is_api_initialized) {
             init();
             setIsLoading(true);
+
             if (!client.is_logged_in) {
                 changeActiveSymbolLoadingState();
+                return;
             }
+
+            if (client.is_logged_in && client.is_landing_company_loaded) {
+                changeActiveSymbolLoadingState();
+                return;
+            }
+
+            const loginFallbackTimeout = setTimeout(() => {
+                console.warn(
+                    '[AppContent] Logged in but landing company not loaded after timeout, forcing dashboard render'
+                );
+                changeActiveSymbolLoadingState();
+            }, 10000);
+
+            return () => clearTimeout(loginFallbackTimeout);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [is_api_initialized]);
+    }, [is_api_initialized, client.is_logged_in, client.is_landing_company_loaded]);
 
     // use is_landing_company_loaded to know got details of accounts to identify should show an error or not
     React.useEffect(() => {
@@ -234,6 +261,17 @@ const AppContent = observer(() => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [client.is_landing_company_loaded, is_api_initialized, client.loginid]);
+
+    useEffect(() => {
+        if (is_api_initialized && is_loading) {
+            const loadTimeout = setTimeout(() => {
+                console.warn('[AppContent] App loading timeout reached, showing dashboard');
+                setIsLoading(false);
+            }, 15000);
+
+            return () => clearTimeout(loadTimeout);
+        }
+    }, [is_api_initialized, is_loading]);
 
     useEffect(() => {
         initDatadog(true);
