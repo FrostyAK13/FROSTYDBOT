@@ -11,6 +11,8 @@ export const APP_IDS = {
     PRODUCTION_BE: 65556,
     PRODUCTION_ME: 65557,
     FROSTY_TRADERS: '337BpMOX235sUFjcWFtIf',
+    FROSTY_DBOT: '337BpMOX235sUFjcWFtIf',
+    FROSTY_DBOT_OLD: 84799,
 };
 
 export const livechat_license_id = 12049137;
@@ -26,13 +28,19 @@ export const domain_app_ids = {
     'dbot.deriv.me': APP_IDS.PRODUCTION_ME,
     'frostytraders.com': APP_IDS.FROSTY_TRADERS,
     'www.frostytraders.com': APP_IDS.FROSTY_TRADERS,
+    'frostydbot.site': APP_IDS.FROSTY_DBOT,
+    'www.frostydbot.site': APP_IDS.FROSTY_DBOT,
 };
 
 export const FROSTY_TRADERS_HOST = 'www.frostytraders.com';
+export const FROSTY_DBOT_HOST = 'www.frostydbot.site';
 export const isFrostyTradersDomain = () =>
     window.location.hostname === 'frostytraders.com' || window.location.hostname === FROSTY_TRADERS_HOST;
+export const isFrostyDbotDomain = () =>
+    window.location.hostname === 'frostydbot.site' || window.location.hostname === FROSTY_DBOT_HOST;
 
 export const getFrostyTradersOrigin = () => `https://${FROSTY_TRADERS_HOST}`;
+export const getFrostyDbotOrigin = () => `https://${FROSTY_DBOT_HOST}`;
 export const getFrostyTradersCanonicalUrl = () =>
     `${getFrostyTradersOrigin()}${window.location.pathname}${window.location.search}${window.location.hash}`;
 export const shouldRedirectToFrostyTradersCanonical = () =>
@@ -40,9 +48,17 @@ export const shouldRedirectToFrostyTradersCanonical = () =>
     (window.location.hostname === FROSTY_TRADERS_HOST && window.location.protocol !== 'https:');
 
 export const getCallbackUrl = () =>
-    isFrostyTradersDomain() ? `${getFrostyTradersOrigin()}/callback` : `${window.location.origin}/callback`;
+    isFrostyDbotDomain()
+        ? `${getFrostyDbotOrigin()}/callback`
+        : isFrostyTradersDomain()
+          ? `${getFrostyTradersOrigin()}/callback`
+          : `${window.location.origin}/callback`;
 export const getPostLogoutRedirectUri = () =>
-    isFrostyTradersDomain() ? getFrostyTradersOrigin() : window.location.origin;
+    isFrostyDbotDomain()
+        ? getFrostyDbotOrigin()
+        : isFrostyTradersDomain()
+          ? getFrostyTradersOrigin()
+          : window.location.origin;
 
 export const getCurrentProductionDomain = () =>
     !/^staging\./.test(window.location.hostname) &&
@@ -111,6 +127,8 @@ export const getAppId = () => {
         app_id = env_app_id;
     } else if (config_app_id) {
         app_id = config_app_id;
+    } else if (isFrostyDbotDomain()) {
+        app_id = APP_IDS.FROSTY_DBOT;
     } else if (isFrostyTradersDomain()) {
         app_id = APP_IDS.FROSTY_TRADERS;
     } else if (isStaging()) {
