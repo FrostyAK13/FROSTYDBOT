@@ -70,15 +70,12 @@ const Layout = observer(() => {
 
             // Skip disabled accounts when checking for missing currency
             const accounts = api_accounts.flat();
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            let detected_currency = '';
             const hasMissingCurrency = accounts.some(data => {
                 if (!allCurrencies.has(data.currency)) {
                     console.log('Missing currency:', data.currency);
                     sessionStorage.setItem('query_param_currency', data.currency);
                     return true;
                 }
-                detected_currency = data.currency;
                 return false;
             });
 
@@ -139,7 +136,8 @@ const Layout = observer(() => {
             sessionStorage.setItem('query_param_currency', currency);
         }
 
-        const checkOIDCEnabledWithMissingAccount = !isEndpointPage && !isCallbackPage && !clientHasCurrency;
+        const checkOIDCEnabledWithMissingAccount =
+            isLoggedInCookie && !isEndpointPage && !isCallbackPage && !clientHasCurrency;
         const shouldAuthenticate =
             (isLoggedInCookie && !isClientAccountsPopulated && !isEndpointPage && !isCallbackPage) ||
             checkOIDCEnabledWithMissingAccount;
