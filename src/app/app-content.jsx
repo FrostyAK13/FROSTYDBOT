@@ -20,6 +20,7 @@ import initDatadog from '@/utils/datadog';
 import initHotjar from '@/utils/hotjar';
 import { setSmartChartsPublicPath } from '@deriv/deriv-charts';
 import { ThemeProvider } from '@deriv-com/quill-ui';
+import { Loader } from '@deriv-com/ui';
 import Audio from '../components/audio';
 import BlocklyLoading from '../components/blockly-loading';
 import BotStopped from '../components/bot-stopped';
@@ -266,7 +267,11 @@ const AppContent = observer(() => {
         );
     }
 
-    return is_loading ? null : (
+    return is_loading ? (
+        <AuthLoadingWrapper>
+            <Loader isFullScreen />
+        </AuthLoadingWrapper>
+    ) : (
         <AuthLoadingWrapper>
             <ThemeProvider theme={is_dark_mode_on ? 'dark' : 'light'}>
                 <BlocklyLoading />
