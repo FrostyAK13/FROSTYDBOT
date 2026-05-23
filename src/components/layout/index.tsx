@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import Cookies from 'js-cookie';
 import { observer } from 'mobx-react-lite';
@@ -12,7 +12,7 @@ import useTMB from '@/hooks/useTMB';
 import { handleOidcAuthFailure } from '@/utils/auth-utils';
 import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { useDevice } from '@deriv-com/ui';
-import AIAssistantWidget from '../ai-assistant/AIAssistantWidget';
+const AIAssistantWidget = React.lazy(() => import('../ai-assistant/AIAssistantWidget'));
 import { crypto_currencies_display_order, fiat_currencies_display_order } from '../shared';
 import Footer from './footer';
 import AppHeader from './header';
@@ -248,7 +248,9 @@ const Layout = observer(() => {
             </Body>
             {!isCallbackPage && isDesktop && <Footer />}
             <PWAUpdateNotification />
-            <AIAssistantWidget />
+            <Suspense fallback={null}>
+                <AIAssistantWidget />
+            </Suspense>
         </div>
     );
 });

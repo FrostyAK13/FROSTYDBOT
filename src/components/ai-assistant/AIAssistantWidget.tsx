@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import EntryScannerModal from './EntryScannerModal';
-import AIAssistantPanel from './AIAssistantPanel';
 import './AIAssistantWidget.scss';
+
+const EntryScannerModal = React.lazy(() => import('./EntryScannerModal'));
+const AIAssistantPanel = React.lazy(() => import('./AIAssistantPanel'));
 
 type ViewMode = 'scanner' | 'panel' | null;
 
@@ -114,22 +115,23 @@ const AIAssistantWidget: React.FC = () => {
             </div>
 
             {/* Modals */}
-            <AnimatePresence>
-                {view === 'scanner' && (
-                    <EntryScannerModal
-                        key='scanner'
-                        onClose={close}
-                        onOpenFullPanel={() => { close(); setTimeout(openPanel, 120); }}
-                    />
-                )}
-                {view === 'panel' && (
-                    <AIAssistantPanel
-                        key='panel'
-                        onClose={close}
-                        scanTrigger={externalScanTrigger}
-                    />
-                )}
-            </AnimatePresence>
+            <Suspense fallback={null}>
+                <AnimatePresence>
+                    {view === 'scanner' && (
+                        <EntryScannerModal
+                            key='scanner'
+                            onClose={close}
+                            onOpenFullPanel={() => {
+                                close();
+                                setTimeout(openPanel, 120);
+                            }}
+                        />
+                    )}
+                    {view === 'panel' && (
+                        <AIAssistantPanel key='panel' onClose={close} scanTrigger={externalScanTrigger} />
+                    )}
+                </AnimatePresence>
+            </Suspense>
         </>
     );
 };
