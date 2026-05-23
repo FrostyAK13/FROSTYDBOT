@@ -18,7 +18,6 @@ import useTMB from '@/hooks/useTMB';
 import { handleOidcAuthFailure } from '@/utils/auth-utils';
 import {
     LabelPairedChartLineCaptionRegularIcon,
-    LabelPairedChartTradingviewMdRegularIcon,
     LabelPairedObjectsColumnCaptionRegularIcon,
     LabelPairedPuzzlePieceTwoCaptionBoldIcon,
 } from '@deriv/quill-icons/LabelPaired';
@@ -34,7 +33,6 @@ import RunStrategy from '../dashboard/run-strategy';
 import FreeBots from '../free-bots';
 import MarketAnalyzer from '../market-analyzer';
 import TradePulse from '../trade-pulse';
-import Tutorial from '../tutorials';
 import './main.scss';
 // Preload tab page styles so their wrappers are available before lazy load
 import '../free-bots/free-bots.scss';
@@ -188,25 +186,26 @@ const AppWrapper = observer(() => {
             setActiveTour('');
         }
 
-        // Prevent scrolling when tutorial tab is active (only on mobile)
+        // Mobile tab scroll behavior
         const mainElement = document.querySelector('.main__container');
-        if (active_tab === DBOT_TABS.TUTORIAL && !isDesktop) {
-            document.body.style.overflow = 'hidden';
-            if (mainElement instanceof HTMLElement) {
-                mainElement.classList.add('no-scroll');
-            }
-        } else {
-            document.body.style.overflow = '';
-            if (mainElement instanceof HTMLElement) {
-                mainElement.classList.remove('no-scroll');
-            }
+        document.body.style.overflow = '';
+        if (mainElement instanceof HTMLElement) {
+            mainElement.classList.remove('no-scroll');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [active_tab]);
 
     React.useEffect(() => {
         const trashcan_init_id = setTimeout(() => {
-            const derivWorkspace = (Blockly as any)?.derivWorkspace;
+            const derivWorkspace = (
+                Blockly as unknown as {
+                    derivWorkspace?: {
+                        trashcan?: {
+                            setTrashcanPosition: (x: number, y: number) => void;
+                        };
+                    };
+                }
+            )?.derivWorkspace;
             if (active_tab === BOT_BUILDER && derivWorkspace?.trashcan) {
                 const trashcanY = window.innerHeight - 250;
                 let trashcanX;
@@ -346,7 +345,30 @@ const AppWrapper = observer(() => {
                                     <FreeBots />
                                 </div>
                             </div>
-                            
+                            <div
+                                label={
+                                    <>
+                                        <LabelPairedObjectsColumnCaptionRegularIcon
+                                            height='24px'
+                                            width='24px'
+                                            fill='var(--text-general)'
+                                        />
+                                        <Localize i18n_default_text='DCircles' />
+                                    </>
+                                }
+                                id='id-dcircles'
+                            >
+                                <div className='dcircles-wrapper'>
+                                    <div className='dcircles__iframe-container'>
+                                        <iframe
+                                            src='https://frostydcircles.vercel.app'
+                                            className='dcircles__iframe'
+                                            title='DCircles'
+                                            sandbox='allow-scripts allow-same-origin allow-forms'
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                             <div
                                 label={
                                     <>
@@ -372,7 +394,7 @@ const AppWrapper = observer(() => {
                                             width='24px'
                                             fill='var(--text-general)'
                                         />
-                                        <Localize i18n_default_text='Static-FT-Tool' />
+                                        <Localize i18n_default_text='Market Analyzer' />
                                     </>
                                 }
                                 id='id-market-analyzer'
@@ -392,30 +414,9 @@ const AppWrapper = observer(() => {
                                         <Localize i18n_default_text='Charts' />
                                     </>
                                 }
-                                id={
-                                    is_chart_modal_visible
-                                        ? 'id-charts--disabled'
-                                        : 'id-charts'
-                                }
+                                id={is_chart_modal_visible ? 'id-charts--disabled' : 'id-charts'}
                             >
                                 <ChartWrapper show_digits_stats={false} />
-                            </div>
-                            <div
-                                label={
-                                    <>
-                                        <LabelPairedChartLineCaptionRegularIcon
-                                            height='24px'
-                                            width='24px'
-                                            fill='var(--text-general)'
-                                        />
-                                        <Localize i18n_default_text='D-Trader' />
-                                    </>
-                                }
-                                id='id-tutorials'
-                            >
-                                <div className='tutorials-wrapper'>
-                                    <Tutorial />
-                                </div>
                             </div>
                             <div
                                 label={
@@ -432,30 +433,6 @@ const AppWrapper = observer(() => {
                             >
                                 <div className='trade-pulse-wrapper'>
                                     <TradePulse />
-                                </div>
-                            </div>
-                            <div
-                                label={
-                                    <>
-                                        <LabelPairedObjectsColumnCaptionRegularIcon
-                                            height='24px'
-                                            width='24px'
-                                            fill='var(--text-general)'
-                                        />
-                                        <Localize i18n_default_text='DCircles' />
-                                    </>
-                                }
-                                id='id-dcircles'
-                            >
-                                <div className='dcircles-wrapper'>
-                                    <div className='dcircles__iframe-container'>
-                                        <iframe
-                                            src='https://frostydcircles.vercel.app'
-                                            className='dcircles__iframe'
-                                            title='DCircles'
-                                            sandbox='allow-scripts allow-same-origin allow-forms'
-                                        />
-                                    </div>
                                 </div>
                             </div>
                         </Tabs>
