@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { generateOAuthURL } from '@/components/shared';
-import { getCallbackUrl } from '@/components/shared/utils/config/config';
+import { getCallbackUrl, getPostLogoutRedirectUri } from '@/components/shared/utils/config/config';
 import DesktopWrapper from '@/components/shared_ui/desktop-wrapper';
 import Dialog from '@/components/shared_ui/dialog';
 import MobileWrapper from '@/components/shared_ui/mobile-wrapper';
@@ -271,13 +271,11 @@ const AppWrapper = observer(() => {
                     try {
                         await requestOidcAuthentication({
                             redirectCallbackUri: getCallbackUrl(),
-                            ...(query_param_currency
-                                ? {
-                                      state: {
-                                          account: query_param_currency,
-                                      },
-                                  }
-                                : {}),
+                            postLogoutRedirectUri: getPostLogoutRedirectUri(),
+                            state: {
+                                ...(query_param_currency ? { account: query_param_currency } : {}),
+                                returnTo: `${window.location.pathname}${window.location.search}${window.location.hash}`,
+                            },
                         });
                     } catch (err) {
                         handleOidcAuthFailure(err);

@@ -43,6 +43,14 @@ const getSelectedCurrency = (
     return firstAccountCurrency || 'USD';
 };
 
+const getReturnToPath = (state: unknown): string | null => {
+    if (!state || typeof state !== 'object') return null;
+    const returnTo = (state as { returnTo?: unknown }).returnTo;
+    if (typeof returnTo !== 'string') return null;
+    if (!returnTo.startsWith('/') || returnTo.startsWith('//')) return null;
+    return returnTo;
+};
+
 const CallbackPage = () => {
     const { is_tmb_enabled = false } = useTMB();
 
@@ -120,9 +128,12 @@ const CallbackPage = () => {
                 setLoggedStateCookie('true');
 
                 const redirect_root = getPostLogoutRedirectUri();
-                window.location.replace(
-                    `${redirect_root}${selected_currency ? `/?account=${selected_currency}` : '/'}`
-                );
+                const returnToPath = getReturnToPath(state);
+                const redirectUrl = returnToPath
+                    ? `${window.location.origin}${returnToPath}`
+                    : `${redirect_root}${selected_currency ? `/?account=${selected_currency}` : '/'}`;
+
+                window.location.replace(redirectUrl);
             }}
             renderReturnButton={() => {
                 return (
