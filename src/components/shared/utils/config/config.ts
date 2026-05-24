@@ -13,7 +13,6 @@ export const APP_IDS = {
     PRODUCTION_ME: 65557,
     FROSTY_TRADERS: '337BpMOX235sUFjcWFtIf',
     FROSTY_DBOT: '337BpMOX235sUFjcWFtIf',
-    FROSTY_DBOT_OLD: 84799,
 };
 
 export const livechat_license_id = 12049137;
@@ -42,12 +41,24 @@ export const getFrostyTradersOrigin = () => `https://${FROSTY_TRADERS_HOST}`;
 export const getFrostyDbotOrigin = () => `https://${FROSTY_DBOT_HOST}`;
 export const getFrostyTradersCanonicalUrl = () =>
     `${getFrostyTradersOrigin()}${window.location.pathname}${window.location.search}${window.location.hash}`;
-export const shouldRedirectToFrostyTradersCanonical = () =>
-    (window.location.hostname === 'frostydbot.site' || window.location.hostname === FROSTY_TRADERS_HOST) &&
-    window.location.protocol !== 'https:';
+export const shouldRedirectToFrostyTradersCanonical = () => {
+    const is_frosty_host =
+        window.location.hostname === 'frostydbot.site' || window.location.hostname === FROSTY_TRADERS_HOST;
+    return (
+        is_frosty_host && (window.location.protocol !== 'https:' || window.location.hostname !== FROSTY_TRADERS_HOST)
+    );
+};
 
-export const getCallbackUrl = () => `${window.location.origin}/callback`;
-export const getPostLogoutRedirectUri = () => window.location.origin;
+const getFrostyDbotCallbackOrigin = () => {
+    const hostname = window.location.hostname;
+    if (hostname === 'frostydbot.site' || hostname === FROSTY_DBOT_HOST) {
+        return getFrostyDbotOrigin();
+    }
+    return window.location.origin;
+};
+
+export const getCallbackUrl = () => `${getFrostyDbotCallbackOrigin()}/callback`;
+export const getPostLogoutRedirectUri = () => getFrostyDbotCallbackOrigin();
 
 export const getCurrentProductionDomain = () =>
     !/^staging\./.test(window.location.hostname) &&

@@ -6,9 +6,15 @@ jest.mock('@deriv-com/utils', () => ({
     },
 }));
 
-import { generateOAuthURL } from '../config';
+import {
+    generateOAuthURL,
+    getCallbackUrl,
+    getFrostyTradersCanonicalUrl,
+    getPostLogoutRedirectUri,
+    shouldRedirectToFrostyTradersCanonical,
+} from '../config';
 
-describe('generateOAuthURL', () => {
+describe('config helpers', () => {
     const originalLocation = window.location;
 
     beforeAll(() => {
@@ -33,5 +39,25 @@ describe('generateOAuthURL', () => {
 
         expect(result).toContain('https://oauth.deriv.com/');
         expect(result).not.toContain('oauth.site');
+    });
+
+    it('should redirect frostydbot.site to canonical www host', () => {
+        Object.defineProperty(window, 'location', {
+            configurable: true,
+            value: new URL('https://frostydbot.site/test?foo=bar'),
+        });
+
+        expect(shouldRedirectToFrostyTradersCanonical()).toBe(true);
+        expect(getFrostyTradersCanonicalUrl()).toBe('https://www.frostydbot.site/test?foo=bar');
+    });
+
+    it('should build callback URL on the canonical www origin for frostydbot.site', () => {
+        Object.defineProperty(window, 'location', {
+            configurable: true,
+            value: new URL('https://frostydbot.site/login'),
+        });
+
+        expect(getCallbackUrl()).toBe('https://www.frostydbot.site/callback');
+        expect(getPostLogoutRedirectUri()).toBe('https://www.frostydbot.site');
     });
 });
