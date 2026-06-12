@@ -1,12 +1,12 @@
-import { getAppId, getSocketURL } from '@/components/shared';
+import { getAppId, getLegacyAppId, getSocketURL } from '@/components/shared';
 import { website_name } from '@/utils/site-config';
 import DerivAPIBasic from '@deriv/deriv-api/dist/DerivAPIBasic';
 import { getInitialLanguage } from '@deriv-com/translations';
 import APIMiddleware from './api-middleware';
 
-export const generateDerivApiInstance = () => {
+const createApiInstance = appId => {
     const cleanedServer = getSocketURL().replace(/[^a-zA-Z0-9.]/g, '');
-    const cleanedAppId = getAppId()?.replace?.(/[^a-zA-Z0-9]/g, '') ?? getAppId();
+    const cleanedAppId = String(appId).replace(/[^a-zA-Z0-9]/g, '');
     const socket_url = `wss://${cleanedServer}/websockets/v3?app_id=${cleanedAppId}&l=${getInitialLanguage()}&brand=${website_name.toLowerCase()}`;
     const deriv_socket = new WebSocket(socket_url);
     const deriv_api = new DerivAPIBasic({
@@ -14,6 +14,14 @@ export const generateDerivApiInstance = () => {
         middleware: new APIMiddleware({}),
     });
     return deriv_api;
+};
+
+export const generateDerivApiInstance = () => {
+    return createApiInstance(getAppId());
+};
+
+export const generateLegacyDerivApiInstance = () => {
+    return createApiInstance(getLegacyAppId());
 };
 
 export const getLoginId = () => {

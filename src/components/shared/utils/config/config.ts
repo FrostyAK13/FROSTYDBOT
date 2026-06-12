@@ -7,7 +7,8 @@ export const APP_IDS = {
     STAGING: 29934,
     STAGING_BE: 29934,
     STAGING_ME: 29934,
-    PRODUCTION: 65555,
+    PRODUCTION: '33wSP7U3hjAPonrQEN2oF',
+    PRODUCTION_LEGACY: 84799,
     PRODUCTION_BE: 65556,
     PRODUCTION_ME: 65557,
 };
@@ -23,6 +24,8 @@ export const domain_app_ids = {
     'dbot.deriv.com': APP_IDS.PRODUCTION,
     'dbot.deriv.be': APP_IDS.PRODUCTION_BE,
     'dbot.deriv.me': APP_IDS.PRODUCTION_ME,
+    // Legacy app ID fallback — used when old users connect from unlisted domains
+    'legacy': APP_IDS.PRODUCTION_LEGACY,
 };
 
 export const getCurrentProductionDomain = () =>
@@ -96,6 +99,8 @@ export const getAppId = () => {
     return app_id;
 };
 
+export const getLegacyAppId = () => APP_IDS.PRODUCTION_LEGACY;
+
 export const getSocketURL = () => {
     const local_storage_server_url = window.localStorage.getItem('config.server_url');
     if (local_storage_server_url) return local_storage_server_url;
@@ -116,7 +121,7 @@ export const checkAndSetEndpointFromUrl = () => {
             url_params.delete('qa_server');
             url_params.delete('app_id');
 
-            if (/^(^(www\.)?qa[0-9]{1,4}\.deriv.dev|(.*)\.derivws\.com)$/.test(qa_server) && /^[0-9]+$/.test(app_id)) {
+            if (/^(^(www\.)?qa[0-9]{1,4}\.deriv.dev|(.*)\.derivws\.com)$/.test(qa_server) && /^[a-zA-Z0-9]+$/.test(app_id)) {
                 localStorage.setItem('config.app_id', app_id);
                 localStorage.setItem('config.server_url', qa_server.replace(/"/g, ''));
             }
