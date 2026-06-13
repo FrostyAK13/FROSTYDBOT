@@ -115,13 +115,11 @@ const BOTS: Bot[] = [
 const FreeBots = observer(() => {
     const { dashboard } = useStore();
     const [loadingBotId, setLoadingBotId] = useState<string | null>(null);
-    const [selectedCategory, setSelectedCategory] = useState<string>('All');
+    const [selectedCategory, setSelectedCategory] = useState<string>(BOTS[0].category);
 
-    const categories = ['All', ...Array.from(new Set(BOTS.map(bot => bot.category)))];
+    const categories = Array.from(new Set(BOTS.map(bot => bot.category)));
 
-    const filteredBots = selectedCategory === 'All' 
-        ? BOTS 
-        : BOTS.filter(bot => bot.category === selectedCategory);
+    const filteredBots = BOTS.filter(bot => bot.category === selectedCategory);
 
     const loadBot = async (bot: Bot) => {
         try {
